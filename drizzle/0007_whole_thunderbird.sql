@@ -1,0 +1,1 @@
+ALTER TABLE "present" ALTER COLUMN "listId" SET DEFAULT '';

@@ -1,0 +1,1 @@
+ALTER TABLE "present" ADD COLUMN "isPicked" boolean DEFAULT false;
