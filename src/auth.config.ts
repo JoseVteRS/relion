@@ -1,5 +1,5 @@
 import { z } from "zod";
-import argon from "argon2";
+import bcrypt from "bcryptjs";
 import type { NextAuthConfig } from "next-auth";
 import { eq } from "drizzle-orm";
 import { db } from "@/db/drizzle";
@@ -59,7 +59,7 @@ export default {
           return null;
         }
 
-        const passwordMatch = await argon.verify(password, user.password);
+        const passwordMatch = await bcrypt.compare(password, user.password);
 
         if (!passwordMatch) {
           return null;

@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import { zValidator } from "@hono/zod-validator";
 import { z } from "zod";
-import argon from "argon2";
+import bcrypt from "bcryptjs";
 import { db } from "@/db/drizzle";
 import { users } from "@/db/schema";
 import { eq } from "drizzle-orm";
@@ -19,7 +19,7 @@ const app = new Hono().post(
   async (c) => {
     const { name, email, password } = c.req.valid("json");
 
-    const hashedPassword = await argon.hash(password, { salt: 12 });
+    const hashedPassword = await bcrypt.hash(password, 12);
 
     const query = await db.select().from(users).where(eq(users.email, email));
 
