@@ -3,6 +3,8 @@ import { db } from "@/db/drizzle";
 import { guests } from "@/db/schema";
 import { getAuthUser } from "@hono/auth-js";
 
+
+
 const app = new Hono().post("/", async (c) => {
   const authUser = await getAuthUser(c);
   if (authUser) {

@@ -10,6 +10,7 @@ import type { AdapterAccountType } from "next-auth/adapters";
 import { createInsertSchema } from "drizzle-zod";
 import { relations } from "drizzle-orm";
 
+
 export const users = pgTable("user", {
   id: text("id")
     .primaryKey()

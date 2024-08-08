@@ -1,5 +1,5 @@
 import { z } from "zod";
-import bcrypt from "bcryptjs";
+import argon from "argon2";
 import type { NextAuthConfig } from "next-auth";
 import { eq } from "drizzle-orm";
 import { db } from "@/db/drizzle";
@@ -8,6 +8,8 @@ import Credentials from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import { users } from "@/db/schema";
 import JWT from "next-auth/jwt";
+;
+
 
 const credentialsSchema = z.object({
   email: z.string().email(),
@@ -57,7 +59,7 @@ export default {
           return null;
         }
 
-        const passwordMatch = await bcrypt.compare(password, user.password);
+        const passwordMatch = await argon.verify(password, user.password);
 
         if (!passwordMatch) {
           return null;

@@ -31,8 +31,8 @@ export default function SinglePresentPage({ params }: SinglePresentPageProps) {
       <div className="flex items-center gap-2">
         <ListIcon className="size-6" />
         <div className="text-lg">
-          {data?.list ? (
-            data?.list
+          {Array.isArray(data?.list) ? (
+            data?.list.map((item) => <div key={item.id}>{item.name}</div>)
           ) : (
             <div className="text-red-400">Sin lista</div>
           )}
@@ -42,7 +42,9 @@ export default function SinglePresentPage({ params }: SinglePresentPageProps) {
       <div className="mt-5 flex flex-col gap-2">
         <h2 className="text-lg font-bold">Descripción</h2>
         {data?.description && (
-          <p className="text-neutral-300 text-md leading-tight">{data?.description}</p>
+          <p className="text-neutral-300 text-md leading-tight">
+            {data?.description}
+          </p>
         )}
       </div>
     </div>
