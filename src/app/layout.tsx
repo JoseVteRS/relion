@@ -22,7 +22,7 @@ export default async function RootLayout({
   const session = await auth();
   return (
     <SessionProvider session={session}>
-      <html lang="en" className="light">
+      <html lang="en" className="dark">
         <body className={`${inter.className}`}>
           <QueryProvider>
             <SheetProvider />
