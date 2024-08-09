@@ -96,7 +96,7 @@ export const CardList = ({ list, onEdit }: CardListProps) => {
             <CopyToClipboard text={shareLink} />
             <ShareWhatsappButton
               url={shareLink}
-              message={`¡Échale un vistazo a la lista ${list.name}!`}
+              message={`¡Échale un vistazo a la lista ${list.name} de ${list.user.name}!`}
             />
           </div>
         </CardContent>
