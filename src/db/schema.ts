@@ -4,12 +4,11 @@ import {
   pgTable,
   text,
   primaryKey,
-  integer
+  integer,
 } from "drizzle-orm/pg-core";
 import type { AdapterAccountType } from "next-auth/adapters";
 import { createInsertSchema } from "drizzle-zod";
-import { relations } from "drizzle-orm";
-
+import { InferSelectModel, relations } from "drizzle-orm";
 
 export const users = pgTable("user", {
   id: text("id")
@@ -146,7 +145,6 @@ export const listsRelations = relations(lists, ({ one, many }) => ({
 }));
 export const insertListsSchema = createInsertSchema(lists);
 
-
 // GUEST
 export const guests = pgTable("guest", {
   id: text("id")
@@ -155,3 +153,17 @@ export const guests = pgTable("guest", {
   numberId: text("numberId").notNull(),
 });
 export const insertGuestSchema = createInsertSchema(guests);
+
+export type User = InferSelectModel<typeof users>;
+export type Account = InferSelectModel<typeof accounts>;
+export type Session = InferSelectModel<typeof sessions>;
+export type VerificationToken = InferSelectModel<typeof verificationTokens>;
+export type Authenticator = InferSelectModel<typeof authenticators>;
+export type Present = InferSelectModel<typeof presents>;
+export type List = InferSelectModel<typeof lists>;
+export type Guest = InferSelectModel<typeof guests>;
+
+export type ListWithUserWithPresents = List & {
+  user: { name: string };
+  presents: Present[];
+};

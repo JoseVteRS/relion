@@ -8,6 +8,8 @@ import { Plus } from "lucide-react";
 import { useGetUserLists } from "@/features/list/api/use-get-user-lists";
 import { CardListSkeleton } from "@/features/list/components/card-list-skeleton";
 import { ListNotFound } from "@/features/list/components/list-not-found";
+import { convertListDates } from "@/features/list/lib/utils";
+import { ListWithUserWithPresents } from "@/db/schema";
 
 export default function ListPage() {
   const openNewlistSheet = useNewListStateSheet();
@@ -56,7 +58,7 @@ export default function ListPage() {
         {lists?.map((list) => (
           <CardList
             key={list.id}
-            list={list}
+            list={list as ListWithUserWithPresents}
             onDelete={onDelete}
             onEdit={onEdit}
           />

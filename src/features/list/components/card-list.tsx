@@ -19,9 +19,15 @@ import { useOpenListSheetState } from "../hooks/use-open-list";
 import { CopyToClipboard } from "@/components/common/copy-to-clipboard";
 import { ShareWhatsappButton } from "@/components/common/share-whatsapp-button";
 import { useDeleteList } from "../api/use-delete-list";
+import { List, Present } from "@/db/schema";
+
+type ListWithUserWithPresents = List & {
+  user: { name: string };
+  presents: Present[];
+};
 
 interface CardListProps {
-  list: any;
+  list: ListWithUserWithPresents;
   onDelete: () => void;
   onEdit: () => void;
 }
@@ -56,7 +62,7 @@ export const CardList = ({ list, onEdit }: CardListProps) => {
               <CardTitle className="text-lg leading-tight">
                 {list.name}
               </CardTitle>
-              <StatusBadge status={list.status} />
+              <StatusBadge status={list.status || false} />
             </div>
             <DropdownMenu>
               <DropdownMenuTrigger>
@@ -84,10 +90,10 @@ export const CardList = ({ list, onEdit }: CardListProps) => {
             <div className="mt-1 text-neutral-100 flex items-center gap-1">
               <GiftIcon className="size-4" />
               <p className="text-md font-semibold">
-                {list.presents.length === 0 ? (
+                {list?.presents?.length === 0 ? (
                   <span className="text-sm font-normal">Sin regalos</span>
                 ) : (
-                  list.presents.length
+                  list?.presents?.length
                 )}
               </p>
             </div>
@@ -96,7 +102,7 @@ export const CardList = ({ list, onEdit }: CardListProps) => {
             <CopyToClipboard text={shareLink} />
             <ShareWhatsappButton
               url={shareLink}
-              message={`¡Échale un vistazo a la lista ${list.name} de ${list.user.name}!`}
+              message={`¡Échale un vistazo a la lista ${list.name}! de ${list.user.name}`}
             />
           </div>
         </CardContent>

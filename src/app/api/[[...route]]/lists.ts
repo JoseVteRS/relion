@@ -1,6 +1,6 @@
 import { Hono } from "hono";
 import { verifyAuth, getAuthUser } from "@hono/auth-js";
-import { insertListsSchema, lists, presents } from "@/db/schema";
+import { insertListsSchema, lists, presents, users } from "@/db/schema";
 import { db } from "@/db/drizzle";
 import { zValidator } from "@hono/zod-validator";
 import { z } from "zod";
@@ -29,8 +29,13 @@ const app = new Hono()
       .query.lists.findMany({
         where: eq(lists.userId, authUserId),
         with:{
-          presents: true
-        }
+          presents: true,
+          user: {
+            columns: {
+              name: true
+            }
+          }
+        },
       })
 
     return c.json({ data });
