@@ -15,7 +15,6 @@ type ResponseType = InferResponseType<
 export const useCreatePick = (presentId?: string, listId?: string) => {
   const queryClient = useQueryClient();
 
-  console.log({ presentId, listId });
 
   const mutation = useMutation<ResponseType, Error>({
     mutationFn: async () => {
@@ -26,7 +25,7 @@ export const useCreatePick = (presentId?: string, listId?: string) => {
     },
     onMutate: async () => {
       await queryClient.cancelQueries({
-        queryKey: [LISTS_QUERY_KEY.PUBLIC_LIST_ID, { id: listId }],
+        queryKey: ["presents-list"],
       });
       const previousData = queryClient.getQueryData([
         LISTS_QUERY_KEY.PUBLIC_LIST_ID,
@@ -35,7 +34,7 @@ export const useCreatePick = (presentId?: string, listId?: string) => {
       
       // Actualización optimista de la UI
       queryClient.setQueryData(
-        [LISTS_QUERY_KEY.PUBLIC_LIST_ID, { id: listId }],
+        ["presents-list"],
         (oldData: any) => {
           if (!oldData) return oldData;
           
@@ -53,7 +52,7 @@ export const useCreatePick = (presentId?: string, listId?: string) => {
     onSuccess: (present: any) => {
       //   toast.success("Present created successfully"); //TODO: considerar si dejar o no
       queryClient.invalidateQueries({
-        queryKey: [LISTS_QUERY_KEY.PUBLIC_LIST_ID, { id: listId }],
+        queryKey: ["presents-list"],
       });
     },
     onError: () => {

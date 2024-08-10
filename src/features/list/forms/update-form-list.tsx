@@ -56,7 +56,6 @@ export const UpdateListForm = ({
     const presentsIds = presents?.map((present: any) => present.value);
     onSubmit({ ...values, presentIds: presentsIds });
     // form.getValues()
-    console.log({ ...values, presentIds: presentsIds });
   };
 
   return (

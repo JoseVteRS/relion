@@ -19,6 +19,7 @@ import {
   PackageCheck,
   PackageOpen,
 } from "lucide-react";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 
 interface CardPublicPresentProps {
@@ -26,18 +27,23 @@ interface CardPublicPresentProps {
   listId?: string;
 }
 
-export const CardPublicPresent = ({ present, listId }: CardPublicPresentProps) => {
+export const CardPublicPresent = ({
+  present,
+  listId,
+}: CardPublicPresentProps) => {
+  const authUser = useSession();
+  const authUserId = authUser.data?.user?.id;
 
-  const pick = useCreatePick(present.id, listId)
-  const unpick = useDeletePick(present.id, listId)
+  const pick = useCreatePick(present.id, listId);
+  const unpick = useDeletePick(present.id, listId);
 
-  const onPick = ()=> {
+  const onPick = () => {
     pick.mutate(undefined);
-  }
+  };
 
-  const onUnPick = ()=> {
+  const onUnPick = () => {
     unpick.mutate(undefined);
-  }
+  };
 
   return (
     <Card

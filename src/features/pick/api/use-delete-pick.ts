@@ -24,7 +24,7 @@ export const useDeletePick = (presentId?: string, listId?: string) => {
     onSuccess: () => {
       // toast.success("Relago libre!");
       queryClient.invalidateQueries({
-        queryKey: [LISTS_QUERY_KEY.PUBLIC_LIST_ID, { id: listId }],
+        queryKey: ["presents-list"],
       });
     },
     onError: () => {

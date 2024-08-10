@@ -47,7 +47,6 @@ export const CardList = ({ list, onEdit }: CardListProps) => {
     const ok = await confirm();
 
     if (ok) {
-      console.log("borrar regalo");
       deleteList.mutate(undefined);
     }
   };

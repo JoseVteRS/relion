@@ -3,13 +3,12 @@ import { getAuthUser, verifyAuth } from "@hono/auth-js";
 import { db } from "@/db/drizzle";
 import { insertPresentSchema, lists, presents } from "@/db/schema";
 import { zValidator } from "@hono/zod-validator";
-import { and, desc, eq, isNull } from "drizzle-orm";
+import { and, asc, desc, eq, isNull, not } from "drizzle-orm";
 import { z } from "zod";
 import {
   createPresetFormSchema,
   updatePresetFormSchema,
 } from "@/features/present/forms/form-schemas";
-
 
 const app = new Hono()
   .get("/for-options", verifyAuth(), async (c) => {
@@ -26,6 +25,7 @@ const app = new Hono()
         link: presents.link,
         description: presents.description,
         status: presents.status,
+        isPicked: presents.isPicked,
       })
       .from(presents)
       .where(and(eq(presents.userId, authUserId), isNull(presents.listId)));
@@ -36,6 +36,43 @@ const app = new Hono()
 
     return c.json({ data });
   })
+  .get(
+    "list-presents/:listId",
+    verifyAuth(),
+    zValidator("param", z.object({ listId: z.string() })),
+    async (c) => {
+      const { listId } = c.req.valid("param");
+
+      //TODO: For auth user for the moment
+      const auth = c.get("authUser");
+      const authUserId = auth?.session?.user?.id;
+      if (!authUserId) {
+        return c.json({ error: "Unauthorized" }, 403);
+      }
+
+      const data = await db
+        .select({
+          id: presents.id,
+          name: presents.name,
+          link: presents.link,
+          description: presents.description,
+          status: presents.status,
+          isPicked: presents.isPicked,
+          userId: presents.userId,
+        })
+        .from(presents)
+        .where(
+          not(eq(presents.userId, authUserId))
+        )
+        .orderBy(asc(presents.name));
+
+      if (!data) {
+        return c.json({ error: "Not found" }, 404);
+      }
+
+      return c.json({ data });
+    }
+  )
   .patch("pick/:id", async (c) => {
     const authUser = await getAuthUser(c);
     const authUserId = authUser?.user?.id;

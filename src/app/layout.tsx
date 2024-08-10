@@ -11,14 +11,17 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Regalante",
-  description: "Crea listas de regalos para tus amigos y que te regalen lo que te gusta",
-  keywords: "regalos, listas de regalos, amigos, regalos personalizados, cumpleaños, Navidad",
+  description:
+    "Crea listas de regalos para tus amigos y que te regalen lo que te gusta",
+  keywords:
+    "regalos, listas de regalos, amigos, regalos personalizados, cumpleaños, Navidad",
   authors: {
     name: "Jose Vicente",
   },
   openGraph: {
     title: "Regalante",
-    description: "Crea listas de regalos para tus amigos y que te regalen lo que te gusta",
+    description:
+      "Crea listas de regalos para tus amigos y que te regalen lo que te gusta",
     url: "https://www.regalante.vercel.app",
     type: "website",
     images: [
@@ -34,7 +37,8 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     site: "@JoseVteRiSo",
     title: "Regalame",
-    description: "Crea listas de regalos para tus amigos y que te regalen lo que te gusta",
+    description:
+      "Crea listas de regalos para tus amigos y que te regalen lo que te gusta",
     images: "https://www.regalante.vercel.app/twitter-image.jpg",
   },
 };
@@ -51,7 +55,7 @@ export default async function RootLayout({
         <body className={`${inter.className}`}>
           <QueryProvider>
             <SheetProvider />
-            <Toaster position="top-center" />
+            <Toaster richColors position="top-center" />
             {children}
           </QueryProvider>
         </body>

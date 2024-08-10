@@ -8,6 +8,8 @@ import { UnauthorizedUser } from "./unauthorized-user";
 import { useRouter } from "next/navigation";
 import { NoSee } from "./no-see";
 import { useCookie, useLocalStorage } from "react-use";
+import { useGetPresentList } from "@/features/present/api/use-get-present-list";
+import { ErrorMessage } from "@/components/common/error-message";
 
 interface ListProps {
   listId?: string;
@@ -17,6 +19,12 @@ export const List = ({ listId }: ListProps) => {
   const authUser = useSession();
 
   const { data: list, isLoading } = useGetPublicList(listId);
+  const {
+    data: presentsInList,
+    isLoading: isLoadingPresents,
+    isError,
+    error
+  } = useGetPresentList(listId);
 
   if (isLoading) {
     return (
@@ -45,8 +53,14 @@ export const List = ({ listId }: ListProps) => {
         </div>
       </header>
       <div className="mt-5 flex flex-col gap-2">
-        {list.presents!.map((present) => (
-          <CardPublicPresent key={present.id} present={present} listId={listId} />
+        {isLoadingPresents && <Loader2 className="size-10 animate-spin" />}
+        {isError && <ErrorMessage message={error.message} />}
+        {presentsInList?.map((present) => (
+          <CardPublicPresent
+            key={present.id}
+            present={present}
+            listId={listId}
+          />
         ))}
       </div>
     </div>

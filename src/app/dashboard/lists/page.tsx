@@ -15,7 +15,6 @@ export default function ListPage() {
   const openNewlistSheet = useNewListStateSheet();
   const { data: lists, isLoading, isError } = useGetUserLists();
 
-  console.log({ lists });
 
   const onDelete = () => {
     const ok = confirm();

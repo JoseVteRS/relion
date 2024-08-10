@@ -16,7 +16,6 @@ export default function SinglePresentPage({ params }: SinglePresentPageProps) {
 
   const { data, isLoading } = useGetUserPresent(presentId);
 
-  console.log({ data });
 
   return (
     <div className="min-h-screen">

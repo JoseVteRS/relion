@@ -11,7 +11,6 @@ export const UnauthorizedUser = ({ listId }: { listId: string }) => {
   const handleCreateGuest = () => {
     createGuest.mutate(undefined, {
       onSuccess: (data) => {
-        console.log({ data });
         redirect(`/list/${listId}`);
       },
     });

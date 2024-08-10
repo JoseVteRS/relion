@@ -44,8 +44,6 @@ export const UpdatePresentForm = ({
     defaultValues: defaultValues,
   });
 
-  console.log({ defaultValues });
-
   const handleSubmit = (values: UpdatePresentFormValues) => {
     onSubmit(values);
   };

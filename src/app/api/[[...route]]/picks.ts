@@ -28,13 +28,6 @@ const app = new Hono()
         ),
       });
 
-      console.log({ present, authUserId });
-      console.log({
-        present: {
-          id: presents?.id,
-        },
-      });
-
       if (!present) {
         return c.json(
           { error: "No se ha podido encontrar el regalo o ya ha sido elegido" },
