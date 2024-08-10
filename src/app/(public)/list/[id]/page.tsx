@@ -11,7 +11,7 @@ export default function PublicListPage({
 }: PublicListPageProps) {
   return (
     <div className="min-h-screen">
-      <List id={id} />
+      <List listId={id} />
     </div>
   );
 }

@@ -1,21 +1,11 @@
 import { Hono } from "hono";
-import { verifyAuth, getAuthUser } from "@hono/auth-js";
-import { insertListsSchema, lists, presents, users } from "@/db/schema";
+import { verifyAuth } from "@hono/auth-js";
+import { insertListsSchema, lists, presents } from "@/db/schema";
 import { db } from "@/db/drizzle";
 import { zValidator } from "@hono/zod-validator";
 import { z } from "zod";
-import { and, asc, desc, eq, inArray, is, not } from "drizzle-orm";
+import { and, asc, desc, eq } from "drizzle-orm";
 import { ErrorList } from "@/features/list/errors-enum";
-
-interface ProcessedList {
-  id: string;
-  name: string | null;
-  description: string | null;
-  status: boolean | null;
-  createdAt: Date | null;
-  updatedAt: Date | null;
-  presents: string[];
-}
 
 const app = new Hono()
   .get("/", verifyAuth(), async (c) => {
@@ -25,18 +15,17 @@ const app = new Hono()
       return c.json({ error: "No encontrado" }, 404);
     }
 
-    const data = await db
-      .query.lists.findMany({
-        where: eq(lists.userId, authUserId),
-        with:{
-          presents: true,
-          user: {
-            columns: {
-              name: true
-            }
-          }
+    const data = await db.query.lists.findMany({
+      where: eq(lists.userId, authUserId),
+      with: {
+        presents: true,
+        user: {
+          columns: {
+            name: true,
+          },
         },
-      })
+      },
+    });
 
     return c.json({ data });
   })
@@ -59,7 +48,7 @@ const app = new Hono()
               isPicked: true,
               description: true,
             },
-            orderBy: [asc(presents.isPicked)],
+            orderBy: [asc(presents.id)],
           },
           user: {
             columns: {

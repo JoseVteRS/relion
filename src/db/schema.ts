@@ -154,15 +154,37 @@ export const guests = pgTable("guest", {
 });
 export const insertGuestSchema = createInsertSchema(guests);
 
+// PICKED PRESENTS
+export const pickedPresents = pgTable("pickedPresent", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  presentId: text("presentId")
+    .notNull()
+    .references(() => presents.id, { onDelete: "cascade" }),
+  userId: text("userId")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+});
+export const pickedPresentsRelations = relations(pickedPresents, ({ one }) => ({
+  present: one(presents, {
+    fields: [pickedPresents.presentId],
+    references: [presents.id],
+  }),
+  user: one(users, {
+    fields: [pickedPresents.userId],
+    references: [users.id],
+  }),
+}));
+
 export type User = InferSelectModel<typeof users>;
 export type Account = InferSelectModel<typeof accounts>;
 export type Session = InferSelectModel<typeof sessions>;
 export type VerificationToken = InferSelectModel<typeof verificationTokens>;
 export type Authenticator = InferSelectModel<typeof authenticators>;
 export type Present = InferSelectModel<typeof presents>;
-export type List = InferSelectModel<typeof lists>;
 export type Guest = InferSelectModel<typeof guests>;
-
+export type List = InferSelectModel<typeof lists>;
 export type ListWithUserWithPresents = List & {
   user: { name: string };
   presents: Present[];

@@ -7,6 +7,7 @@ import list from "./lists";
 import presents from "./presents";
 import users from "./users";
 import guests from "./guests";
+import picks from "./picks";
 
 
 export const runtime = "nodejs";
@@ -26,7 +27,8 @@ const routes = app
   .route("/lists", list)
   .route("/presents", presents)
   .route("/users", users)
-  .route("/guests", guests);
+  .route("/guests", guests)
+  .route("/picks", picks);
 
 export const GET = handle(app);
 export const POST = handle(app);

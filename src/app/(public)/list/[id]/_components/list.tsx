@@ -10,19 +10,13 @@ import { NoSee } from "./no-see";
 import { useCookie, useLocalStorage } from "react-use";
 
 interface ListProps {
-  id?: string;
+  listId?: string;
 }
 
-export const List = ({ id }: ListProps) => {
+export const List = ({ listId }: ListProps) => {
   const authUser = useSession();
-  const [guestId] = useCookie("project-l");
 
-
-  // if (authUser.status === "unauthenticated" && !guestId) {
-  //   return <UnauthorizedUser listId={id ?? ""} />;
-  // }
-
-  const { data: list, isLoading } = useGetPublicList(id);
+  const { data: list, isLoading } = useGetPublicList(listId);
 
   if (isLoading) {
     return (
@@ -52,7 +46,7 @@ export const List = ({ id }: ListProps) => {
       </header>
       <div className="mt-5 flex flex-col gap-2">
         {list.presents!.map((present) => (
-          <CardPublicPresent key={present.id} present={present} />
+          <CardPublicPresent key={present.id} present={present} listId={listId} />
         ))}
       </div>
     </div>

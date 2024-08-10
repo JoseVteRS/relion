@@ -7,6 +7,8 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { useCreatePick } from "@/features/pick/api/use-create-pick";
+import { useDeletePick } from "@/features/pick/api/use-delete-pick";
 import { cn } from "@/lib/utils";
 import {
   Box,
@@ -21,9 +23,22 @@ import Link from "next/link";
 
 interface CardPublicPresentProps {
   present: any;
+  listId?: string;
 }
 
-export const CardPublicPresent = ({ present }: CardPublicPresentProps) => {
+export const CardPublicPresent = ({ present, listId }: CardPublicPresentProps) => {
+
+  const pick = useCreatePick(present.id, listId)
+  const unpick = useDeletePick(present.id, listId)
+
+  const onPick = ()=> {
+    pick.mutate(undefined);
+  }
+
+  const onUnPick = ()=> {
+    unpick.mutate(undefined);
+  }
+
   return (
     <Card
       className={cn("w-full", present.isPicked && "opacity-60 border-dashed")}
@@ -39,6 +54,7 @@ export const CardPublicPresent = ({ present }: CardPublicPresentProps) => {
                 size="sm"
                 variant="outline"
                 className="flex items-center gap-2"
+                onClick={onUnPick}
               >
                 <PackageCheck className="text-red-500" />
                 <span className="text-xs">Pillado</span>
@@ -48,6 +64,7 @@ export const CardPublicPresent = ({ present }: CardPublicPresentProps) => {
                 size="sm"
                 variant="outline"
                 className="flex items-center gap-2"
+                onClick={onPick}
               >
                 <PackageOpen className="text-green-500" />
                 <span className="text-xs">¡Me lo pido!</span>

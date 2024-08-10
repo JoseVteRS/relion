@@ -2,14 +2,14 @@ import { useQuery } from "@tanstack/react-query";
 import { LISTS_QUERY_KEY } from "../lists-query-keys";
 import { client } from "@/lib/hono";
 
-export const useGetPublicList = (id?: string) => {
+export const useGetPublicList = (listId?: string) => {
   const query = useQuery({
-    enabled: !!id,
+    enabled: !!listId,
     retry: false,
-    queryKey: [LISTS_QUERY_KEY.PUBLIC_LIST_ID, { id }],
+    queryKey: [LISTS_QUERY_KEY.PUBLIC_LIST_ID, { id: listId }],
     queryFn: async () => {
       const response = await client.api.lists.list[":id"].$get({
-        param: { id },
+        param: { id: listId },
       });
       if (!response.ok) {
         throw new Error("Failed to fetch list");
