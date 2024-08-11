@@ -23,7 +23,7 @@ export default function PresentsPage() {
         <Button
           variant="ghost"
           size="icon"
-          className="w-8 h-8 text-neutral-800 bg-emerald-500 text-sm"
+          className="w-8 h-8 text-neutral-800 bg-primary text-sm"
           onClick={() => openNewlistSheet.onOpen()}
         >
           <Plus className="size-4" />
@@ -33,7 +33,6 @@ export default function PresentsPage() {
       <div className="flex flex-col gap-3">
         {isLoading && (
           <>
-            <CardPresentsSkeleton />
             <CardPresentsSkeleton />
             <CardPresentsSkeleton />
             <CardPresentsSkeleton />

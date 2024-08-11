@@ -5,11 +5,14 @@ import { CardPublicPresent } from "./card-public-present";
 import { useGetPublicList } from "@/features/list/api/use-get-public-list";
 import { useSession } from "next-auth/react";
 import { UnauthorizedUser } from "./unauthorized-user";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { NoSee } from "./no-see";
 import { useCookie, useLocalStorage } from "react-use";
 import { useGetPresentList } from "@/features/present/api/use-get-present-list";
-import { ErrorMessage } from "@/components/common/error-message";
+import { ErrorMessageComponent } from "@/components/common/error-message";
+import { useMemo } from "react";
+import { CardPresentsSkeleton } from "@/features/present/components/card-presents-skeleton";
+import { usePublicList } from "@/features/list/api/use-get-list-public";
 
 interface ListProps {
   listId?: string;
@@ -17,14 +20,19 @@ interface ListProps {
 
 export const List = ({ listId }: ListProps) => {
   const authUser = useSession();
+  const { data, isLoading, isError, error } = usePublicList(listId);
+  const list = data?.listData;
+  const presentsInList = data?.presentsData;
 
-  const { data: list, isLoading } = useGetPublicList(listId);
-  const {
-    data: presentsInList,
-    isLoading: isLoadingPresents,
-    isError,
-    error
-  } = useGetPresentList(listId);
+  const isUserOwner = useMemo(() => {
+    const userId = authUser.data?.user?.id;
+    const listOwnerId = list?.userId;
+    return (
+      userId !== undefined &&
+      listOwnerId !== undefined &&
+      userId === listOwnerId
+    );
+  }, [authUser.data?.user?.id, list?.userId]);
 
   if (isLoading) {
     return (
@@ -34,10 +42,17 @@ export const List = ({ listId }: ListProps) => {
     );
   }
 
-  const isUserOwner = authUser.data?.user?.id === list?.userId;
-
-  if (!list || isUserOwner) {
+  if (isUserOwner) {
     return <NoSee />;
+  }
+
+  if (isError) {
+    return (
+      <ErrorMessageComponent
+        message={error.message}
+        callbackUrl={`${process.env.NEXT_PUBLIC_APP_URL}/list/${listId}`}
+      />
+    );
   }
 
   return (
@@ -45,16 +60,22 @@ export const List = ({ listId }: ListProps) => {
       <header className="flex flex-col items-start justify-start gap-2">
         <div className="flex items-center gap-2">
           <ListIcon />
-          <span className="text-lg font-bold">{list.name}</span>
+          <span className="text-lg font-bold">{list?.name}</span>
         </div>
         <div className="flex items-center gap-2">
           <UserIcon />
-          <span className="text-lg font-bold">{list.user.name}</span>
+          <span className="text-lg font-bold">{list?.user.name}</span>
         </div>
       </header>
       <div className="mt-5 flex flex-col gap-2">
-        {isLoadingPresents && <Loader2 className="size-10 animate-spin" />}
-        {isError && <ErrorMessage message={error.message} />}
+        {isLoading && (
+          <>
+            <CardPresentsSkeleton />
+            <CardPresentsSkeleton />
+            <CardPresentsSkeleton />
+          </>
+        )}
+
         {presentsInList?.map((present) => (
           <CardPublicPresent
             key={present.id}

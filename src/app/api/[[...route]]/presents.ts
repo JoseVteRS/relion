@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import { getAuthUser, verifyAuth } from "@hono/auth-js";
 import { db } from "@/db/drizzle";
-import { insertPresentSchema, lists, presents } from "@/db/schema";
+import { insertPresentSchema, lists, presents, pickedPresents } from "@/db/schema";
 import { zValidator } from "@hono/zod-validator";
 import { and, asc, desc, eq, isNull, not } from "drizzle-orm";
 import { z } from "zod";
@@ -9,6 +9,7 @@ import {
   createPresetFormSchema,
   updatePresetFormSchema,
 } from "@/features/present/forms/form-schemas";
+import { ErrorMessage } from "@/lib/error-messages";
 
 const app = new Hono()
   .get("/for-options", verifyAuth(), async (c) => {
@@ -47,7 +48,7 @@ const app = new Hono()
       const auth = c.get("authUser");
       const authUserId = auth?.session?.user?.id;
       if (!authUserId) {
-        return c.json({ error: "Unauthorized" }, 403);
+        return c.json({ error: ErrorMessage.user.Unauthorized  }, 403);
       }
 
       const data = await db
@@ -59,8 +60,10 @@ const app = new Hono()
           status: presents.status,
           isPicked: presents.isPicked,
           userId: presents.userId,
+          pickedBy: pickedPresents.userId,
         })
         .from(presents)
+        .leftJoin(pickedPresents, eq(presents.id, pickedPresents.presentId))
         .where(
           not(eq(presents.userId, authUserId))
         )

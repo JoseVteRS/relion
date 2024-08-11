@@ -1,24 +1,31 @@
 import { Hono } from "hono";
-import { verifyAuth } from "@hono/auth-js";
+import { getAuthUser, verifyAuth } from "@hono/auth-js";
 import { insertListsSchema, lists, presents } from "@/db/schema";
 import { db } from "@/db/drizzle";
 import { zValidator } from "@hono/zod-validator";
 import { z } from "zod";
-import { and, asc, desc, eq } from "drizzle-orm";
+import { and, asc, desc, eq, not } from "drizzle-orm";
 import { ErrorList } from "@/features/list/errors-enum";
+import { ErrorMessage } from "@/lib/error-messages";
 
 const app = new Hono()
   .get("/", verifyAuth(), async (c) => {
     const auth = c.get("authUser");
     const authUserId = auth?.session?.user?.id;
+
     if (!authUserId) {
-      return c.json({ error: "No encontrado" }, 404);
+      return c.json({ error: ErrorMessage.user.Unauthorized }, 403);
     }
 
     const data = await db.query.lists.findMany({
       where: eq(lists.userId, authUserId),
+
       with: {
-        presents: true,
+        presents: {
+          columns: {
+            id: true,
+          },
+        },
         user: {
           columns: {
             name: true,
@@ -31,25 +38,25 @@ const app = new Hono()
   })
   .get(
     "list/:id",
+    verifyAuth(),
     zValidator("param", z.object({ id: z.optional(z.string()) })),
     async (c) => {
       const id = c.req.param("id");
-      // const auth = await getAuthUser(c);
-      // const authUserId = auth?.session?.user?.id;
+
+      //TODO: For auth user for the moment
+      const auth = c.get("authUser");
+      const authUserId = auth?.session?.user?.id;
+      if (!authUserId) {
+        return c.json({ error: ErrorMessage.user.Unauthorized }, 403);
+      }
 
       const list = await db.query.lists.findFirst({
-        where: and(eq(lists.id, id), eq(lists.status, true)),
+        where: and(
+          eq(lists.id, id),
+          eq(lists.status, true),
+          not(eq(lists.userId, authUserId))
+        ),
         with: {
-          presents: {
-            columns: {
-              id: true,
-              name: true,
-              link: true,
-              isPicked: true,
-              description: true,
-            },
-            orderBy: [asc(presents.id)],
-          },
           user: {
             columns: {
               name: true,
@@ -59,7 +66,7 @@ const app = new Hono()
       });
 
       if (!list) {
-        return c.json({ error: "No encontrado" }, 404);
+        return c.json({ error: ErrorMessage.lists.NotFoundLists }, 404);
       }
 
       return c.json({ data: list });

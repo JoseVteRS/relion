@@ -20,6 +20,7 @@ import { CopyToClipboard } from "@/components/common/copy-to-clipboard";
 import { ShareWhatsappButton } from "@/components/common/share-whatsapp-button";
 import { useDeleteList } from "../api/use-delete-list";
 import { List, Present } from "@/db/schema";
+import { useMemo } from "react";
 
 type ListWithUserWithPresents = List & {
   user: { name: string };
@@ -33,7 +34,10 @@ interface CardListProps {
 }
 
 export const CardList = ({ list, onEdit }: CardListProps) => {
-  const shareLink = `${process.env.NEXT_PUBLIC_APP_URL}/list/${list.id}`;
+  const shareLink = useMemo(
+    () => `${process.env.NEXT_PUBLIC_APP_URL}/list/${list.id}`,
+    [list.id]
+  );
 
   const [DialogConfirm, confirm] = useConfirm(
     "Estás seguro que quieres borrar esta lista?",

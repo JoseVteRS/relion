@@ -1,4 +1,3 @@
-import { auth } from "@/auth";
 import { Navbar } from "@/components/common/navbar";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -27,7 +26,7 @@ export default function Home() {
             calcetines sorpresa!
           </h3>
           <p className="text-xl text-emerald-100 mb-8">
-            Con Regalame, tus tíos no tendrán excusa para regalarte otro suéter
+            Con Prezy, tus tíos no tendrán excusa para regalarte otro suéter
             feo esta Navidad.
           </p>
         </div>
@@ -82,7 +81,7 @@ export default function Home() {
           </h3>
           <p className="text-xl text-neutral-200 mb-8">
             No dejes que otro año pase recibiendo regalos que terminarán en el fondo del armario. 
-            Con Regalante, tus seres queridos sabrán exactamente qué regalarte 
+            Con Prezy, tus seres queridos sabrán exactamente qué regalarte 
             (y no, no es otro set de tuppers).
           </p>
           <Button variant="primary" size="lg" asChild>
@@ -96,7 +95,7 @@ export default function Home() {
         <div className="container mx-auto max-w-[800px]">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="">
-              <h4 className="text-xl font-bold mb-2">Regalante</h4>
+              <h4 className="text-xl font-bold mb-2">Prezy</h4>
             </div>
           </div>
         </div>

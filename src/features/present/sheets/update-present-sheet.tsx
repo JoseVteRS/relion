@@ -46,7 +46,7 @@ export const UpdatePresentSheet = () => {
           </SheetDescription>
         </SheetHeader>
         {isLoading ? (
-          <div className="absolute inset-0 flex items-center justify-center">
+          <div className="flex items-center justify-center">
             <Loader2 className="size-4 animate-spin" />
           </div>
         ) : (

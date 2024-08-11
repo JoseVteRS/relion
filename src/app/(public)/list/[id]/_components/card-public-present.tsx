@@ -47,7 +47,7 @@ export const CardPublicPresent = ({
 
   return (
     <Card
-      className={cn("w-full", present.isPicked && "opacity-60 border-dashed")}
+      className={cn("w-full", present.isPicked && "opacity-60 border-dashed", present.pickedBy === authUserId && "border-green-500")}
     >
       <CardHeader>
         <div className="flex items-start">

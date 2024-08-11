@@ -1,16 +1,24 @@
 import type { Metadata } from "next";
+import dynamic from "next/dynamic";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { SessionProvider } from "next-auth/react";
 import SheetProvider from "@/components/providers/sheet-provider";
 import QueryProvider from "@/components/providers/query-provider";
-import { Toaster } from "@/components/ui/sonner";
-import { SessionProvider } from "next-auth/react";
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { auth } from "@/auth";
+
+const LazyToaster = dynamic(
+  () => import("@/components/ui/sonner").then((mod) => mod.Toaster),
+  {
+    ssr: false,
+  }
+);
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Regalante",
+  title: "Prezy",
   description:
     "Crea listas de regalos para tus amigos y que te regalen lo que te gusta",
   keywords:
@@ -19,7 +27,7 @@ export const metadata: Metadata = {
     name: "Jose Vicente",
   },
   openGraph: {
-    title: "Regalante",
+    title: "Prezy",
     description:
       "Crea listas de regalos para tus amigos y que te regalen lo que te gusta",
     url: "https://www.regalante.vercel.app",
@@ -29,7 +37,7 @@ export const metadata: Metadata = {
         url: "https://www.regalante.vercel.app/og-image.jpg",
         width: 800,
         height: 600,
-        alt: "Regalante Logo",
+        alt: "Prezy Logo",
       },
     ],
   },
@@ -55,8 +63,9 @@ export default async function RootLayout({
         <body className={`${inter.className}`}>
           <QueryProvider>
             <SheetProvider />
-            <Toaster richColors position="top-center" />
+            <LazyToaster richColors position="top-center" />
             {children}
+            <ReactQueryDevtools initialIsOpen={false} />
           </QueryProvider>
         </body>
       </html>

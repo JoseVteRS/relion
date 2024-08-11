@@ -1,11 +1,10 @@
 import { useQuery } from "@tanstack/react-query"
-import { PRESENTS_QUERY_KEY } from "../presents-query-keys"
 import { client } from "@/lib/hono"
 
-
+//TODO: Por ahora no se utiliza
 export const useGetPresentsWithoutList = () => {
     const query= useQuery({
-        queryKey: [PRESENTS_QUERY_KEY.PRESENTS_WITHOUT_LIST],
+        queryKey: ['presents-without-list'],
         queryFn: async () => {
             const response = await client.api.presents["for-options"].$get()
             if (!response.ok) {

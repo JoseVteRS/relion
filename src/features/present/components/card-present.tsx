@@ -53,25 +53,25 @@ export const CardPresent = ({ present, onEdit }: CardPresentProps) => {
         <CardHeader>
           <div className="flex items-start">
             <div className="flex flex-col flex-1 items-start gap-1">
-              <CardTitle className=" text-lg">{present.name}</CardTitle>
+              <CardTitle className=" text-md">{present.name}</CardTitle>
               <StatusBadge status={present.status} />
             </div>
             <DropdownMenu>
               <DropdownMenuTrigger>
                 <EllipsisVerticalIcon className="w-4 h-4 text-neutral-400 hover:text-neutral-500" />
               </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DropdownMenuItem onClick={() => onOpen(present.id)}>
+              <DropdownMenuContent className="min-w-[150px] space-y-3">
+                <DropdownMenuItem onClick={() => onOpen(present.id)} className="text-md">
                   <PencilIcon className="w-4 h-4 mr-2" />
                   Editar
                 </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href={`/dashboard/presents/${present.id}`}>
+                <DropdownMenuItem asChild className="text-md">
+                  <Link href={`/dashboard/presents/${present.id}`} >
                     <EyeIcon className="w-4 h-4 mr-2" />
                     Ver
                   </Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem className="bg-red-600" onClick={onDelete}>
+                <DropdownMenuItem className="bg-red-600 text-md" onClick={onDelete}>
                   <TrashIcon className="w-4 h-4 mr-2" />
                   Borrar
                 </DropdownMenuItem>

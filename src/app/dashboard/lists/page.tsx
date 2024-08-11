@@ -35,7 +35,7 @@ export default function ListPage() {
         <Button
           variant="ghost"
           size="icon"
-          className="w-8 h-8 text-neutral-800 bg-emerald-500 text-sm"
+          className="w-8 h-8 text-neutral-800 bg-primary text-sm"
           onClick={() => openNewlistSheet.onOpen()}
         >
           <Plus className="size-4" />
@@ -45,8 +45,6 @@ export default function ListPage() {
       <div className="flex flex-col gap-3">
         {isLoading && (
           <>
-            <CardListSkeleton />
-            <CardListSkeleton />
             <CardListSkeleton />
             <CardListSkeleton />
             <CardListSkeleton />

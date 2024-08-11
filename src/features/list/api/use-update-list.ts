@@ -1,9 +1,8 @@
 import { client } from "@/lib/hono";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { InferRequestType, InferResponseType } from "hono";
-import { LISTS_QUERY_KEY } from "../lists-query-keys";
 import { toast } from "sonner";
-import { PRESENTS_QUERY_KEY } from "@/features/present/presents-query-keys";
+import { qk } from "@/lib/query-keys";
 
 type ResponseType = InferResponseType<
   (typeof client.api.lists)[":id"]["$patch"]
@@ -25,14 +24,14 @@ export const useUpdateList = (id?: string) => {
     },
     onSuccess: () => {
       toast.success("Lista actualizada exitosamente");
+      // queryClient.invalidateQueries({
+      //   queryKey: qk.lists.userListDetails(id!),
+      // });
       queryClient.invalidateQueries({
-        queryKey: [LISTS_QUERY_KEY.USER_LIST_ID, { id }],
+        queryKey: qk.lists.userLists,
       });
       queryClient.invalidateQueries({
-        queryKey: [LISTS_QUERY_KEY.USER_LISTS],
-      });
-      queryClient.invalidateQueries({
-        queryKey: [PRESENTS_QUERY_KEY.USER_PRESENTS],
+        queryKey: qk.presents.userPresents,
       });
     },
   });

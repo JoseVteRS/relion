@@ -1,8 +1,7 @@
 import { client } from "@/lib/hono";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { InferRequestType, InferResponseType } from "hono";
-import { PRESENTS_QUERY_KEY } from "../presents-query-keys";
-import { LISTS_QUERY_KEY } from "@/features/list/lists-query-keys";
+import { qk } from "@/lib/query-keys";
 
 type ResponseType = InferResponseType<
   (typeof client.api.presents)[":id"]["$patch"]
@@ -24,13 +23,19 @@ export const useUpdatePresent = (id?: string) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: [PRESENTS_QUERY_KEY.USER_PRESENT_ID, { id }],
+        queryKey: qk.presents.userPresentDetails(id!),
       });
       queryClient.invalidateQueries({
-        queryKey: [PRESENTS_QUERY_KEY.USER_PRESENTS],
+        queryKey: qk.presents.publicPresentDetails(id!),
       });
       queryClient.invalidateQueries({
-        queryKey: [LISTS_QUERY_KEY.USER_LISTS],
+        queryKey: qk.presents.userPresents,
+      });
+      queryClient.invalidateQueries({
+        queryKey: qk.lists.userLists,
+      });
+      queryClient.invalidateQueries({
+        queryKey: qk.lists.publicLists,
       });
     },
   });

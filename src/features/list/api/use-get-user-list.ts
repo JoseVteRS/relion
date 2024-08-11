@@ -1,11 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
-import { LISTS_QUERY_KEY } from "../lists-query-keys";
 import { client } from "@/lib/hono";
+import { qk } from "@/lib/query-keys";
 
 export const useGetUserList = (id?: string) => {
   const query = useQuery({
     enabled: !!id,
-    queryKey: [LISTS_QUERY_KEY.USER_LIST_ID, { id }],
+    queryKey: qk.lists.userListDetails(id!),
     queryFn: async () => {
       const response = await client.api.lists[":id"].$get({
         param: { id },

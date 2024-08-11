@@ -1,10 +1,10 @@
 import { client } from "@/lib/hono";
 import { useQuery } from "@tanstack/react-query";
-import { PRESENTS_QUERY_KEY } from "../presents-query-keys";
+import { qk } from "@/lib/query-keys";
 
 export const useGetUserPresents = () => {
   const query = useQuery({
-    queryKey: [PRESENTS_QUERY_KEY.USER_PRESENTS],
+    queryKey: qk.presents.userPresents,
     queryFn: async () => {
       const response = await client.api.presents.$get();
 

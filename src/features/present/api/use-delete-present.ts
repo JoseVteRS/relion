@@ -1,9 +1,8 @@
 import { client } from "@/lib/hono";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { InferResponseType } from "hono";
-import { PRESENTS_QUERY_KEY } from "../presents-query-keys";
 import { toast } from "sonner";
-import { LISTS_QUERY_KEY } from "@/features/list/lists-query-keys";
+import { qk } from "@/lib/query-keys";
 
 type ResponseType = InferResponseType<
   (typeof client.api.presents)[":id"]["$delete"]
@@ -23,14 +22,20 @@ export const useDeletePresent = (id?: string) => {
     onSuccess: () => {
       toast.success("Present deleted successfully");
       queryClient.invalidateQueries({
-        queryKey: [PRESENTS_QUERY_KEY.USER_PRESENTS],
+        queryKey: qk.presents.userPresents,
       });
       queryClient.invalidateQueries({
-        queryKey: [LISTS_QUERY_KEY.PUBLIC_LIST_ID]
-      })
+        queryKey: qk.lists.userLists,
+      });
       queryClient.invalidateQueries({
-        queryKey: [LISTS_QUERY_KEY.USER_LISTS]
-      })
+        queryKey: qk.lists.userListDetails(id!),
+      });
+      queryClient.invalidateQueries({
+        queryKey: qk.lists.publicLists,
+      });
+      queryClient.invalidateQueries({
+        queryKey: qk.lists.publicListDetails(id!),
+      });
     },
     onError: () => {
       toast.error("Error deleting present");

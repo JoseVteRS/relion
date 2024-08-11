@@ -2,7 +2,7 @@ import { client } from "@/lib/hono";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { InferRequestType, InferResponseType } from "hono";
 import { toast } from "sonner";
-import { PRESENTS_QUERY_KEY } from "../presents-query-keys";
+import { qk } from "@/lib/query-keys";
 
 type ResponseType = InferResponseType<typeof client.api.presents.$post>;
 type RequestType = InferRequestType<typeof client.api.presents.$post>["json"];
@@ -18,7 +18,10 @@ export const useCreatePresent = () => {
     onSuccess: () => {
       toast.success("Present created successfully");
       queryClient.invalidateQueries({
-        queryKey: [PRESENTS_QUERY_KEY.USER_PRESENTS],
+        queryKey: qk.presents.userPresents,
+      });
+      queryClient.invalidateQueries({
+        queryKey: qk.presents.publicPresents,
       });
     },
     onError: () => {

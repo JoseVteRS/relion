@@ -2,8 +2,8 @@ import { client } from "@/lib/hono";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { InferRequestType, InferResponseType } from "hono";
 import { toast } from "sonner";
-import { LISTS_QUERY_KEY } from "../lists-query-keys";
 import { ErrorList } from "../errors-enum";
+import { qk } from "@/lib/query-keys";
 
 type ResponseType = InferResponseType<typeof client.api.lists.$post>;
 type RequestType = InferRequestType<typeof client.api.lists.$post>["json"];
@@ -25,7 +25,10 @@ export const useCreateList = () => {
     onSuccess: () => {
       toast.success("List created successfully");
       queryClient.invalidateQueries({
-        queryKey: [LISTS_QUERY_KEY.USER_LISTS],
+        queryKey: qk.lists.userLists,
+      });
+      queryClient.invalidateQueries({
+        queryKey: qk.lists.publicLists,
       });
     },
     onError: (error) => {
