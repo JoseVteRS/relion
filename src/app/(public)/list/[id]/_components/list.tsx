@@ -1,18 +1,13 @@
 "use client";
 
-import { ListIcon, Loader, Loader2, UserIcon } from "lucide-react";
+import { ListIcon, Loader2, UserIcon } from "lucide-react";
 import { CardPublicPresent } from "./card-public-present";
-import { useGetPublicList } from "@/features/list/api/use-get-public-list";
-import { useSession } from "next-auth/react";
-import { UnauthorizedUser } from "./unauthorized-user";
-import { redirect, useRouter } from "next/navigation";
-import { NoSee } from "./no-see";
-import { useCookie, useLocalStorage } from "react-use";
-import { useGetPresentList } from "@/features/present/api/use-get-present-list";
-import { ErrorMessageComponent } from "@/components/common/error-message";
 import { useMemo } from "react";
 import { CardPresentsSkeleton } from "@/features/present/components/card-presents-skeleton";
 import { usePublicList } from "@/features/list/api/use-get-list-public";
+import { NoSee } from "./no-see";
+import { ErrorMessageComponent } from "@/components/common/error-message";
+import { useSession } from "next-auth/react";
 
 interface ListProps {
   listId?: string;

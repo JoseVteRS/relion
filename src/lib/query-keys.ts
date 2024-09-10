@@ -1,5 +1,6 @@
 export const qk = {
   lists: {
+    countByUser: ["count-lists-by-user"],
     userLists: ["user-lists"],
     userListDetails: (id: string) => ["user-list-details", id],
     publicLists: ["public-lists"],
@@ -11,5 +12,11 @@ export const qk = {
     publicPresents: ["public-presents"],
     publicPresentDetails: (id: string) => ["public-present-details", id],
     publicPresentsInList: (id: string) => ["presents-in-list", id],
+  },
+  subscription: {
+    get: ["subscription"],
+  },
+  tier: {
+    get: ["tier"],
   },
 };

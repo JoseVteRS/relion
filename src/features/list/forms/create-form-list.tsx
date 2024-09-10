@@ -1,32 +1,38 @@
 "use client";
 
-import { SelectMultiple } from "@/components/common/select-multiple";
+import { format, parseISO } from "date-fns";
+import { es } from "date-fns/locale";
 import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { Switch } from "@/components/ui/switch";
 import { insertListsSchema } from "@/db/schema";
-import { useGetPresentsWithoutList } from "@/features/present/api/use-get-presents-without-list";
-import { useGetUserPresents } from "@/features/present/api/use-get-user-presents";
+import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Calendar } from "@/components/ui/calendar";
+import { CalendarIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-const formSchema = insertListsSchema
-  .pick({
-    name: true,
-    description: true,
-    status: true,
-  })
-  .extend({
-    presentIds: z.array(z.string()).optional(),
-  });
+const formSchema = insertListsSchema.pick({
+  name: true,
+  description: true,
+  eventDate: true,
+  status: true,
+});
 
 type FormValues = z.input<typeof formSchema>;
 
@@ -41,15 +47,16 @@ export const CreateListForm = ({
   onSubmit,
   disabled,
 }: CreateListFormProps) => {
-  const { data: presents, isLoading } = useGetPresentsWithoutList();
-
   const form = useForm({
     resolver: zodResolver(formSchema),
-    defaultValues: defaultValues,
+    defaultValues,
   });
 
   const handleSubmit = (values: FormValues) => {
-    onSubmit(values);
+    onSubmit({
+      ...values,
+      eventDate: values.eventDate.toISOString(),
+    });
   };
 
   return (
@@ -94,7 +101,51 @@ export const CreateListForm = ({
             )}
           />
 
-          {/* TODO: Add multiselect presents */}
+          <FormField
+            control={form.control}
+            name="eventDate"
+            render={({ field }) => (
+              <FormItem className="flex flex-col w-full">
+                <FormLabel>Fecha del evento</FormLabel>
+                <Popover>
+                  <PopoverTrigger asChild className="w-full">
+                    <FormControl className="w-full">
+                      <Button
+                        variant={"outline"}
+                        className={cn(
+                          "w-full pl-3 text-left font-normal",
+                          !field.value && "text-muted-foreground"
+                        )}
+                      >
+                        {field.value ? (
+                          format(field.value, "PPP", { locale: es })
+                        ) : (
+                          <span>Escoge la fecha</span>
+                        )}
+                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                      </Button>
+                    </FormControl>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-full p-0" align="start">
+                    <Calendar
+                      mode="single"
+                      selected={field.value}
+                      onSelect={field.onChange}
+                      disabled={(date: Date) =>
+                        date < new Date(new Date().setHours(0, 0, 0, 0))
+                      }
+                      initialFocus
+                      locale={es}
+                    />
+                  </PopoverContent>
+                </Popover>
+                <FormDescription>
+                  Indica la fecha en la que se deberá celebrar el evento
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
           <div className="mt-5">
             <Button type="submit" className="w-full" variant="primary">

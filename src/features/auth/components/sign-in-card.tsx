@@ -30,7 +30,7 @@ export const SignInCard = () => {
     signIn("credentials", {
       email: email,
       password: password,
-      callbackUrl: params.get("callbackUrl") ?? "/",
+      callbackUrl: params.get("callbackUrl") ?? "/dashboard",
     });
   };
 

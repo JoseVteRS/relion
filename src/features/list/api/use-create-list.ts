@@ -30,6 +30,12 @@ export const useCreateList = () => {
       queryClient.invalidateQueries({
         queryKey: qk.lists.publicLists,
       });
+      queryClient.invalidateQueries({
+        queryKey: qk.subscription.get,
+      });
+      queryClient.invalidateQueries({
+        queryKey: qk.tier.get,
+      })
     },
     onError: (error) => {
       if (error.message === ErrorList.MaxListsExceeded) {

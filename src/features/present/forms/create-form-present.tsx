@@ -15,12 +15,17 @@ import { Textarea } from "@/components/ui/textarea";
 import { insertPresentSchema } from "@/db/schema";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { MultiSelectorContent } from "@/components/ui/multiple-selector";
+import { useGetUserLists } from "@/features/list/api/use-get-user-lists";
+import { Loader } from "lucide-react";
 
 const formSchema = insertPresentSchema.pick({
   name: true,
   link: true,
   description: true,
   status: true,
+  listId: true
 });
 
 type FormValues = z.input<typeof formSchema>;
@@ -36,6 +41,9 @@ export const CreateListForm = ({
   onSubmit,
   disabled,
 }: CreateListFormProps) => {
+
+  const { data: lists, isLoading } = useGetUserLists();
+
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: defaultValues,
@@ -126,6 +134,45 @@ export const CreateListForm = ({
             </FormItem>
           )}
         />
+
+        <FormField
+          control={form.control}
+          name="listId"
+          render={({ field }) => (
+            <FormItem className="items-center justify-between">
+              <div className="space-y-0.5">
+                <FormLabel className="text-base">Listas</FormLabel>
+              </div>
+              <FormControl>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue
+                        className="text-white"
+                        placeholder="Selecciona una lista"
+                      />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {isLoading ? (
+                      <Loader />
+                    ) : (
+                      lists?.map((list) => (
+                        <SelectItem key={list.id} value={list.id}>
+                          {list.name}
+                        </SelectItem>
+                      ))
+                    )}
+                  </SelectContent>
+                </Select>
+              </FormControl>
+            </FormItem>
+          )}
+        />
+
         <div className="mt-5">
           <Button type="submit" className="w-full" variant="primary">
             Crear

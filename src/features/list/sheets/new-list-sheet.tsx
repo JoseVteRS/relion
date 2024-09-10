@@ -9,12 +9,14 @@ import { CreateListForm } from "../forms/create-form-list";
 import { useCreateList } from "../api/use-create-list";
 import { z } from "zod";
 import { insertListsSchema } from "@/db/schema";
+import { usePaywall } from "@/features/subscriptions/hooks/use-paywall";
 
 const formSchema = insertListsSchema
   .pick({
     name: true,
     description: true,
     status: true,
+    eventDate: true,
   })
   .extend({
     presentIds: z.array(z.string()).optional(),
@@ -43,7 +45,7 @@ export const NewListSheet = () => {
         <CreateListForm
           onSubmit={onSubmit}
           disabled={false}
-          defaultValues={{ name: "" }}
+          defaultValues={{ name: "", status: false }}
         />
       </SheetContent>
     </Sheet>

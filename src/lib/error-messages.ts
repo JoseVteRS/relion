@@ -10,4 +10,7 @@ export const ErrorMessage = {
   user: {
     Unauthorized: "No has iniciado sesión",
   },
+  server: {
+    InternalServerError: "Error interno del servidor",
+  },
 };

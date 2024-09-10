@@ -8,12 +8,15 @@ import {
   DropdownMenuTrigger,
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
-import { CreditCard, Loader, LogOut } from "lucide-react";
+import { usePaywall } from "@/features/subscriptions/hooks/use-paywall";
+import { CreditCard, Crown, Loader, LogOut, Settings2, SettingsIcon } from "lucide-react";
 
 import { useSession, signOut } from "next-auth/react";
+import Link from "next/link";
 
 export const UserButton = () => {
   const session = useSession();
+  const { shouldBlock } = usePaywall();
 
   if (session.status === "loading") {
     return <Loader className="size-4 animate-spin text-muted-foreground" />;
@@ -29,8 +32,15 @@ export const UserButton = () => {
   return (
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger>
-        {/* TODO: Add crowh if user is premium */}
-        <Avatar className="size-10 hover:opacity-75 transition">
+        {!shouldBlock && (
+          <div className="relative">
+            <div className="absolute -top-2 -left-2 bg-black border-2 border-white p-1 rounded-full z-10 opacity-75">
+              <Crown className="size-3 text-primary fill-primary " />
+            </div>
+          </div>
+        )}
+
+        <Avatar className="size-10 hover:opacity-75 transition rounded-lg">
           <AvatarImage alt={name} src={imageUrl || ""} />
           <AvatarFallback className="bg-primary font-medium text-neutral-900">
             {name.charAt(0).toUpperCase()}
@@ -40,7 +50,11 @@ export const UserButton = () => {
       <DropdownMenuContent align="end" className="w-60">
         <DropdownMenuItem disabled={false} onClick={() => {}} className="h-10">
           <CreditCard className="mr-2 size-4" />
-          Billing
+          Facturación
+        </DropdownMenuItem>
+        <DropdownMenuItem disabled={false} onClick={() => {}} className="h-10">
+          <SettingsIcon className="mr-2 size-4" />
+          <Link href="/dashboard/settings">Ajustes</Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem

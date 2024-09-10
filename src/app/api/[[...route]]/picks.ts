@@ -12,7 +12,7 @@ const app = new Hono()
     zValidator("param", z.object({ presentId: z.string() })),
     async (c) => {
       const authUser = await getAuthUser(c);
-      const authUserId = authUser?.session?.user?.id;
+      const authUserId = authUser?.token?.id;
       const { presentId } = c.req.valid("param");
 
       if (!authUserId) {
@@ -55,7 +55,7 @@ const app = new Hono()
     zValidator("param", z.object({ presentId: z.string() })),
     async (c) => {
       const authUser = await getAuthUser(c);
-      const authUserId = authUser?.session?.user?.id;
+      const authUserId = authUser?.token?.id;
       const { presentId } = c.req.valid("param");
 
       if (!authUserId) {

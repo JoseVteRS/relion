@@ -1,6 +1,6 @@
 {
-  "id": "4c0c9eeb-3bfa-4517-9fc3-e3eeb3605db9",
-  "prevId": "35cf16f1-d21a-478d-b4a3-7f307998ee6e",
+  "id": "a6ca7dd2-753b-4e90-9f3e-d65e85355454",
+  "prevId": "930a9774-b4d2-45b7-8757-9c961a08a66b",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -190,14 +190,20 @@
         }
       }
     },
-    "public.present": {
-      "name": "present",
+    "public.list": {
+      "name": "list",
       "schema": "",
       "columns": {
         "id": {
           "name": "id",
           "type": "text",
           "primaryKey": true,
+          "notNull": true
+        },
+        "userId": {
+          "name": "userId",
+          "type": "text",
+          "primaryKey": false,
           "notNull": true
         },
         "name": {
@@ -211,6 +217,147 @@
           "type": "text",
           "primaryKey": false,
           "notNull": false
+        },
+        "status": {
+          "name": "status",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "default": true
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "eventDate": {
+          "name": "eventDate",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "list_userId_user_id_fk": {
+          "name": "list_userId_user_id_fk",
+          "tableFrom": "list",
+          "tableTo": "user",
+          "columnsFrom": [
+            "userId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "public.pickedPresent": {
+      "name": "pickedPresent",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "presentId": {
+          "name": "presentId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "userId": {
+          "name": "userId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "pickedPresent_presentId_present_id_fk": {
+          "name": "pickedPresent_presentId_present_id_fk",
+          "tableFrom": "pickedPresent",
+          "tableTo": "present",
+          "columnsFrom": [
+            "presentId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "pickedPresent_userId_user_id_fk": {
+          "name": "pickedPresent_userId_user_id_fk",
+          "tableFrom": "pickedPresent",
+          "tableTo": "user",
+          "columnsFrom": [
+            "userId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "public.present": {
+      "name": "present",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "userId": {
+          "name": "userId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "listId": {
+          "name": "listId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "isPicked": {
+          "name": "isPicked",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "default": false
         },
         "link": {
           "name": "link",
@@ -239,7 +386,34 @@
         }
       },
       "indexes": {},
-      "foreignKeys": {},
+      "foreignKeys": {
+        "present_userId_user_id_fk": {
+          "name": "present_userId_user_id_fk",
+          "tableFrom": "present",
+          "tableTo": "user",
+          "columnsFrom": [
+            "userId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "present_listId_list_id_fk": {
+          "name": "present_listId_list_id_fk",
+          "tableFrom": "present",
+          "tableTo": "list",
+          "columnsFrom": [
+            "listId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        }
+      },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
@@ -285,6 +459,92 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
+    "public.subscription": {
+      "name": "subscription",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "userId": {
+          "name": "userId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "subscription_id": {
+          "name": "subscription_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "status": {
+          "name": "status",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "subscription_userId_unique": {
+          "name": "subscription_userId_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "userId"
+          ]
+        },
+        "subscription_subscription_id_unique": {
+          "name": "subscription_subscription_id_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "subscription_id"
+          ]
+        }
+      }
+    },
+    "public.tier": {
+      "name": "tier",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'FREE'"
+        },
+        "maxLists": {
+          "name": "maxLists",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 3
+        },
+        "maxPresentsPerList": {
+          "name": "maxPresentsPerList",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 6
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
     "public.user": {
       "name": "user",
       "schema": "",
@@ -324,10 +584,30 @@
           "type": "text",
           "primaryKey": false,
           "notNull": false
+        },
+        "tierId": {
+          "name": "tierId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
         }
       },
       "indexes": {},
-      "foreignKeys": {},
+      "foreignKeys": {
+        "user_tierId_tier_id_fk": {
+          "name": "user_tierId_tier_id_fk",
+          "tableFrom": "user",
+          "tableTo": "tier",
+          "columnsFrom": [
+            "tierId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set default",
+          "onUpdate": "no action"
+        }
+      },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
         "user_email_unique": {

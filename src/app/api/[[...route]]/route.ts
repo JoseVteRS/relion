@@ -8,7 +8,7 @@ import presents from "./presents";
 import users from "./users";
 import guests from "./guests";
 import picks from "./picks";
-
+import subscriptions from "./subscriptions";
 
 export const runtime = "nodejs";
 
@@ -28,7 +28,8 @@ const routes = app
   .route("/presents", presents)
   .route("/users", users)
   .route("/guests", guests)
-  .route("/picks", picks);
+  .route("/picks", picks)
+  .route("/subscriptions", subscriptions);
 
 export const GET = handle(app);
 export const POST = handle(app);

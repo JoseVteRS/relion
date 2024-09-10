@@ -3,6 +3,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { InferResponseType } from "hono";
 import { toast } from "sonner";
 import { qk } from "@/lib/query-keys";
+import { id } from "date-fns/locale";
 
 type ResponseType = InferResponseType<
   (typeof client.api.lists)[":id"]["$delete"]
@@ -29,6 +30,12 @@ export const useDeleteList = (id?: string) => {
       });
       queryClient.invalidateQueries({
         queryKey: qk.presents.publicPresentsInList(id!),
+      });
+      queryClient.invalidateQueries({
+        queryKey: qk.subscription.get,
+      });
+      queryClient.invalidateQueries({
+        queryKey: qk.tier.get,
       });
     },
     onError: () => {

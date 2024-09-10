@@ -1,43 +1,33 @@
 import { Hono } from "hono";
-import { getAuthUser, verifyAuth } from "@hono/auth-js";
-import { insertListsSchema, lists, presents } from "@/db/schema";
+import { verifyAuth } from "@hono/auth-js";
+import { insertListsSchema, lists } from "@/db/schema";
 import { db } from "@/db/drizzle";
 import { zValidator } from "@hono/zod-validator";
 import { z } from "zod";
-import { and, asc, desc, eq, not } from "drizzle-orm";
+import { and, count, countDistinct, eq, not } from "drizzle-orm";
 import { ErrorList } from "@/features/list/errors-enum";
 import { ErrorMessage } from "@/lib/error-messages";
 
 const app = new Hono()
-  .get("/", verifyAuth(), async (c) => {
+  .get("/count-by-user", verifyAuth(), async (c) => {
     const auth = c.get("authUser");
-    const authUserId = auth?.session?.user?.id;
+    const authUserId = auth?.token?.id;
+    console.log({ authUserId });
 
     if (!authUserId) {
-      return c.json({ error: ErrorMessage.user.Unauthorized }, 403);
+      return c.json({ error: ErrorList.NotFound }, 404);
     }
 
-    const data = await db.query.lists.findMany({
-      where: eq(lists.userId, authUserId),
+    const [coutLists] = await db
+      .select({ count: countDistinct(lists.id) })
+      .from(lists)
+      .where(eq(lists.userId, authUserId));
 
-      with: {
-        presents: {
-          columns: {
-            id: true,
-          },
-        },
-        user: {
-          columns: {
-            name: true,
-          },
-        },
-      },
-    });
-
-    return c.json({ data });
+    return c.json({ data: coutLists });
   })
+
   .get(
-    "list/:id",
+    "/list/:id",
     verifyAuth(),
     zValidator("param", z.object({ id: z.optional(z.string()) })),
     async (c) => {
@@ -45,7 +35,7 @@ const app = new Hono()
 
       //TODO: For auth user for the moment
       const auth = c.get("authUser");
-      const authUserId = auth?.session?.user?.id;
+      const authUserId = auth?.token?.id;
       if (!authUserId) {
         return c.json({ error: ErrorMessage.user.Unauthorized }, 403);
       }
@@ -78,7 +68,7 @@ const app = new Hono()
     zValidator("param", z.object({ id: z.optional(z.string()) })),
     async (c) => {
       const auth = c.get("authUser");
-      const authUserId = auth?.session?.user?.id;
+      const authUserId = auth?.token?.id;
 
       const id = c.req.param("id");
       if (!id) {
@@ -99,58 +89,65 @@ const app = new Hono()
       return c.json({ data: list });
     }
   )
+  .get("/", verifyAuth(), async (c) => {
+    const auth = c.get("authUser");
+    const authUserId = auth?.token?.id;
+
+    if (!authUserId) {
+      return c.json({ error: ErrorMessage.user.Unauthorized }, 403);
+    }
+
+    const data = await db.query.lists.findMany({
+      where: eq(lists.userId, authUserId),
+
+      with: {
+        presents: {
+          columns: {
+            id: true,
+          },
+        },
+        user: {
+          columns: {
+            name: true,
+          },
+        },
+      },
+    });
+
+    return c.json({ data });
+  })
   .post(
     "/",
     verifyAuth(),
     zValidator(
       "json",
-      insertListsSchema
-        .omit({ id: true })
-        .pick({
-          name: true,
-          description: true,
-          status: true,
-          createdAt: true,
-          updatedAt: true,
-        })
-        .extend({
-          presentIds: z.array(z.string()).optional(),
-        })
+      insertListsSchema.omit({ id: true }).pick({
+        name: true,
+        description: true,
+        status: true,
+        eventDate: true,
+      })
     ),
     async (c) => {
       const auth = c.get("authUser");
-
-      if (!auth.session) {
-        return c.json({ error: ErrorList.NotFound }, 404);
-      }
-
-      const authUserId = auth?.session?.user?.id;
-
+      const authUserId = auth?.token?.id;
       if (!authUserId) {
         return c.json({ error: ErrorList.NotFound }, 404);
       }
 
-      const { name, description, status, presentIds } = c.req.valid("json");
+      const values = c.req.valid("json");
+
+      const eventDate = new Date(values.eventDate!);
 
       try {
-        const existingLists = await db
-          .select({
-            id: lists.id,
-          })
-          .from(lists)
-          .where(eq(lists.userId, authUserId));
-
-        if (existingLists.length >= 3) {
-          return c.json({ error: ErrorList.MaxListsExceeded }, 400);
-        }
-
         const [newList] = await db
           .insert(lists)
           .values({
             userId: authUserId,
-            name,
-            description,
-            status,
+            name: values.name,
+            description: values.description,
+            status: values.status,
+            eventDate: eventDate,
             createdAt: new Date(),
             updatedAt: new Date(),
           })
@@ -174,8 +171,6 @@ const app = new Hono()
           name: true,
           description: true,
           status: true,
-          createdAt: true,
-          updatedAt: true,
         })
         .extend({
           presentIds: z.array(z.string()).optional(),
@@ -190,14 +185,14 @@ const app = new Hono()
         return c.json({ error: ErrorList.InvalidInput }, 400);
       }
 
-      const authUserId = auth?.session?.user?.id;
+      const authUserId = auth?.token?.id;
       if (!authUserId) {
         return c.json({ error: ErrorList.NotFound }, 404);
       }
 
       const [data] = await db
         .update(lists)
-        .set(values)
+        .set({ ...values, updatedAt: new Date() })
         .where(and(eq(lists.id, id), eq(lists.userId, authUserId)))
         .returning();
 
@@ -224,7 +219,7 @@ const app = new Hono()
         return c.json({ error: ErrorList.InvalidInput }, 400);
       }
 
-      const authUserId = auth?.session?.user?.id;
+      const authUserId = auth?.token?.id;
       if (!authUserId) {
         return c.json({ error: ErrorList.NotFound }, 404);
       }

@@ -1,7 +1,12 @@
 import { Hono } from "hono";
 import { getAuthUser, verifyAuth } from "@hono/auth-js";
 import { db } from "@/db/drizzle";
-import { insertPresentSchema, lists, presents, pickedPresents } from "@/db/schema";
+import {
+  insertPresentSchema,
+  lists,
+  presents,
+  pickedPresents,
+} from "@/db/schema";
 import { zValidator } from "@hono/zod-validator";
 import { and, asc, desc, eq, isNull, not } from "drizzle-orm";
 import { z } from "zod";
@@ -48,7 +53,7 @@ const app = new Hono()
       const auth = c.get("authUser");
       const authUserId = auth?.session?.user?.id;
       if (!authUserId) {
-        return c.json({ error: ErrorMessage.user.Unauthorized  }, 403);
+        return c.json({ error: ErrorMessage.user.Unauthorized }, 403);
       }
 
       const data = await db
@@ -64,9 +69,7 @@ const app = new Hono()
         })
         .from(presents)
         .leftJoin(pickedPresents, eq(presents.id, pickedPresents.presentId))
-        .where(
-          not(eq(presents.userId, authUserId))
-        )
+        .where(not(eq(presents.userId, authUserId)))
         .orderBy(asc(presents.name));
 
       if (!data) {
@@ -78,7 +81,7 @@ const app = new Hono()
   )
   .patch("pick/:id", async (c) => {
     const authUser = await getAuthUser(c);
-    const authUserId = authUser?.user?.id;
+    const authUserId = authUser?.token?.id;
 
     return c.json({ authUserId });
   })
@@ -172,7 +175,7 @@ const app = new Hono()
       }
       const { name, link, description, status, listId } = c.req.valid("json");
 
-      const [data] = await db
+      const data = await db
         .insert(presents)
         .values({
           userId,
@@ -184,7 +187,7 @@ const app = new Hono()
         })
         .returning();
 
-      return c.json({ data }, 201);
+      return c.json({ data: data[0] }, 200);
     }
   )
   .patch(

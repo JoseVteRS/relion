@@ -5,10 +5,12 @@ import {
   text,
   primaryKey,
   integer,
+  pgEnum,
 } from "drizzle-orm/pg-core";
 import type { AdapterAccountType } from "next-auth/adapters";
 import { createInsertSchema } from "drizzle-zod";
-import { InferSelectModel, relations } from "drizzle-orm";
+import { relations } from "drizzle-orm";
+import { z } from "zod";
 
 export const users = pgTable("user", {
   id: text("id")
@@ -19,11 +21,20 @@ export const users = pgTable("user", {
   emailVerified: timestamp("emailVerified", { mode: "date" }),
   image: text("image"),
   password: text("password"),
+  tierId: text("tierId")
+    .references(() => tiers.id, {
+      onDelete: "set default",
+    })
+    .default(process.env.REGALAM_TIER_FREE_ID! as string),
 });
 
-export const usersRelations = relations(users, ({ many }) => ({
+export const usersRelations = relations(users, ({ many, one }) => ({
   presents: many(presents),
   lists: many(lists),
+  tier: one(tiers, {
+    fields: [users.tierId],
+    references: [tiers.id],
+  }),
 }));
 
 export const accounts = pgTable(
@@ -93,6 +104,28 @@ export const authenticators = pgTable(
   })
 );
 
+//TIERS
+export const tiers = pgTable("tier", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  name: text("name").default("FREE").notNull(),
+  maxLists: integer("maxLists").default(3).notNull(),
+  maxPresentsPerList: integer("maxPresentsPerList").default(6).notNull(),
+});
+export const tiersRelations = relations(tiers, ({ many }) => ({
+  users: many(users),
+}));
+export const insertTierSchema = createInsertSchema(tiers);
+
+// SUBSCRIPTIONS
+export const subscriptions = pgTable("subscription", {
+  id: text("id").primaryKey(),
+  userId: text("user_id").notNull().unique(),
+  subscriptionId: text("subscription_id").notNull().unique(),
+  status: text("status").notNull(),
+});
+
 // PRESENTS
 export const presents = pgTable("present", {
   id: text("id")
@@ -135,6 +168,7 @@ export const lists = pgTable("list", {
   status: boolean("status").default(true),
   createdAt: timestamp("createdAt", { mode: "date" }),
   updatedAt: timestamp("updatedAt", { mode: "date" }),
+  eventDate: timestamp("eventDate", { mode: "date" }).notNull(),
 });
 export const listsRelations = relations(lists, ({ one, many }) => ({
   user: one(users, {
@@ -143,16 +177,9 @@ export const listsRelations = relations(lists, ({ one, many }) => ({
   }),
   presents: many(presents),
 }));
-export const insertListsSchema = createInsertSchema(lists);
-
-// GUEST
-export const guests = pgTable("guest", {
-  id: text("id")
-    .primaryKey()
-    .$defaultFn(() => crypto.randomUUID()),
-  numberId: text("numberId").notNull(),
+export const insertListsSchema = createInsertSchema(lists, {
+  eventDate: z.coerce.date(),
 });
-export const insertGuestSchema = createInsertSchema(guests);
 
 // PICKED PRESENTS
 export const pickedPresents = pgTable("pickedPresent", {
@@ -176,16 +203,3 @@ export const pickedPresentsRelations = relations(pickedPresents, ({ one }) => ({
     references: [users.id],
   }),
 }));
-
-export type User = InferSelectModel<typeof users>;
-export type Account = InferSelectModel<typeof accounts>;
-export type Session = InferSelectModel<typeof sessions>;
-export type VerificationToken = InferSelectModel<typeof verificationTokens>;
-export type Authenticator = InferSelectModel<typeof authenticators>;
-export type Present = InferSelectModel<typeof presents>;
-export type Guest = InferSelectModel<typeof guests>;
-export type List = InferSelectModel<typeof lists>;
-export type ListWithUserWithPresents = List & {
-  user: { name: string };
-  presents: Present[];
-};

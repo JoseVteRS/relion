@@ -3,7 +3,7 @@ import { zValidator } from "@hono/zod-validator";
 import { z } from "zod";
 import bcrypt from "bcryptjs";
 import { db } from "@/db/drizzle";
-import { users } from "@/db/schema";
+import { tiers, users } from "@/db/schema";
 import { eq } from "drizzle-orm";
 
 const app = new Hono().post(
@@ -21,7 +21,9 @@ const app = new Hono().post(
 
     const hashedPassword = await bcrypt.hash(password, 12);
 
+    const tier = await db.select().from(tiers).where(eq(tiers.name, "FREE"));
     const query = await db.select().from(users).where(eq(users.email, email));
+    
 
     if (query[0]) {
       return c.json({ error: "Email already exists" }, 400);
@@ -31,6 +33,7 @@ const app = new Hono().post(
       email,
       name,
       password: hashedPassword,
+      tierId: tier[0].id,
     });
 
     return c.json(null, 200);

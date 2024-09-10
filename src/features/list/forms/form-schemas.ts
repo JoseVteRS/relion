@@ -8,6 +8,7 @@ export const updateListFormSchema = insertListsSchema
     name: true,
     description: true,
     status: true,
+    eventDate: true,
   })
   .extend({
     presentIds: z.array(z.string()).optional(),

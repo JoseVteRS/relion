@@ -5,8 +5,11 @@ import "./globals.css";
 import { SessionProvider } from "next-auth/react";
 import SheetProvider from "@/components/providers/sheet-provider";
 import QueryProvider from "@/components/providers/query-provider";
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { auth } from "@/auth";
+import { Modals } from "@/components/common/modals";
+import { Navbar } from "@/components/common/navbar";
+import config from "../../config/config";
 
 const LazyToaster = dynamic(
   () => import("@/components/ui/sonner").then((mod) => mod.Toaster),
@@ -18,18 +21,18 @@ const LazyToaster = dynamic(
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Prezy",
+  title: config.appName,
   description:
-    "Crea listas de regalos para tus amigos y que te regalen lo que te gusta",
+    config.appDescription,
   keywords:
     "regalos, listas de regalos, amigos, regalos personalizados, cumpleaños, Navidad",
   authors: {
     name: "Jose Vicente",
   },
   openGraph: {
-    title: "Prezy",
+    title: config.appName,
     description:
-      "Crea listas de regalos para tus amigos y que te regalen lo que te gusta",
+      config.appDescription,
     url: "https://www.regalante.vercel.app",
     type: "website",
     images: [
@@ -37,16 +40,16 @@ export const metadata: Metadata = {
         url: "https://www.regalante.vercel.app/og-image.jpg",
         width: 800,
         height: 600,
-        alt: "Prezy Logo",
+        alt: `${config.appName} Logo`,
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
     site: "@JoseVteRiSo",
-    title: "Regalame",
+    title: config.appName,
     description:
-      "Crea listas de regalos para tus amigos y que te regalen lo que te gusta",
+      config.appDescription,
     images: "https://www.regalante.vercel.app/twitter-image.jpg",
   },
 };
@@ -64,6 +67,7 @@ export default async function RootLayout({
           <QueryProvider>
             <SheetProvider />
             <LazyToaster richColors position="top-center" />
+            <Modals />
             {children}
             <ReactQueryDevtools initialIsOpen={false} />
           </QueryProvider>

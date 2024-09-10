@@ -49,41 +49,52 @@ export const CardPresent = ({ present, onEdit }: CardPresentProps) => {
   return (
     <>
       <ConfirmDialog />
-      <Card className="w-full">
-        <CardHeader>
-          <div className="flex items-start">
-            <div className="flex flex-col flex-1 items-start gap-1">
-              <CardTitle className=" text-md">{present.name}</CardTitle>
-              <StatusBadge status={present.status} />
+      <Card className="w-full shadow-lg rounded-lg overflow-hidden">
+        <CardHeader className="p-4 border-b border-neutral-800">
+          <div className="flex items-start justify-between">
+            <div className="flex items-center justify-center gap-2 w-full">
+              <StatusBadge status={present.status || false} />
+              <CardTitle className="text-2xl leading-tight text-white">
+                {present.name}
+              </CardTitle>
             </div>
             <DropdownMenu>
               <DropdownMenuTrigger>
-                <EllipsisVerticalIcon className="w-4 h-4 text-neutral-400 hover:text-neutral-500" />
+                <EllipsisVerticalIcon className="w-6 h-6 text-neutral-400 hover:text-neutral-500" />
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="min-w-[150px] space-y-3">
-                <DropdownMenuItem onClick={() => onOpen(present.id)} className="text-md">
-                  <PencilIcon className="w-4 h-4 mr-2" />
+              <DropdownMenuContent className="bg-neutral-800 text-white">
+                <DropdownMenuItem
+                  onClick={() => onOpen(present.id)}
+                  className="flex items-center gap-2 hover:bg-neutral-600"
+                >
+                  <PencilIcon className="w-4 h-4" />
                   Editar
                 </DropdownMenuItem>
-                <DropdownMenuItem asChild className="text-md">
-                  <Link href={`/dashboard/presents/${present.id}`} >
-                    <EyeIcon className="w-4 h-4 mr-2" />
+                <DropdownMenuItem
+                  asChild
+                  className="flex items-center gap-2 hover:bg-neutral-600"
+                >
+                  <Link href={`/dashboard/presents/${present.id}`}>
+                    <EyeIcon className="w-4 h-4" />
                     Ver
                   </Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem className="bg-red-600 text-md" onClick={onDelete}>
-                  <TrashIcon className="w-4 h-4 mr-2" />
+                <DropdownMenuItem
+                  className="flex items-center gap-2 bg-red-600 hover:bg-red-500"
+                  onClick={onDelete}
+                >
+                  <TrashIcon className="w-4 h-4" />
                   Borrar
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-4">
           <div>
-            <div className="flex items-center gap-2">
-              <ListIcon className="size-4" />
-              <span className="text-xs">
+            <div className="flex items-center gap-2 text-neutral-100">
+              <ListIcon className="w-5 h-5" />
+              <span className="text-md">
                 {present.list ? (
                   present.list
                 ) : (
@@ -91,8 +102,8 @@ export const CardPresent = ({ present, onEdit }: CardPresentProps) => {
                 )}
               </span>
             </div>
-            <div className="mt-1 text-neutral-100 ">
-              <p className="text-xs truncate">{present.description}</p>
+            <div className="mt-1 text-neutral-100">
+              <p className="text-md truncate">{present.description}</p>
             </div>
           </div>
         </CardContent>

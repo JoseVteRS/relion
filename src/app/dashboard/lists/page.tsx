@@ -8,13 +8,24 @@ import { Plus } from "lucide-react";
 import { useGetUserLists } from "@/features/list/api/use-get-user-lists";
 import { CardListSkeleton } from "@/features/list/components/card-list-skeleton";
 import { ListNotFound } from "@/features/list/components/list-not-found";
-import { convertListDates } from "@/features/list/lib/utils";
-import { ListWithUserWithPresents } from "@/db/schema";
+import { lists as listSchema } from "@/db/schema";
+import { usePaywall } from "@/features/subscriptions/hooks/use-paywall";
+import { ListWithUserWithPresents } from "@/types/list-types";
+import { Suspense } from "react";
+import { ListsLoader } from "@/features/list/components/lists-loader";
 
 export default function ListPage() {
   const openNewlistSheet = useNewListStateSheet();
   const { data: lists, isLoading, isError } = useGetUserLists();
+  const { shouldBlock, hasReachedListLimit, triggerPaywall } = usePaywall();
 
+  const onCreateList = () => {
+    if (hasReachedListLimit || shouldBlock) {
+      triggerPaywall();
+      return;
+    }
+    openNewlistSheet.onOpen();
+  };
 
   const onDelete = () => {
     const ok = confirm();
@@ -36,21 +47,15 @@ export default function ListPage() {
           variant="ghost"
           size="icon"
           className="w-8 h-8 text-neutral-800 bg-primary text-sm"
-          onClick={() => openNewlistSheet.onOpen()}
+          onClick={onCreateList}
         >
           <Plus className="size-4" />
         </Button>
       </header>
 
-      <div className="flex flex-col gap-3">
-        {isLoading && (
-          <>
-            <CardListSkeleton />
-            <CardListSkeleton />
-            <CardListSkeleton />
-          </>
-        )}
-        {isError && <div>Error</div>}
+      <div className="h-full flex flex-col gap-3 overflow-hidden">
+        <ListsLoader isLoading={isLoading} />
+
         {lists?.length === 0 && <ListNotFound />}
         {lists?.map((list) => (
           <CardList
