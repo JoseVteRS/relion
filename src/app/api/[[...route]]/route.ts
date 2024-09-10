@@ -6,7 +6,6 @@ import authConfig from "@/auth.config";
 import list from "./lists";
 import presents from "./presents";
 import users from "./users";
-import guests from "./guests";
 import picks from "./picks";
 import subscriptions from "./subscriptions";
 
@@ -27,7 +26,6 @@ const routes = app
   .route("/lists", list)
   .route("/presents", presents)
   .route("/users", users)
-  .route("/guests", guests)
   .route("/picks", picks)
   .route("/subscriptions", subscriptions);
 
