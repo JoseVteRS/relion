@@ -70,7 +70,7 @@ export default {
           return null;
         }
 
-        return user;
+        return { ...user, tierId: user.tierId || "" };
       },
     }),
   ],

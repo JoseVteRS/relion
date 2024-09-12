@@ -6,13 +6,11 @@ import { CardList } from "@/features/list/components/card-list";
 import { useNewListStateSheet } from "@/features/list/hooks/use-new-list";
 import { Plus } from "lucide-react";
 import { useGetUserLists } from "@/features/list/api/use-get-user-lists";
-import { CardListSkeleton } from "@/features/list/components/card-list-skeleton";
 import { ListNotFound } from "@/features/list/components/list-not-found";
-import { lists as listSchema } from "@/db/schema";
 import { usePaywall } from "@/features/subscriptions/hooks/use-paywall";
 import { ListWithUserWithPresents } from "@/types/list-types";
-import { Suspense } from "react";
 import { ListsLoader } from "@/features/list/components/lists-loader";
+import { useMemo } from "react";
 
 export default function ListPage() {
   const openNewlistSheet = useNewListStateSheet();
@@ -39,6 +37,15 @@ export default function ListPage() {
     openNewlistSheet.onOpen();
   };
 
+  const formattedLists = useMemo(() => {
+    return lists?.map((list) => ({
+      ...list,
+      createdAt: list.createdAt ? new Date(list.createdAt) : null,
+      updatedAt: list.updatedAt ? new Date(list.updatedAt) : null,
+      eventDate: new Date(list.eventDate),
+    }));
+  }, [lists]);
+
   return (
     <div className="bg-background min-h-screen">
       <header className="flex items-center justify-between mb-10 sticky top-0 py-5 bg-background">
@@ -57,7 +64,7 @@ export default function ListPage() {
         <ListsLoader isLoading={isLoading} />
 
         {lists?.length === 0 && <ListNotFound />}
-        {lists?.map((list) => (
+        {formattedLists?.map((list) => (
           <CardList
             key={list.id}
             list={list as ListWithUserWithPresents}

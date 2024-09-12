@@ -1,5 +1,4 @@
 import { Sparkles } from "lucide-react";
-import { NewsletterForm } from "../newsletter/newsletter-form";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
