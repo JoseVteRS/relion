@@ -30,7 +30,7 @@ export default function PresentsPage() {
         </Button>
       </header>
 
-      <div className="flex flex-col gap-3">
+      <div className="h-full flex flex-col md:grid md:grid-cols-3 gap-3 overflow-hidden">
         {isLoading && (
           <>
             <CardPresentsSkeleton />

@@ -60,7 +60,7 @@ export default function ListPage() {
         </Button>
       </header>
 
-      <div className="h-full flex flex-col gap-3 overflow-hidden">
+      <div className="h-full flex flex-col md:grid md:grid-cols-3 gap-3 overflow-hidden">
         <ListsLoader isLoading={isLoading} />
 
         {lists?.length === 0 && <ListNotFound />}
