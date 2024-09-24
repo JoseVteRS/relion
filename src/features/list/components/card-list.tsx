@@ -22,7 +22,7 @@ import { useOpenListSheetState } from "../hooks/use-open-list";
 import { CopyToClipboard } from "@/components/common/copy-to-clipboard";
 import { ShareWhatsappButton } from "@/components/common/share-whatsapp-button";
 import { useDeleteList } from "../api/use-delete-list";
-import { ListWithUserWithPresents } from "@/types/list-types";
+import { ListWithUserWithPresents } from "@/types/types";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
 import { Separator } from "@/components/ui/separator";

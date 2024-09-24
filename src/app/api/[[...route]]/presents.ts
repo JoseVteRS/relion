@@ -101,7 +101,7 @@ const app = new Hono()
         link: presents.link,
         description: presents.description,
         status: presents.status,
-        list: lists.name,
+        list: lists,
       })
       .from(presents)
       .leftJoin(lists, eq(presents.listId, lists.id))

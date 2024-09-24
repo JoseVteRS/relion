@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { EyeIcon, EyeOffIcon } from "lucide-react";
+import { Circle, CircleDot, CircleGauge, EyeIcon, EyeOffIcon } from "lucide-react";
 
 interface StatusBadgeProps {
   status: boolean;
@@ -10,12 +10,14 @@ export const StatusBadge = ({ status, className }: StatusBadgeProps) => {
   const baseClasses = "text-xl flex items-center gap-1";
   
   return status ? (
-    <span className={cn(baseClasses, className)}>
-      <EyeIcon className={cn("size-5 text-primary", className)} />
-    </span>
+    <div className={cn(baseClasses, className)}>
+      <div className="h-3 w-3 bg-green-500 rounded-full" />
+      {/* <EyeIcon className={cn("size-5 text-primary", className)} /> */}
+    </div>
   ) : (
-    <span className={cn(baseClasses, className)}>
-      <EyeOffIcon className={cn("size-5 text-white/70", className)} />
-    </span>
+    <div className={cn(baseClasses, className)}>
+      <div className="h-3 w-3 bg-neutral-700 rounded-full" />
+      {/* <EyeOffIcon className={cn("size-5 text-white/70", className)} /> */}
+    </div>
   );
 };

@@ -8,7 +8,7 @@ import { Plus } from "lucide-react";
 import { useGetUserLists } from "@/features/list/api/use-get-user-lists";
 import { ListNotFound } from "@/features/list/components/list-not-found";
 import { usePaywall } from "@/features/subscriptions/hooks/use-paywall";
-import { ListWithUserWithPresents } from "@/types/list-types";
+import { ListWithUserWithPresents } from "@/types/types";
 import { ListsLoader } from "@/features/list/components/lists-loader";
 import { useMemo } from "react";
 

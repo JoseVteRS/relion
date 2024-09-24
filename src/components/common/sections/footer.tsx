@@ -7,9 +7,7 @@ export const Footer = () => {
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="text-center md:text-left">
-            <h3 className="text-2xl font-bold text-foreground mb-4">
-              RegaloConPropósito
-            </h3>
+            <h3 className="text-2xl font-bold text-foreground mb-4">Relion</h3>
             <p className="text-muted-foreground">
               Simplificando la organización de regalos para todas tus
               celebraciones.
@@ -44,26 +42,50 @@ export const Footer = () => {
             <ul className="space-y-1">
               <li>
                 <Button variant="link" size="sm" asChild>
-                  <Link href="/legal/terminos-y-condiciones-de-servicio">Términos y condiciones de servicio</Link>
+                  <Link href="/legal/terminos-y-condiciones-de-servicio">
+                    Términos y condiciones de servicio
+                  </Link>
                 </Button>
               </li>
               <li>
                 <Button variant="link" size="sm" asChild>
-                  <Link href="/legal/politicas-de-privacidad">Política de privacidad</Link>
+                  <Link href="/legal/politicas-de-privacidad">
+                    Política de privacidad
+                  </Link>
                 </Button>
               </li>
               <li>
                 <Button variant="link" size="sm" asChild>
-                  <Link href="/legal/politicas-de-cookies">Política de cookies</Link>
+                  <Link href="/legal/politicas-de-cookies">
+                    Política de cookies
+                  </Link>
                 </Button>
               </li>
             </ul>
           </div>
         </div>
-        <div className="mt-8 pt-8 border-t border-border text-center">
-          <p className="text-muted-foreground">
-            &copy; {new Date().getFullYear()} RegaloConPropósito.
-          </p>
+
+        <div className="w-full border-t border-border mt-5">
+          <div className="w-full text-center md:text-left mt-5 flex justify-center items-center">
+            <h4 className="text-md font-semibold text-foreground">
+              Made with ❤️ by&nbsp;
+            </h4>
+
+            <Link
+              className="text-primary hover:underline"
+              href="https://x.com/ImSilencio_"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              @ImSilencio_
+            </Link>
+          </div>
+
+          <div className="text-center">
+            <p className="text-muted-foreground">
+              &copy; {new Date().getFullYear()} Relion.
+            </p>
+          </div>
         </div>
       </div>
     </footer>

@@ -19,11 +19,15 @@ import { StatusBadge } from "@/components/common/status-badge";
 import { useDeletePresent } from "../api/use-delete-present";
 import { useConfirm } from "../../../../hooks/use-confirm";
 import { useOpenPresentSheetState } from "../hooks/use-open-present";
-import { Button } from "@/components/ui/button";
+import { List, Present } from "@/types/types";
 import Link from "next/link";
 
+export type PresentWithList = Present & {
+  list: List;
+};
+
 interface CardPresentProps {
-  present: any;
+  present: PresentWithList;
   onEdit: () => void;
   onDelete?: () => void;
 }
@@ -51,9 +55,9 @@ export const CardPresent = ({ present, onEdit }: CardPresentProps) => {
       <ConfirmDialog />
       <Card className="w-full shadow-lg rounded-lg overflow-hidden">
         <CardHeader className="p-4 border-b border-neutral-800">
-          <div className="flex items-start justify-between">
+          <div className="flex items-center justify-between">
+            <StatusBadge status={present.status || false} />
             <div className="flex items-center justify-center gap-2 w-full">
-              <StatusBadge status={present.status || false} />
               <CardTitle className="text-2xl leading-tight text-white">
                 {present.name}
               </CardTitle>
@@ -95,8 +99,8 @@ export const CardPresent = ({ present, onEdit }: CardPresentProps) => {
             <div className="flex items-center gap-2 text-neutral-100">
               <ListIcon className="w-5 h-5" />
               <span className="text-md">
-                {present.list ? (
-                  present.list
+                {!!present?.list ? (
+                  <span>{present.list.name}</span>
                 ) : (
                   <span className="text-red-400">Sin lista</span>
                 )}
@@ -105,6 +109,18 @@ export const CardPresent = ({ present, onEdit }: CardPresentProps) => {
             <div className="mt-1 text-neutral-100">
               <p className="text-md truncate">{present.description}</p>
             </div>
+            {!!present.link && (
+              <div>
+                <Link
+                className="text-xs text-neutral-300 hover:text-neutral-400"
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  href={present.link}
+                >
+                  {present.link}
+                </Link>
+              </div>
+            )}
           </div>
         </CardContent>
       </Card>
