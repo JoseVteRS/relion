@@ -21,36 +21,60 @@ const LazyToaster = dynamic(
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: config.appName,
-  description:
-    config.appDescription,
-  keywords:
-    "regalos, listas de regalos, amigos, regalos personalizados, cumpleaños, Navidad",
-  authors: {
-    name: "Jose Vicente",
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_APP_URL || "https://milistaderegalos.com"
+  ),
+  title: {
+    default: config.appName,
+    template: `%s | ${config.appName}`,
   },
+  description: config.appDescription,
+  keywords: [
+    "regalos",
+    "listas de regalos",
+    "amigos",
+    "regalos personalizados",
+    "cumpleaños",
+    "Navidad",
+    "eventos",
+    "deseos",
+  ],
+  authors: [{ name: "Jose Vicente" }],
+  creator: "Jose Vicente",
   openGraph: {
-    title: config.appName,
-    description:
-      config.appDescription,
-    url: "https://www.regalante.vercel.app",
     type: "website",
+    locale: "es_ES",
+    url: "/",
+    siteName: config.appName,
+    title: config.appName,
+    description: config.appDescription,
     images: [
       {
-        url: "https://www.regalante.vercel.app/og-image.jpg",
-        width: 800,
-        height: 600,
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
         alt: `${config.appName} Logo`,
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    site: "@JoseVteRiSo",
+    site: "@ImSilencio_",
+    creator: "@ImSilencio_",
     title: config.appName,
-    description:
-      config.appDescription,
-    images: "https://www.regalante.vercel.app/twitter-image.jpg",
+    description: config.appDescription,
+    images: ["/twitter-image.jpg"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
 };
 
