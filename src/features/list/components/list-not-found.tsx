@@ -8,7 +8,7 @@ export const ListNotFound = () => {
     <div>
       <header className="">
         <h2 className="text-2xl font-semibold">
-          Todavía no has creado ninguana 
+          Todavía no has creado ninguna 
           <span className="text-primary"> lista</span>
         </h2>
       </header>
