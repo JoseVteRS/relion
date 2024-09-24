@@ -5,7 +5,7 @@ const config = {
   appName: "Relion",
   // REQUIRED: a short description of your app for SEO tags (can be overwritten)
   appDescription:
-    "The NextJS boilerplate with all you need to build your SaaS, or any other web app.",
+    "Crea y comparte listas de regalos personalizadas para cumpleaños, bodas y eventos especiales. Organiza tus deseos y facilita a tus amigos y familiares la elección del regalo perfecto.",
   // REQUIRED (no https://, not trialing slash at the end, just the naked domain)
   domainName: "saasandfast.com",
   crisp: {
