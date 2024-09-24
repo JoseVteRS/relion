@@ -12,7 +12,6 @@ const app = new Hono()
   .get("/count-by-user", verifyAuth(), async (c) => {
     const auth = c.get("authUser");
     const authUserId = auth?.token?.id;
-    console.log({ authUserId });
 
     if (!authUserId) {
       return c.json({ error: ErrorList.NotFound }, 404);

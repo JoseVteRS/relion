@@ -32,7 +32,6 @@ export const usePaywall = () => {
 
   const getListLimit = () => {
     if (isLoadingTier || !tier) return DEFAULT_MAX_LISTS;
-    console.log(tier.name);
     return hasActiveSubscription ? tier.maxLists : DEFAULT_MAX_LISTS;
   };
 

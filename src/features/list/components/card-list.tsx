@@ -51,9 +51,7 @@ export const CardList = ({ list, onEdit }: CardListProps) => {
 
   const deleteList = useDeleteList(list.id);
   const { onOpen } = useOpenListSheetState();
-  const count = useGetCountLists()
-
-  console.log(count)
+  const count = useGetCountLists();
 
   const onDelete = async () => {
     const ok = await confirm();
@@ -68,9 +66,9 @@ export const CardList = ({ list, onEdit }: CardListProps) => {
       <DialogConfirm />
       <Card className="w-full shadow-lg rounded-lg overflow-hidden">
         <CardHeader className="p-4 border-b border-neutral-800">
-          <div className="flex items-start justify-between">
+          <div className="flex justify-between items-center">
+            <StatusBadge status={list.status || false} />
             <div className="flex items-center justify-center gap-2 w-full">
-              <StatusBadge status={list.status || false} />
               <CardTitle className="text-2xl leading-tight text-white">
                 {list.name}
               </CardTitle>
