@@ -1,10 +1,10 @@
 import { Hono } from "hono";
 import { verifyAuth } from "@hono/auth-js";
-import { insertListsSchema, lists } from "@/db/schema";
+import { insertListsSchema, lists, presents } from "@/db/schema";
 import { db } from "@/db/drizzle";
 import { zValidator } from "@hono/zod-validator";
 import { z } from "zod";
-import { and, count, countDistinct, eq, not } from "drizzle-orm";
+import { and, asc, count, countDistinct, desc, eq, not } from "drizzle-orm";
 import { ErrorList } from "@/features/list/errors-enum";
 import { ErrorMessage } from "@/lib/error-messages";
 
@@ -24,7 +24,6 @@ const app = new Hono()
 
     return c.json({ data: coutLists });
   })
-
   .get(
     "/list/:id",
     verifyAuth(),
@@ -50,6 +49,18 @@ const app = new Hono()
             columns: {
               name: true,
             },
+          },
+          presents: {
+            columns: {
+              id: true,
+              name: true,
+              description: true,
+              isPicked: true,
+              link: true,
+              createdAt: true,
+              updatedAt: true,
+            },
+            orderBy: asc(presents.isPicked),
           },
         },
       });

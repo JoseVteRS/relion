@@ -20,7 +20,7 @@ export const ErrorMessageComponent: React.FC<ErrorMessageProps> = ({
 
   return (
     <div className="flex items-center gap-2 text-red-500 mt-2">
-      <AlertCircle size={16} />
+      <AlertCircle className="size-5" />
       <p className="text-sm">{message}</p>
     </div>
   );

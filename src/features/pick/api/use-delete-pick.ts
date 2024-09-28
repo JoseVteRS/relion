@@ -28,11 +28,10 @@ export const useDeletePick = (presentId?: string, listId?: string) => {
       );
 
       // Actualización optimista de la UI
-      // Actualización optimista de la UI
       queryClient.setQueryData(
         qk.lists.publicListDetails(listId!),
         (oldData: any) => {
-          oldData.presentsData.map((present: any) => {
+          oldData.listData.presents.map((present: any) => {
             if (present.id === presentId) {
               present.isPicked = false;
             }

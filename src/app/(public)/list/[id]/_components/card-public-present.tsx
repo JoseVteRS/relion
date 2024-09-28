@@ -47,53 +47,36 @@ export const CardPublicPresent = ({
 
   return (
     <Card
-      className={cn("w-full", present.isPicked && "opacity-60 border-dashed", present.pickedBy === authUserId && "border-green-500")}
+      className={cn(
+        "w-full",
+        present.isPicked && "opacity-60 border-dashed",
+        present.pickedBy === authUserId && "border-green-500"
+      )}
     >
-      <CardHeader>
+      <CardHeader className="px-6 py-6 pb-2 sm:px-6 sm:py-6">
         <div className="flex items-start">
-          <div className="flex flex-col flex-1 items-start gap-1">
-            <CardTitle className=" text-2xl">{present.name}</CardTitle>
-          </div>
           <div>
-            {present.isPicked ? (
-              <Button
-                size="sm"
-                variant="outline"
-                className="flex items-center gap-2"
-                onClick={onUnPick}
-              >
-                <PackageCheck className="text-red-500" />
-                <span className="text-xs">Pillado</span>
-              </Button>
-            ) : (
-              <Button
-                size="sm"
-                variant="outline"
-                className="flex items-center gap-2"
-                onClick={onPick}
-              >
-                <PackageOpen className="text-green-500" />
-                <span className="text-xs">¡Me lo pido!</span>
-              </Button>
-            )}
+            <CardTitle className="text-xl font-bold">
+              {present.name}
+            </CardTitle>
           </div>
         </div>
       </CardHeader>
       <CardContent>
         <div>
-          <div className="mt-1 text-neutral-100 ">
-            <p className="text-md leading-7">{present.description}</p>
+          <div className=" text-neutral-300 ">
+            <p className="text-sm leading-7">{present.description}</p>
           </div>
         </div>
       </CardContent>
 
-      {present.link && (
-        <CardFooter className="m-5">
-          <div className="w-full flex items-center justify-end  gap-2">
+      <CardFooter className="flex flex-col gap-2">
+        {present.link && (
+          <div className="w-full flex flex-row items-center justify-start  gap-2">
             <Button
-              className="text-xs flex items-center gap-2"
+              className="text-xs underline md:no-underline"
               size="sm"
-              variant="outline"
+              variant="link"
               asChild
             >
               <Link
@@ -106,8 +89,30 @@ export const CardPublicPresent = ({
               </Link>
             </Button>
           </div>
-        </CardFooter>
-      )}
+        )}
+        <div className="w-full">
+          {present.isPicked ? (
+            <Button
+              variant="secondary"
+              className="flex items-center gap-2 w-full bg-red-500/20"
+              onClick={onUnPick}
+            >
+              <PackageCheck className="text-red-500" />
+              {/* TODO: Cambiar texto si el regalo esta pillado por el usuario logueado */}
+              <span className="text-xs">Pillado</span>
+            </Button>
+          ) : (
+            <Button
+              variant="secondary"
+              className="flex items-center gap-2 w-full"
+              onClick={onPick}
+            >
+              <PackageOpen className="text-green-500" />
+              <span className="text-xs">¡Me lo pido!</span>
+            </Button>
+          )}
+        </div>
+      </CardFooter>
     </Card>
   );
 };

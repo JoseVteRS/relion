@@ -17,6 +17,9 @@ export const useCreatePick = (presentId?: string, listId?: string) => {
       const response = await client.api.picks[":presentId"].$post({
         param: { presentId },
       });
+
+      console.log({ presentId });
+
       return await response.json();
     },
     onMutate: async () => {
@@ -31,7 +34,8 @@ export const useCreatePick = (presentId?: string, listId?: string) => {
       queryClient.setQueryData(
         qk.lists.publicListDetails(listId!),
         (oldData: any) => {
-          oldData.presentsData.map((present: any) => {
+          console.log({ oldData });
+          oldData.listData.presents.map((present: any) => {
             if (present.id === presentId) {
               present.isPicked = true;
             }

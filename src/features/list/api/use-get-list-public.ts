@@ -9,39 +9,25 @@ export const usePublicList = (listId?: string) => {
     retry: false,
     queryFn: async () => {
       try {
-        const [listResponse, presentsResponse] = await Promise.all([
-          client.api.lists.list[":id"].$get({
-            param: { id: listId },
-          }),
-          client.api.presents["list-presents"][":listId"].$get({
-            param: {
-              listId: listId,
-            },
-          }),
-        ]);
+        const response = await client.api.lists.list[":id"].$get({
+          param: { id: listId },
+        });
 
-        if (!listResponse.ok) {
-          if (listResponse.status === 401) {
+        if (!response.ok) {
+          if (response.status === 401) {
             throw new Error(ErrorMessage.user.Unauthorized);
           }
-          throw new Error(
-            `Error al obtener la lista: ${listResponse.statusText}`
-          );
-        }
-
-        if (!presentsResponse.ok) {
-          if (presentsResponse.status === 401) {
-            throw new Error(ErrorMessage.user.Unauthorized);
+          if (response.status === 404) {
+            throw new Error(ErrorMessage.lists.NotFoundLists);
           }
-          throw new Error(
-            `Error al obtener los regalos: ${presentsResponse.statusText}`
-          );
+          throw new Error(`Error al obtener la lista: aasdf`);
         }
 
-        const { data: listData } = await listResponse.json();
-        const { data: presentsData } = await presentsResponse.json();
+        const { data: listData } = await response.json();
 
-        return { listData, presentsData };
+        console.log({ listData });
+
+        return { listData };
       } catch (error) {
         if (error instanceof Error) {
           throw new Error(`${error.message}`);

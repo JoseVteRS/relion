@@ -1,33 +1,30 @@
 "use client";
 
-import { ListIcon, Loader2, UserIcon } from "lucide-react";
+import {
+  Loader2,
+} from "lucide-react";
 import { CardPublicPresent } from "./card-public-present";
-import { useMemo } from "react";
 import { CardPresentsSkeleton } from "@/features/present/components/card-presents-skeleton";
 import { usePublicList } from "@/features/list/api/use-get-list-public";
-import { NoSee } from "./no-see";
 import { ErrorMessageComponent } from "@/components/common/error-message";
-import { useSession } from "next-auth/react";
+import { HeaderListPublic } from "./header-list-public";
+import { parseISO } from "date-fns";
+import { ListWithUserWithPresents } from "@/types/types";
 
 interface ListProps {
   listId?: string;
 }
 
+const parseDates = (list: any): ListWithUserWithPresents => ({
+  ...list,
+  createdAt: list.createdAt ? parseISO(list.createdAt) : null,
+  updatedAt: list.updatedAt ? parseISO(list.updatedAt) : null,
+  eventDate: parseISO(list.eventDate),
+});
+
 export const List = ({ listId }: ListProps) => {
-  const authUser = useSession();
   const { data, isLoading, isError, error } = usePublicList(listId);
   const list = data?.listData;
-  const presentsInList = data?.presentsData;
-
-  const isUserOwner = useMemo(() => {
-    const userId = authUser.data?.user?.id;
-    const listOwnerId = list?.userId;
-    return (
-      userId !== undefined &&
-      listOwnerId !== undefined &&
-      userId === listOwnerId
-    );
-  }, [authUser.data?.user?.id, list?.userId]);
 
   if (isLoading) {
     return (
@@ -37,31 +34,22 @@ export const List = ({ listId }: ListProps) => {
     );
   }
 
-  if (isUserOwner) {
-    return <NoSee />;
-  }
 
   if (isError) {
     return (
-      <ErrorMessageComponent
-        message={error.message}
-        callbackUrl={`${process.env.NEXT_PUBLIC_APP_URL}/list/${listId}`}
-      />
+      <div className="flex justify-center items-center bg-red-800/30 p-5 rounded">
+        <ErrorMessageComponent
+          message={error.message}
+          callbackUrl={`${process.env.NEXT_PUBLIC_APP_URL}/list/${listId}`}
+        />
+      </div>
     );
   }
 
   return (
     <div className="relative">
-      <header className="flex flex-col items-start justify-start gap-2">
-        <div className="flex items-center gap-2">
-          <ListIcon />
-          <span className="text-lg font-bold">{list?.name}</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <UserIcon />
-          <span className="text-lg font-bold">{list?.user.name}</span>
-        </div>
-      </header>
+      {list && <HeaderListPublic list={parseDates(list)} />}
+
       <div className="mt-5 flex flex-col gap-2">
         {isLoading && (
           <>
@@ -71,7 +59,7 @@ export const List = ({ listId }: ListProps) => {
           </>
         )}
 
-        {presentsInList?.map((present) => (
+        {list?.presents?.map((present) => (
           <CardPublicPresent
             key={present.id}
             present={present}
