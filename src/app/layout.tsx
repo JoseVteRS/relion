@@ -8,15 +8,15 @@ import QueryProvider from "@/components/providers/query-provider";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { auth } from "@/auth";
 import { Modals } from "@/components/common/modals";
-import { Navbar } from "@/components/common/navbar";
+import {Toaster} from "@/components/ui/sonner";
 import config from "../../config/config";
 
-const LazyToaster = dynamic(
-  () => import("@/components/ui/sonner").then((mod) => mod.Toaster),
-  {
-    ssr: false,
-  }
-);
+// const LazyToaster = dynamic(
+//   () => import("@/components/ui/sonner").then((mod) => mod.Toaster),
+//   {
+//     ssr: false,
+//   }
+// );
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -90,7 +90,7 @@ export default async function RootLayout({
         <body className={`${inter.className}`}>
           <QueryProvider>
             <SheetProvider />
-            <LazyToaster richColors position="top-center" />
+            <Toaster richColors position="top-center" />
             <Modals />
             {children}
             <ReactQueryDevtools initialIsOpen={false} />

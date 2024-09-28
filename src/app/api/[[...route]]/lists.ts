@@ -57,6 +57,7 @@ const app = new Hono()
               description: true,
               isPicked: true,
               link: true,
+              pickedBy: true,
               createdAt: true,
               updatedAt: true,
             },

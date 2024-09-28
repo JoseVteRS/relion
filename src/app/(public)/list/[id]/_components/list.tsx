@@ -1,8 +1,6 @@
 "use client";
 
-import {
-  Loader2,
-} from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { CardPublicPresent } from "./card-public-present";
 import { CardPresentsSkeleton } from "@/features/present/components/card-presents-skeleton";
 import { usePublicList } from "@/features/list/api/use-get-list-public";
@@ -10,6 +8,8 @@ import { ErrorMessageComponent } from "@/components/common/error-message";
 import { HeaderListPublic } from "./header-list-public";
 import { parseISO } from "date-fns";
 import { ListWithUserWithPresents } from "@/types/types";
+import { useSession } from "next-auth/react";
+import { useMemo } from "react";
 
 interface ListProps {
   listId?: string;
@@ -23,6 +23,9 @@ const parseDates = (list: any): ListWithUserWithPresents => ({
 });
 
 export const List = ({ listId }: ListProps) => {
+  const session = useSession();
+  const authUserId = useMemo(() => session?.data?.user?.id, [session]);
+
   const { data, isLoading, isError, error } = usePublicList(listId);
   const list = data?.listData;
 
@@ -33,7 +36,6 @@ export const List = ({ listId }: ListProps) => {
       </div>
     );
   }
-
 
   if (isError) {
     return (
@@ -64,6 +66,7 @@ export const List = ({ listId }: ListProps) => {
             key={present.id}
             present={present}
             listId={listId}
+            authUserId={authUserId}
           />
         ))}
       </div>

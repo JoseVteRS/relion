@@ -5,7 +5,7 @@ import { InferResponseType } from "hono";
 import { toast } from "sonner";
 
 type ResponseType = InferResponseType<
-  (typeof client.api.picks)[":presentId"]["$delete"]
+  (typeof client.api.picks)[":presentId"]["$patch"]
 >;
 
 // TODO: Invalidar el query del regalo y no de toda la lista
@@ -14,10 +14,11 @@ export const useDeletePick = (presentId?: string, listId?: string) => {
 
   const mutation = useMutation<ResponseType, Error>({
     mutationFn: async () => {
-      const response = await client.api.picks[":presentId"].$delete({
+      const response = await client.api.picks[":presentId"].$patch({
         param: { presentId },
       });
-      return await response.json();
+      const data = await response.json();
+      return data;
     },
     onMutate: async () => {
       await queryClient.cancelQueries({
@@ -48,8 +49,8 @@ export const useDeletePick = (presentId?: string, listId?: string) => {
         queryKey: qk.lists.publicListDetails(listId!),
       });
     },
-    onError: (error) => {
-      toast.error(`Failed to pick present ${error.message}`);
+    onError: () => {
+      toast.error("No puedes desmarcar un regalo que no hayas escogido");
     },
   });
 

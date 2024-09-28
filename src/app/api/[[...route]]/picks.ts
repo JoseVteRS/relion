@@ -1,8 +1,9 @@
 import { db } from "@/db/drizzle";
 import { pickedPresents, presents } from "@/db/schema";
+import { ErrorMessage } from "@/lib/error-messages";
 import { getAuthUser } from "@hono/auth-js";
 import { zValidator } from "@hono/zod-validator";
-import { and, eq, not } from "drizzle-orm";
+import { and, eq, isNull, not } from "drizzle-orm";
 import { Hono } from "hono";
 import { z } from "zod";
 
@@ -16,41 +17,46 @@ const app = new Hono()
       const { presentId } = c.req.valid("param");
 
       if (!authUserId) {
-        return c.json({ error: "Not found" }, 404);
+        return c.json({ error: ErrorMessage.user.Unauthorized }, 404);
       }
 
       // Comprobar que el usuario logueado no sea el propietario del present
-      const present = await db.query.presents.findFirst({
-        where: and(
-          eq(presents.id, presentId),
-          not(eq(presents.userId, authUserId)),
-          eq(presents.isPicked, false)
-        ),
-      });
+      // const present = await db.query.presents.findFirst({
+      //   where: and(
+      //     eq(presents.id, presentId),
+      //     eq(presents.userId, authUserId),
+      //     eq(presents.isPicked, false),
+      //     not(eq(presents.pickedBy, authUserId))
+      //   ),
+      // });
 
-      if (!present) {
-        return c.json(
-          { error: "No se ha podido encontrar el regalo o ya ha sido elegido" },
-          404
-        );
-      }
+      // if (present) {
+      //   return c.json(
+      //     { error: "No se ha podido encontrar el regalo o ya ha sido elegido" },
+      //     404
+      //   );
+      // }
 
       // Crear el pick
-      await db.insert(pickedPresents).values({
-        presentId: present.id,
-        userId: authUserId,
-      });
-
-      // Actualizar la propiedad isPicked a true en la tabla presents
       await db
         .update(presents)
-        .set({ isPicked: true })
-        .where(eq(presents.id, presentId));
+        .set({
+          pickedBy: authUserId,
+          isPicked: true,
+        })
+        .where(
+          and(
+            eq(presents.id, presentId),
+            isNull(presents.pickedBy),
+            eq(presents.isPicked, false),
+            not(eq(presents.userId, authUserId))
+          )
+        );
 
-      return c.json({ present });
+      return c.json({ presentId });
     }
   )
-  .delete(
+  .patch(
     "/:presentId",
     zValidator("param", z.object({ presentId: z.string() })),
     async (c) => {
@@ -62,43 +68,45 @@ const app = new Hono()
         return c.json({ error: "Not found" }, 404);
       }
 
-      // Comprobar que el usuario logueado no sea el propietario del present
-      const present = await db.query.presents.findFirst({
-        where: and(
-          eq(presents.id, presentId),
-          not(eq(presents.userId, authUserId)),
-          eq(presents.isPicked, true)
-        ),
-      });
+      // Comprobar que el regalo existe, no está elegido,
+      // y que el usuario actual no es el propietario
+      // const present = await db.query.presents.findFirst({
+      //   where: and(
+      //     eq(presents.id, presentId),
+      //     eq(presents.isPicked, false),
+      //     not(eq(presents.userId, authUserId)),
+      //     eq(presents.pickedBy, authUserId)
+      //   ),
+      // });
 
-      if (!present) {
-        return c.json(
-          { error: "No se ha podido encontrar el regalo o ya ha sido elegido" },
-          404
-        );
-      }
+      // if (present) {
+      //   return c.json(
+      //     {
+      //       error:
+      //         "No se ha podido encontrar el regalo, ya ha sido elegido, o es tu propio regalo",
+      //     },
+      //     404
+      //   );
+      // }
 
-      // Crear el pick
-      const pickedDeleted = await db
-        .delete(pickedPresents)
+      // Eliminar el pick
+      const presentUpdated = await db
+        .update(presents)
+        .set({ pickedBy: null, isPicked: false })
         .where(
           and(
-            eq(pickedPresents.presentId, presentId),
-            eq(pickedPresents.userId, authUserId)
+            eq(presents.id, presentId),
+            eq(presents.pickedBy, authUserId),
+            eq(presents.isPicked, true)
           )
-        );
+        )
+        .returning();
 
-      if (!pickedDeleted) {
+      if (presentUpdated) {
         return c.json({ error: "No se ha podido dejar el regalo libre" }, 404);
       }
 
-      // Actualizar la propiedad isPicked a true en la tabla presents
-      await db
-        .update(presents)
-        .set({ isPicked: false })
-        .where(eq(presents.id, presentId));
-
-      return c.json({ present });
+      return c.json({ presentId });
     }
   );
 

@@ -25,15 +25,14 @@ import Link from "next/link";
 interface CardPublicPresentProps {
   present: any;
   listId?: string;
+  authUserId?: string;
 }
 
 export const CardPublicPresent = ({
   present,
   listId,
+  authUserId,
 }: CardPublicPresentProps) => {
-  const authUser = useSession();
-  const authUserId = authUser.data?.user?.id;
-
   const pick = useCreatePick(present.id, listId);
   const unpick = useDeletePick(present.id, listId);
 
@@ -45,20 +44,22 @@ export const CardPublicPresent = ({
     unpick.mutate(undefined);
   };
 
+  const isPickedOwner = present.pickedBy === authUserId;
+
+  console.log({ pickedBy: present.pickedBy, authUserId });
+
   return (
     <Card
       className={cn(
         "w-full",
-        present.isPicked && "opacity-60 border-dashed",
-        present.pickedBy === authUserId && "border-green-500"
+        present.isPicked && "opacity-60",
+        present.pickedBy === authUserId && "border-dashed border-green-500/50"
       )}
     >
       <CardHeader className="px-6 py-6 pb-2 sm:px-6 sm:py-6">
         <div className="flex items-start">
           <div>
-            <CardTitle className="text-xl font-bold">
-              {present.name}
-            </CardTitle>
+            <CardTitle className="text-xl font-bold">{present.name}</CardTitle>
           </div>
         </div>
       </CardHeader>
@@ -96,6 +97,7 @@ export const CardPublicPresent = ({
               variant="secondary"
               className="flex items-center gap-2 w-full bg-red-500/20"
               onClick={onUnPick}
+              disabled={!isPickedOwner}
             >
               <PackageCheck className="text-red-500" />
               {/* TODO: Cambiar texto si el regalo esta pillado por el usuario logueado */}

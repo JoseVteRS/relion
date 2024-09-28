@@ -139,6 +139,9 @@ export const presents = pgTable("present", {
   description: text("description"),
   isPicked: boolean("isPicked").default(false),
   link: text("link"),
+  pickedBy: text("pickedBy").references(() => users.id, {
+    onDelete: "set null",
+  }),
   status: boolean("status").default(true),
   createdAt: timestamp("createdAt", { mode: "date" }),
   updatedAt: timestamp("updatedAt", { mode: "date" }),
@@ -151,6 +154,10 @@ export const presentsRelations = relations(presents, ({ one }) => ({
   list: one(lists, {
     fields: [presents.listId],
     references: [lists.id],
+  }),
+  pickedBy: one(users, {
+    fields: [presents.pickedBy],
+    references: [users.id],
   }),
 }));
 export const insertPresentSchema = createInsertSchema(presents);

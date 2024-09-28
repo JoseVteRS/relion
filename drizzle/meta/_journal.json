@@ -29,6 +29,13 @@
       "when": 1725508170854,
       "tag": "0003_greedy_spyke",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1727522133294,
+      "tag": "0004_young_talisman",
+      "breakpoints": true
     }
   ]
 }
