@@ -26,15 +26,15 @@ export const NavbarDashboard = () => {
     <nav className="bg-neutral-950 py-2">
       <div className="container mx-auto flex items-center justify-between gap-4">
         {links.map((link) => (
-          <div key={link.href} className="flex flex-col items-center gap-2">
+          <div key={link.href} className="flex flex-col items-center gap-1">
             <Button
               asChild
               variant="ghost"
               size="icon"
               className={cn(
-                "hover:bg-primary/20 text-white bg-neutral-900",
+                "hover:bg-primary/20 text-white ",
                 isActive(link.href) &&
-                  "bg-primary/20 text-neutral-100 hover:text-neutral-100"
+                  "bg-primary/10 text-neutral-100 hover:text-neutral-100"
               )}
             >
               <Link href={link.href} className="flex flex-col">
