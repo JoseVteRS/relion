@@ -10,9 +10,9 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const links = [
-  { label: "Dashboard", href: "/dashboard", icon: <HomeIcon /> },
-  { label: "Presents", href: "/dashboard/presents", icon: <GiftIcon /> },
-  { label: "Lists", href: "/dashboard/lists", icon: <ListIcon /> },
+  { label: "Escritorio", href: "/dashboard", icon: <HomeIcon /> },
+  { label: "Regalos", href: "/dashboard/presents", icon: <GiftIcon /> },
+  { label: "Listas", href: "/dashboard/lists", icon: <ListIcon /> },
   // { label: "Settings", href: "/dashboard/settings", icon: <SettingsIcon /> },
 ];
 
@@ -26,19 +26,23 @@ export const NavbarDashboard = () => {
     <nav className="bg-neutral-950 py-2">
       <div className="container mx-auto flex items-center justify-between gap-4">
         {links.map((link) => (
-          <Button
-            asChild
-            key={link.href}
-            variant="ghost"
-            size="icon"
-            className={cn(
-              "hover:bg-primary text-white bg-neutral-900",
-              isActive(link.href) &&
-                "bg-primary text-neutral-900 hover:text-neutral-900"
-            )}
-          >
-            <Link href={link.href}>{link.icon}</Link>
-          </Button>
+          <div key={link.href} className="flex flex-col items-center gap-2">
+            <Button
+              asChild
+              variant="ghost"
+              size="icon"
+              className={cn(
+                "hover:bg-primary/20 text-white bg-neutral-900",
+                isActive(link.href) &&
+                  "bg-primary/20 text-neutral-100 hover:text-neutral-100"
+              )}
+            >
+              <Link href={link.href} className="flex flex-col">
+                {link.icon}
+              </Link>
+            </Button>
+            <div className="text-xs font-bold">{link.label}</div>
+          </div>
         ))}
         <UserButton />
       </div>
