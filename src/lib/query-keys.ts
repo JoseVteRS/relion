@@ -5,6 +5,7 @@ export const qk = {
     userListDetails: (id: string) => ["user-list-details", id],
     publicLists: ["public-lists"],
     publicListDetails: (id: string) => ["public-list-details", id],
+    privateListDetails: (id: string) => ["private-list-details", id],
   },
   presents: {
     userPresents: ["user-presents"],

@@ -9,6 +9,39 @@ import { ErrorList } from "@/features/list/errors-enum";
 import { ErrorMessage } from "@/lib/error-messages";
 
 const app = new Hono()
+  .get(
+    "/list-private/:id",
+    zValidator("param", z.object({ id: z.optional(z.string()) })),
+    verifyAuth(),
+    async (c) => {
+      const { id } = c.req.valid("param");
+      const auth = c.get("authUser");
+      const authUserId = auth?.token?.id;
+
+      if (!authUserId) {
+        return c.json({ error: ErrorList.NotFound }, 404);
+      }
+
+      if (!id) {
+        return c.json({ error: ErrorList.InvalidInput }, 400);
+      }
+
+      console.log({ authUserId, id });
+
+      const list = await db.query.lists.findFirst({
+        where: and(eq(lists.id, id), eq(lists.userId, authUserId)),
+        with: {
+          presents: true,
+        },
+      });
+
+      if (!list) {
+        return c.json({ error: ErrorList.NotFound }, 404);
+      }
+
+      return c.json({ data: list });
+    }
+  )
   .get("/count-by-user", verifyAuth(), async (c) => {
     const auth = c.get("authUser");
     const authUserId = auth?.token?.id;
