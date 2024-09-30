@@ -26,6 +26,8 @@ import { Button } from "@/components/ui/button";
 
 interface CardListProps {
   list: ListWithUserWithPresents;
+  onDelete: () => void;
+  onEdit: () => void;
 }
 
 export const CardList = ({ list }: CardListProps) => {
