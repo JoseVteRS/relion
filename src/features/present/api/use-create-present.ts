@@ -20,13 +20,17 @@ export const useCreatePresent = () => {
 
       return await response.json();
     },
-    onSuccess: () => {
+    onSuccess: ({ data }) => {
+      console.log({ data });
       toast.success("Present created successfully");
       queryClient.invalidateQueries({
         queryKey: qk.presents.userPresents,
       });
       queryClient.invalidateQueries({
         queryKey: qk.presents.publicPresents,
+      });
+      queryClient.invalidateQueries({
+        queryKey: qk.lists.privateListDetails(data.listId as string),
       });
     },
     onError: () => {

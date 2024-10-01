@@ -106,7 +106,7 @@ const app = new Hono()
       .from(presents)
       .leftJoin(lists, eq(presents.listId, lists.id))
       .where(eq(presents.userId, authUserId))
-      .orderBy(desc(presents.createdAt));
+      .orderBy(desc(presents.name));
 
     if (!data) {
       return c.json({ error: "Not found" }, 404);
@@ -211,7 +211,7 @@ const app = new Hono()
 
       const [data] = await db
         .update(presents)
-        .set(values)
+        .set({ ...values, updatedAt: new Date() })
         .where(and(eq(presents.id, id), eq(presents.userId, authUserId)))
         .returning();
 

@@ -69,22 +69,13 @@ export const CardPresent = ({ present, onEdit }: CardPresentProps) => {
               <DropdownMenuContent className="bg-neutral-800 text-white">
                 <DropdownMenuItem
                   onClick={() => onOpen(present.id)}
-                  className="flex items-center gap-2 hover:bg-neutral-600"
+                  className="flex items-center gap-2 hover:bg-neutral-600 text-md"
                 >
                   <PencilIcon className="w-4 h-4" />
                   Editar
                 </DropdownMenuItem>
                 <DropdownMenuItem
-                  asChild
-                  className="flex items-center gap-2 hover:bg-neutral-600"
-                >
-                  <Link href={`/dashboard/presents/${present.id}`}>
-                    <EyeIcon className="w-4 h-4" />
-                    Ver
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  className="flex items-center gap-2 bg-red-600 hover:bg-red-500"
+                  className="flex items-center gap-2 bg-red-600/50 hover:bg-red-600/40 text-md"
                   onClick={onDelete}
                 >
                   <TrashIcon className="w-4 h-4" />

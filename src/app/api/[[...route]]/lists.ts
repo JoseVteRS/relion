@@ -26,12 +26,12 @@ const app = new Hono()
         return c.json({ error: ErrorList.InvalidInput }, 400);
       }
 
-      console.log({ authUserId, id });
-
       const list = await db.query.lists.findFirst({
         where: and(eq(lists.id, id), eq(lists.userId, authUserId)),
         with: {
-          presents: true,
+          presents: {
+            orderBy: asc(presents.name),
+          }
         },
       });
 
