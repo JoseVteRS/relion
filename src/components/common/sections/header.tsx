@@ -92,7 +92,7 @@ export const Header = () => {
             />
           </div>
         </div>
-        <div className="flex flex-col items-center py-10">
+        {/* <div className="flex flex-col items-center py-10">
           <h2 className="text-3xl font-bold mb-6 text-center">
             Descubre cómo funciona
           </h2>
@@ -111,7 +111,7 @@ export const Header = () => {
             avances preliminares y la funcionalidad completa aún no está
             disponible en producción.
           </p>
-        </div>
+        </div> */}
       </div>
     </header>
   );
