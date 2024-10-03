@@ -1,4 +1,4 @@
-import { NavbarDashboard } from "@/app/dashboard/_components/navbar-dashboard";
+import { Mobilebar } from "@/app/dashboard/_components/mobilebar";
 import { auth } from "@/auth";
 
 export default async function ListLayout({
@@ -16,7 +16,7 @@ export default async function ListLayout({
         <div className="container mx-auto py-5">{children}</div>
         {isUserAuthenticated && (
           <div className="sticky bottom-0 w-full ">
-            <NavbarDashboard />
+            <Mobilebar />
           </div>
         )}
       </div>

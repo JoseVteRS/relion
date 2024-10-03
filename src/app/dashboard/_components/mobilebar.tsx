@@ -1,10 +1,9 @@
 "use client";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { UserButton } from "@/features/auth/components/user-button";
 import { cn } from "@/lib/utils";
-import { GiftIcon, HomeIcon, ListIcon, SettingsIcon } from "lucide-react";
+import { GiftIcon, HomeIcon, ListIcon } from "lucide-react";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -16,7 +15,7 @@ const links = [
   // { label: "Settings", href: "/dashboard/settings", icon: <SettingsIcon /> },
 ];
 
-export const NavbarDashboard = () => {
+export const Mobilebar = () => {
   const pathname = usePathname();
   const isActive = (href: string) => {
     return pathname === href;
@@ -44,7 +43,6 @@ export const NavbarDashboard = () => {
             <div className="text-xs font-bold">{link.label}</div>
           </div>
         ))}
-        <UserButton />
       </div>
     </nav>
   );

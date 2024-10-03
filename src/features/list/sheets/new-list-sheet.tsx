@@ -24,7 +24,11 @@ const formSchema = insertListsSchema
 
 type FormValues = z.input<typeof formSchema>;
 
-export const NewListSheet = () => {
+interface NewListSheetProps {
+  isMobile?: boolean;
+}
+
+export const NewListSheet = ({ isMobile }: NewListSheetProps) => {
   const { isOpen, onClose } = useNewListStateSheet();
   const mutation = useCreateList();
 
@@ -38,7 +42,10 @@ export const NewListSheet = () => {
 
   return (
     <Sheet open={isOpen} onOpenChange={onClose}>
-      <SheetContent side={"bottom"} className="rounded-t-xl">
+      <SheetContent
+        side={isMobile ? "right" : "right"}
+        className="rounded-t-xl w-full"
+      >
         <SheetHeader>
           <SheetTitle>Nueva Lista</SheetTitle>
         </SheetHeader>

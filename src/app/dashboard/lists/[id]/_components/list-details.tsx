@@ -1,36 +1,20 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { LockIcon, LockKeyhole, PlusCircle } from "lucide-react";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { Badge } from "@/components/ui/badge";
+import { EyeIcon, PenIcon, PlusCircle, TrashIcon } from "lucide-react";
 import { useGetPrivateList } from "@/features/list/api/use-get-private.list";
 import { useNewPresentSheetState } from "@/features/present/hooks/use-new-present";
 import { StatusBadge } from "@/components/common/status-badge";
-
-const regalos = [
-  {
-    nombre: "Libro de cocina",
-    descripcion: "Preferiblemente de cocina italiana",
-  },
-  {
-    nombre: "Set de cuchillos",
-    descripcion: "Un set profesional de 5 piezas",
-  },
-  {
-    nombre: "Cafetera",
-    descripcion: "Una cafetera de espresso automática",
-  },
-  {
-    nombre: "Altavoz Bluetooth",
-    descripcion: "Resistente al agua para usar en exteriores",
-  },
-];
+import { TitlePage } from "@/components/common/page-title";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 export const DashboardListDetails = ({ id }: { id: string }) => {
   const { data: list, isLoading, isError } = useGetPrivateList(id);
@@ -44,58 +28,71 @@ export const DashboardListDetails = ({ id }: { id: string }) => {
     return <div>Error</div>;
   }
 
-  return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold">{list?.name}</h1>
-        <Button variant="ghost" size="sm" onClick={onOpen}>
-          <PlusCircle className="w-4 h-4 mr-2" />
-          Añadir Regalo
-        </Button>
-      </div>
+  if (!list) return <div>List not found</div>;
 
-      <Card className="mb-6">
-        <CardHeader>
-          <CardTitle>Detalles del Evento</CardTitle>
-        </CardHeader>
-        {list && (
-          <CardContent>
-            <p>
-              <strong>Fecha:&nbsp;</strong>
-              <time dateTime={list.eventDate}>
-                {new Date(list.eventDate).toLocaleDateString("es-ES", {
-                  day: "numeric",
-                  month: "long",
-                  year: "numeric",
-                })}
-              </time>
-            </p>
-          </CardContent>
-        )}
-      </Card>
+  return (
+    <div>
+      <div>
+        <div className="flex justify-start items-center gap-2">
+          <TitlePage>{list?.name}</TitlePage>
+          <StatusBadge status={list.status || false} />
+        </div>
+        <time dateTime={list.eventDate}>
+          {new Date(list.eventDate).toLocaleDateString("es-ES", {
+            day: "numeric",
+            month: "long",
+            year: "numeric",
+          })}
+        </time>
+      </div>
 
       <div className="flex justify-between items-center mb-6 mt-10">
         <h2 className="text-xl font-bold">Regalos</h2>
+        <Button variant="default" size="sm" onClick={onOpen}>
+          <PlusCircle className="w-4 h-4 mr-2" />
+          Añadir Regalo a la lista
+        </Button>
       </div>
-      <ul className="space-y-4 mt-5">
-        {list?.presents.map((present, index) => (
-          <li
-            key={present.id || index}
-            className="border-b border-muted-foreground/20 pb-4 last:border-b-0"
-          >
-            <div className="flex items-center justify-between gap-2">
-              <div>
-                <h3 className="font-medium text-lg">{present.name}</h3>
-                <p className="text-muted-foreground text-sm w-[200px] truncate">
-                  {present.description}
-                </p>
-              </div>
 
-              <StatusBadge status={present.status as boolean} />
-            </div>
-          </li>
-        ))}
-      </ul>
+      <Table>
+        <TableCaption>Listado de regalos</TableCaption>
+        <TableHeader>
+          <TableRow>
+            <TableHead className="w-[250px] truncate">Nombre</TableHead>
+            <TableHead className="w-[100px]">Estado</TableHead>
+            <TableHead>Descripción</TableHead>
+            <TableHead className="text-right">Acciones</TableHead>
+          </TableRow>
+        </TableHeader>
+
+        <TableBody>
+          {list?.presents.map((present, index) => (
+            <TableRow key={present.id}>
+              <TableCell className="font-medium">{present.name}</TableCell>
+              <TableCell>
+                <StatusBadge status={present.status || false} />
+              </TableCell>
+              <TableCell>{present.description}</TableCell>
+              <TableCell className="text-right">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-primary hover:text-primary/80"
+                >
+                  <PenIcon className="w-4 h-4" />
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-destructive hover:text-destructive/80"
+                >
+                  <TrashIcon className="w-4 h-4" />
+                </Button>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
     </div>
   );
 };

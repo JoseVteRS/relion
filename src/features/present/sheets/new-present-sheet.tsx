@@ -5,7 +5,7 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { useNewPresentSheetState } from "../hooks/use-new-present";
-import { CreateListForm } from "../forms/create-form-present";
+import { CreatePresentForm } from "../forms/create-form-present";
 import { useCreatePresent } from "../api/use-create-present";
 import { insertPresentSchema } from "@/db/schema";
 import { z } from "zod";
@@ -19,7 +19,7 @@ const formSchema = insertPresentSchema.pick({
 
 type FormValues = z.input<typeof formSchema>;
 
-export const NewPresentSheet = () => {
+export const NewPresentSheet = ({ isMobile }: { isMobile?: boolean }) => {
   const { isOpen, onClose } = useNewPresentSheetState();
   const mutation = useCreatePresent();
 
@@ -33,11 +33,14 @@ export const NewPresentSheet = () => {
 
   return (
     <Sheet open={isOpen} onOpenChange={onClose}>
-      <SheetContent side={"bottom"} className="rounded-t-xl">
+      <SheetContent
+        side={isMobile ? "bottom" : "right"}
+        className="rounded-t-xl"
+      >
         <SheetHeader>
           <SheetTitle>Nuevo regalo</SheetTitle>
         </SheetHeader>
-        <CreateListForm
+        <CreatePresentForm
           onSubmit={onSubmit}
           disabled={mutation.isPending}
           defaultValues={{ name: "", link: "", desciption: "", status: true }}

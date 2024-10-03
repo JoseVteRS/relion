@@ -5,5 +5,5 @@ interface TitlePageProps {
 }
 
 export const TitlePage = ({ children }: TitlePageProps) => {
-  return <h2 className="text-primary font-bold text-2xl">{children}</h2>;
+  return <h2 className="text-primary font-bold text-4xl">{children}</h2>;
 };

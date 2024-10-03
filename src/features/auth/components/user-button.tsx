@@ -9,7 +9,7 @@ import {
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
 import { usePaywall } from "@/features/subscriptions/hooks/use-paywall";
-import { CreditCard, Crown, Loader, LogOut, Settings2, SettingsIcon } from "lucide-react";
+import { CreditCard, Crown, Loader, LogOut, SettingsIcon } from "lucide-react";
 
 import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
@@ -34,13 +34,13 @@ export const UserButton = () => {
       <DropdownMenuTrigger>
         {!shouldBlock && (
           <div className="relative">
-            <div className="absolute -top-2 -left-2 bg-black border-2 border-white p-1 rounded-full z-10 opacity-75">
-              <Crown className="size-3 text-primary fill-primary " />
+            <div className="absolute -top-1 -left-1 bg-black border-[1px] border-primary p-0.5 rounded-full z-10 opacity-75">
+              <Crown className="size-3 text-primary fill-primary" />
             </div>
           </div>
         )}
 
-        <Avatar className="size-10 hover:opacity-75 transition rounded-lg">
+        <Avatar className="size-10 hover:opacity-75 transition rounded-full">
           <AvatarImage alt={name} src={imageUrl || ""} />
           <AvatarFallback className="bg-primary font-medium text-neutral-900">
             {name.charAt(0).toUpperCase()}

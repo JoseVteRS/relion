@@ -11,6 +11,7 @@ import { usePaywall } from "@/features/subscriptions/hooks/use-paywall";
 import { ListWithUserWithPresents } from "@/types/types";
 import { ListsLoader } from "@/features/list/components/lists-loader";
 import { useMemo } from "react";
+import { CardListSkeleton } from "@/features/list/components/card-list-skeleton";
 
 export default function ListPage() {
   const openNewlistSheet = useNewListStateSheet();
@@ -47,30 +48,34 @@ export default function ListPage() {
   }, [lists]);
 
   return (
-    <div className="bg-background min-h-screen">
-      <header className="flex items-center justify-between mb-10 sticky top-0 py-5 bg-background">
+    <div className="">
+     <header className="flex items-center justify-between mb-10">
         <TitlePage>Listas</TitlePage>
         <Button
-          variant="ghost"
-          size="icon"
-          className="w-8 h-8 text-neutral-800 bg-primary text-sm"
-          onClick={onCreateList}
+          variant="default"
+          size="sm"
+          className=""
+          onClick={() => openNewlistSheet.onOpen()}
         >
           <Plus className="size-4" />
+          Añadir lista
         </Button>
       </header>
 
       <div className="h-full flex flex-col md:grid md:grid-cols-3 gap-3 overflow-hidden">
-        <ListsLoader isLoading={isLoading} />
-
+        {isLoading && (
+          <>
+            <CardListSkeleton />
+            <CardListSkeleton />
+            <CardListSkeleton />
+          </>
+        )}
+        {isError && <div>Error</div>}
         {lists?.length === 0 && <ListNotFound />}
-        {formattedLists?.map((list) => (
-          <CardList
-            key={list.id}
-            list={list as ListWithUserWithPresents}
-            onDelete={onDelete}
-            onEdit={onEdit}
-          />
+
+        {/* TODO: Fix type */}
+        {lists?.map((list: any) => (
+          <CardList key={list.id} list={list} onEdit={onEdit} onDelete={onDelete} />
         ))}
       </div>
     </div>

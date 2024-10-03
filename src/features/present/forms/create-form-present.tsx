@@ -36,7 +36,7 @@ type CreateListFormProps = {
   disabled?: boolean;
 };
 
-export const CreateListForm = ({
+export const CreatePresentForm = ({
   defaultValues,
   onSubmit,
   disabled,
@@ -62,12 +62,12 @@ export const CreateListForm = ({
           render={({ field }) => (
             <FormItem>
               <div className="space-y-0.5">
-                <FormLabel className="text-base">Nombre</FormLabel>
+                <FormLabel className="text-sm">Nombre</FormLabel>
               </div>
               <FormControl>
                 <Input
                   disabled={form.formState.isSubmitting}
-                  placeholder="Nombre de la lista"
+                  placeholder="Nombre del regalo"
                   autoComplete="off"
                   {...field}
                 />
@@ -81,7 +81,7 @@ export const CreateListForm = ({
           render={({ field }) => (
             <FormItem>
               <div className="space-y-0.5">
-                <FormLabel className="text-base">Enlace al producto</FormLabel>
+                <FormLabel className="text-sm">Enlace al producto</FormLabel>
               </div>
               <FormControl>
                 <Input
@@ -101,7 +101,7 @@ export const CreateListForm = ({
           render={({ field }) => (
             <FormItem>
               <div className="space-y-0.5">
-                <FormLabel className="text-base">Descripción</FormLabel>
+                <FormLabel className="text-sm">Descripción</FormLabel>
               </div>
               <FormControl>
                 <Textarea
@@ -122,7 +122,7 @@ export const CreateListForm = ({
           render={({ field }) => (
             <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
               <div className="space-y-0.5">
-                <FormLabel className="text-base">Estado</FormLabel>
+                <FormLabel className="text-sm">Estado</FormLabel>
               </div>
               <FormControl>
                 <Switch
@@ -141,7 +141,7 @@ export const CreateListForm = ({
           render={({ field }) => (
             <FormItem className="items-center justify-between">
               <div className="space-y-0.5">
-                <FormLabel className="text-base">Listas</FormLabel>
+                <FormLabel className="text-sm">Listas</FormLabel>
               </div>
               <FormControl>
                 <Select

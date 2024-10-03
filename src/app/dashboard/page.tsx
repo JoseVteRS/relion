@@ -6,10 +6,9 @@ import { CardInfoPresent } from "./_components/card-info-present";
 export default async function DashboardPage() {
   await protectServer();
   return (
-    <div className="min-h-screen">
+    <div className="">
       <TitlePage>Escritorio</TitlePage>
-
-      <div className="flex flex-col gap-4 mt-5">
+      <div className="flex flex-col md:flex-row gap-4 mt-5">
         <CardInfoList />
         <CardInfoPresent />
       </div>

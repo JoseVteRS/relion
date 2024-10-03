@@ -4,8 +4,10 @@ import {
   EllipsisVerticalIcon,
   EyeIcon,
   GiftIcon,
+  PencilIcon,
+  TrashIcon,
 } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -59,76 +61,70 @@ export const CardList = ({ list }: CardListProps) => {
   return (
     <>
       <DialogConfirm />
-      <Card 
-        className="w-full shadow-lg rounded-lg overflow-hidden cursor-pointer transition-shadow hover:shadow-xl"
-        onClick={goToListDetail}
-      >
-        <CardHeader className="">
-          <div className="flex justify-between items-center">
-            <StatusBadge status={list.status || false} />
-            <div className="flex items-center justify-center gap-2 w-full">
-              <CardTitle className="text-2xl leading-tight text-white">
-                {list.name}
-              </CardTitle>
+      <Card className="w-full bg-card text-card-foreground rounded-lg overflow-hidden cursor-pointer">
+        <CardContent className="p-4">
+          <div className="flex items-start justify-between mb-3">
+            <div className="flex items-center space-x-2">
+              <h3 className="text-lg font-semibold">{list.name}</h3>
+              <StatusBadge status={list.status || false} />
             </div>
-            <DropdownMenu>
-              <DropdownMenuTrigger onClick={(e) => e.stopPropagation()}>
-                <EllipsisVerticalIcon className="w-6 h-6 text-neutral-400 hover:text-neutral-500" />
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="bg-neutral-800 text-white">
-                <DropdownMenuItem
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onOpen(list.id);
-                  }}
-                  className="flex items-center gap-2 hover:bg-neutral-600 text-md"
+            <div className="flex items-center space-x-2">
+              <DropdownMenu>
+                <DropdownMenuTrigger
+                  className="focus:outline-none"
+                  onClick={(e) => e.stopPropagation()}
                 >
-                  Editar
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  className="flex items-center gap-2 bg-red-600/50 hover:bg-red-600/40 text-md"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onDelete();
-                  }}
-                >
-                  Borrar
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
-        </CardHeader>
-
-        <CardContent className="p-0">
-          <div className="p-4">
-            <div className="text-neutral-100 flex items-center gap-2">
-              <Calendar className="w-5 h-5" />
-              <span className="text-white text-xs">
-                {format(new Date(list.eventDate), "PPP", { locale: es })}
-              </span>
-            </div>
-            <div className="mt-1 text-neutral-100 flex items-center gap-2">
-              <GiftIcon className="w-5 h-5" />
-              <p className="text-md font-semibold">
-                {list?.presents?.length === 0 ? (
-                  <span className="text-sm font-normal">Sin regalos</span>
-                ) : (
-                  <div className="flex items-center gap-1">
-                    {list?.presents?.length}{" "}
-                    <span className="text-xs font-normal">
-                      {list?.presents?.length === 1 ? "regalo" : "regalos"}
-                    </span>
-                  </div>
-                )}
-              </p>
+                  <EllipsisVerticalIcon className="w-5 h-5 text-muted-foreground hover:text-foreground transition-colors" />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="bg-popover text-popover-foreground">
+                  <DropdownMenuItem
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onOpen(list.id);
+                    }}
+                    className="flex items-center space-x-2 hover:bg-accent hover:text-accent-foreground"
+                  >
+                    <PencilIcon className="w-4 h-4" />
+                    <span>Editar</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    className="flex items-center space-x-2 text-destructive hover:bg-destructive/50 hover:text-destructive-foreground"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onDelete();
+                    }}
+                  >
+                    <TrashIcon className="w-4 h-4" />
+                    <span className="font-bold">Borrar</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </div>
 
-          <div className="p-4 flex gap-2 items-center justify-between">
+          <div className="text-sm text-muted-foreground mb-2 flex items-center gap-2">
+            <Calendar className="w-4 h-4" />
+            <span>
+              {format(new Date(list.eventDate), "PPP", { locale: es })}
+            </span>
+          </div>
+
+          <div className="text-sm text-muted-foreground mb-3 flex items-center gap-2">
+            <GiftIcon className="w-4 h-4" />
+            <span>
+              {list?.presents?.length === 0
+                ? "Sin regalos"
+                : `${list?.presents?.length} ${
+                    list?.presents?.length === 1 ? "regalo" : "regalos"
+                  }`}
+            </span>
+          </div>
+
+          <div className="flex items-center justify-between mt-4">
             <Button
-              variant="ghost"
+              variant="outline"
               size="sm"
-              className="text-neutral-300 hover:text-white"
+              className="text-primary hover:text-primary/80"
               onClick={(e) => {
                 e.stopPropagation();
                 goToListDetail();
@@ -137,7 +133,7 @@ export const CardList = ({ list }: CardListProps) => {
               <EyeIcon className="w-4 h-4 mr-2" />
               Ver detalles
             </Button>
-            <div className="flex gap-2">
+            <div className="flex w-full justify-end gap-2">
               <CopyToClipboard text={shareLink} />
               <ShareWhatsappButton
                 url={shareLink}

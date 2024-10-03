@@ -11,7 +11,11 @@ import { useGetUserList } from "../api/use-get-user-list";
 import { Loader2 } from "lucide-react";
 import { FormValuesUpdateList } from "../forms/form-schemas";
 
-export const UpdateListSheet = () => {
+interface UpdateListSheetProps {
+  isMobile?: boolean;
+}
+
+export const UpdateListSheet = ({ isMobile }: UpdateListSheetProps) => {
   const { isOpen, onClose, id } = useOpenListSheetState();
   const mutation = useUpdateList(id);
 
@@ -34,7 +38,10 @@ export const UpdateListSheet = () => {
 
   return (
     <Sheet open={isOpen} onOpenChange={onClose}>
-      <SheetContent side={"bottom"} className="rounded-t-xl">
+      <SheetContent
+        side={isMobile ? "bottom" : "right"}
+        className="rounded-t-xl"
+      >
         <SheetHeader>
           <SheetTitle>Actualiza la lista</SheetTitle>
         </SheetHeader>

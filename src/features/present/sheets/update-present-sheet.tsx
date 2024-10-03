@@ -14,8 +14,11 @@ import { useUpdatePresent } from "../api/use-update-present";
 import { useGetUserPresent } from "../api/use-get-user-present";
 import { UpdatePresentFormValues } from "../forms/form-schemas";
 
+interface UpdatePresentSheetProps {
+  isMobile?: boolean;
+}
 
-export const UpdatePresentSheet = () => {
+export const UpdatePresentSheet = ({ isMobile }: UpdatePresentSheetProps) => {
   const { isOpen, onClose, id } = useOpenPresentSheetState();
   const mutation = useUpdatePresent(id);
 
@@ -38,7 +41,10 @@ export const UpdatePresentSheet = () => {
 
   return (
     <Sheet open={isOpen} onOpenChange={onClose}>
-      <SheetContent side={"bottom"} className="rounded-t-xl">
+      <SheetContent
+        side={isMobile ? "bottom" : "right"}
+        className="rounded-t-xl"
+      >
         <SheetHeader>
           <SheetTitle>Actualizar regalo: {defaultValues.name}</SheetTitle>
           <SheetDescription>
