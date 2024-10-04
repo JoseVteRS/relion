@@ -22,7 +22,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   metadataBase: new URL(
-    process.env.NEXT_PUBLIC_APP_URL || "https://milistaderegalos.com"
+    process.env.NEXT_PUBLIC_APP_URL || "https://relion.app"
   ),
   title: {
     default: config.appName,
@@ -50,7 +50,7 @@ export const metadata: Metadata = {
     description: config.appDescription,
     images: [
       {
-        url: "/og-image.jpg",
+        url: "/images/og-image.webp",
         width: 1200,
         height: 630,
         alt: `${config.appName} Logo`,
@@ -63,7 +63,7 @@ export const metadata: Metadata = {
     creator: "@ImSilencio_",
     title: config.appName,
     description: config.appDescription,
-    images: ["/twitter-image.jpg"],
+    images: ["/images/og-image.webp"],
   },
   robots: {
     index: true,

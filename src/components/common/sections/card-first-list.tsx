@@ -31,10 +31,7 @@ export const CardFirstList = ({ list }: CardListProps) => {
 
           <div className="text-sm text-muted-foreground mb-3 flex items-center gap-2">
             <GiftIcon className="w-4 h-4" />
-            Sin regalos
-            <Button asChild variant="default" size="sm">
-              <Link href="/sign-up">Crea tu primer regalo</Link>
-            </Button>
+            2
           </div>
         </CardContent>
       </Card>

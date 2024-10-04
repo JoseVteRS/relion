@@ -27,7 +27,7 @@ export const CardInfoList = () => {
           {isLoading ? (
             <Loader2 className="animate-spin text-muted-foreground" />
           ) : (
-            <span className="font-bold text-5xl">{lists?.length || 0}</span>
+            <span className="font-bold text-5xl">{lists?.length || "Sin listas"}</span>
           )}
         </CardContent>
       </div>

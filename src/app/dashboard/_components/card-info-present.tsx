@@ -27,7 +27,7 @@ export const CardInfoPresent = () => {
           {isLoading ? (
             <Loader2Icon className="animate-spin text-muted-foreground" />
           ) : (
-            <span className="font-bold text-5xl">{presents?.length || 0}</span>
+            <span className="font-bold text-5xl">{presents?.length || "Sin regalos"}</span>
           )}
         </CardContent>
       </div>

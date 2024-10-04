@@ -1,5 +1,5 @@
-import { Hono } from "hono";
-import { verifyAuth } from "@hono/auth-js";
+import { Context, Hono } from "hono";
+import {  verifyAuth } from "@hono/auth-js";
 import { insertListsSchema, lists, presents } from "@/db/schema";
 import { db } from "@/db/drizzle";
 import { zValidator } from "@hono/zod-validator";
@@ -7,6 +7,7 @@ import { z } from "zod";
 import { and, asc, count, countDistinct, desc, eq, not } from "drizzle-orm";
 import { ErrorList } from "@/features/list/errors-enum";
 import { ErrorMessage } from "@/lib/error-messages";
+
 
 const app = new Hono()
   .get(
@@ -31,7 +32,7 @@ const app = new Hono()
         with: {
           presents: {
             orderBy: asc(presents.name),
-          }
+          },
         },
       });
 
@@ -203,6 +204,8 @@ const app = new Hono()
       }
     }
   )
+  
+
   .patch(
     "/:id",
     verifyAuth(),

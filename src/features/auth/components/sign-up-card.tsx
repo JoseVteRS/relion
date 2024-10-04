@@ -21,7 +21,6 @@ export const SignUpCard = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
-
   const mutation = useSignUp();
 
   const onProviderSignin = (provider: "google" | "github") => {
