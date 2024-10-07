@@ -9,7 +9,14 @@ import {
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
 import { usePaywall } from "@/features/subscriptions/hooks/use-paywall";
-import { CreditCard, Crown, Loader, LogOut, SettingsIcon } from "lucide-react";
+import {
+  CreditCard,
+  Crown,
+  Loader,
+  LogOut,
+  SettingsIcon,
+  UserIcon,
+} from "lucide-react";
 
 import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
@@ -48,6 +55,13 @@ export const UserButton = () => {
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-60">
+        <DropdownMenuItem disabled={false} asChild className="h-10">
+          <Link href="/dashboard/profile">
+            <UserIcon className="mr-2 size-4" />
+            Perfil
+          </Link>
+        </DropdownMenuItem>
+
         <DropdownMenuItem disabled={false} onClick={() => {}} className="h-10">
           <CreditCard className="mr-2 size-4" />
           Facturación

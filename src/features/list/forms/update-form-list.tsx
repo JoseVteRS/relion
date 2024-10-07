@@ -101,7 +101,7 @@ export const UpdateListForm = ({
           />
           {/* //TODO: Add multiselect presents */}
           <div className="mt-5">
-            <Button type="submit" className="w-full" variant="primary">
+            <Button type="submit" className="w-full">
               Actualizar
             </Button>
           </div>

@@ -15,8 +15,8 @@ export const ListNotFound = () => {
       <div className="mt-2 text-lg text-neutral-300">
         <h3>Empieza a crear una lista ahora mismo</h3>
 
-        <Button onClick={onOpen} variant="primary" className="mt-2">
-          Crear lista
+        <Button onClick={onOpen}  className="mt-2">
+          Crea tu primera lista
         </Button>
       </div>
     </div>

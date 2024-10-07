@@ -42,7 +42,7 @@ export const UpdatePresentSheet = ({ isMobile }: UpdatePresentSheetProps) => {
   return (
     <Sheet open={isOpen} onOpenChange={onClose}>
       <SheetContent
-        side={isMobile ? "bottom" : "right"}
+        side={isMobile ? "right" : "right"}
         className="rounded-t-xl"
       >
         <SheetHeader>

@@ -1,8 +1,12 @@
+import { TitlePage } from "@/components/common/page-title";
 import { SettingsCard } from "./settings-card";
 
 export default function SettingsPage() {
   return (
-    <div className="max-w-screen-2xl mx-auto w-full pb-10 -mt-24">
+    <div className="">
+      <header className="flex items-center justify-between mb-10">
+        <TitlePage>Ajustes</TitlePage>
+      </header>
       <SettingsCard />
     </div>
   );

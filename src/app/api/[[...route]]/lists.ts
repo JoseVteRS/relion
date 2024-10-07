@@ -200,6 +200,7 @@ const app = new Hono()
 
         return c.json({ data: newList }, 201);
       } catch (error) {
+        console.error("api:post:create_list - Error al crear nueva lista:", error);
         return c.json({ error: ErrorList.ServerError }, 500);
       }
     }

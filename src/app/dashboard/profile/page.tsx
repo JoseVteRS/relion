@@ -9,14 +9,19 @@ export default async function ProfilePage() {
   const session = await auth();
 
   return (
-    <div className="bg-background min-h-screen">
-      <header className="flex flex-col items-start justify-between mb-10 sticky top-0 py-5 bg-background">
+    <div className="">
+      <header className="flex items-center justify-between mb-10">
         <TitlePage>Perfil</TitlePage>
-        <h2 className="text-xl">{session?.user?.name || ""}</h2>
       </header>
 
       <div>
         <h2 className="text-lg form-">Información</h2>
+        <fieldset>
+          <legend>Foto de perfil</legend>
+          <div className="flex items-center justify-center">
+            <Plus className="w-10 h-10 text-primary" />
+          </div>
+        </fieldset>
         <div className="space-y-4">
           <div>
             <Label>Nombre</Label>

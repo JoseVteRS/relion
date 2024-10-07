@@ -66,7 +66,7 @@ export const Navbar = async () => {
               </Button>
             </li>
             <li></li>
-            <Button asChild variant="primary" size="sm">
+            <Button asChild size="sm">
               <Link href="/sign-up">Registrate</Link>
             </Button>
           </ul>

@@ -169,7 +169,7 @@ export const UpdatePresentForm = ({
         />
 
         <div className="mt-5">
-          <Button type="submit" className="w-full" variant="primary">
+          <Button type="submit" className="w-full">
             {disabled ? <Loader2 className="animate-spin" /> : "Actualizar"}
           </Button>
         </div>

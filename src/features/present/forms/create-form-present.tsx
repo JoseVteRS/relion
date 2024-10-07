@@ -174,7 +174,7 @@ export const CreatePresentForm = ({
         />
 
         <div className="mt-5">
-          <Button type="submit" className="w-full" variant="primary">
+          <Button type="submit" className="w-full">
             Crear
           </Button>
         </div>

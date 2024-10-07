@@ -10,7 +10,7 @@ export default function Home() {
     <main className="bg-gray-900 text-white">
       <Header />
       <FirstListForm />
-      <NewsletterSection />
+      {/* <NewsletterSection /> */}
       {/* <Pricing /> */}
     </main>
   );
