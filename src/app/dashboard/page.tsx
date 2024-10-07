@@ -3,12 +3,14 @@ import { protectServer } from "@/features/auth/utils";
 import { CardInfoList } from "./_components/card-info-list";
 import { CardInfoPresent } from "./_components/card-info-present";
 import { FirstListButton } from "./_components/first-list";
+import NextBreadcrumb from "@/components/common/breadcumbs";
 
 export default async function DashboardPage() {
   await protectServer();
   return (
     <div className="">
-      <div className="flex items-center justify-between">
+
+      <div className="flex flex-col items-start justify-between">
         <TitlePage>Escritorio</TitlePage>
         <FirstListButton />
       </div>

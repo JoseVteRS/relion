@@ -75,9 +75,9 @@ export const FirstListButton = () => {
     );
   }
 
-  return (
-    <Button variant="default" onClick={handleImport}>
+  return !!listData || !!presentsData ? (
+    <Button variant="default">
       <ImportIcon className="mr-2" /> Importar lista y regalos
     </Button>
-  );
+  ) : null;
 };

@@ -9,7 +9,6 @@ import { CreateListForm } from "../forms/create-form-list";
 import { useCreateList } from "../api/use-create-list";
 import { z } from "zod";
 import { insertListsSchema } from "@/db/schema";
-import { usePaywall } from "@/features/subscriptions/hooks/use-paywall";
 
 const formSchema = insertListsSchema
   .pick({
