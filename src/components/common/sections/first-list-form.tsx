@@ -166,7 +166,7 @@ export function FirstListForm() {
   }
 
   return (
-    <div className="bg-gradient-to-b from-background to-primary/10 min-h-screen">
+    <div className="bg-gradient-to-b from-background to-primary/10">
       <div className="container mx-auto px-4 py-8">
         <ProgressSteps steps={steps} currentStep={step} />
 
