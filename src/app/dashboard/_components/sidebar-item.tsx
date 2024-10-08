@@ -19,7 +19,7 @@ export const SidebarItem = ({
   onClick,
 }: SidebarItemProps) => {
   return (
-    <Link href={href} onClick={onClick}>
+    <Link href={href} onClick={onClick} prefetch={true}>
       <div
         className={cn(
           "flex items-center px-3 py-3 rounded-md bg-transparent hover:bg-muted hover:text-foreground transition",

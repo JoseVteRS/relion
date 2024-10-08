@@ -62,7 +62,7 @@ export const Navbar = async () => {
           <ul className="flex items-center gap-2">
             <li className="hidden md:inline-block">
               <Button asChild variant="outline" size="sm">
-                <Link href="/sign-in">Iniciar sesión</Link>
+                <Link href="/sign-in" >Iniciar sesión</Link>
               </Button>
             </li>
             <li></li>
