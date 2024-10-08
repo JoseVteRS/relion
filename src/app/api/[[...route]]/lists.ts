@@ -1,5 +1,5 @@
 import { Context, Hono } from "hono";
-import {  verifyAuth } from "@hono/auth-js";
+import { verifyAuth } from "@hono/auth-js";
 import { insertListsSchema, lists, presents } from "@/db/schema";
 import { db } from "@/db/drizzle";
 import { zValidator } from "@hono/zod-validator";
@@ -7,7 +7,6 @@ import { z } from "zod";
 import { and, asc, count, countDistinct, desc, eq, not } from "drizzle-orm";
 import { ErrorList } from "@/features/list/errors-enum";
 import { ErrorMessage } from "@/lib/error-messages";
-
 
 const app = new Hono()
   .get(
@@ -200,13 +199,14 @@ const app = new Hono()
 
         return c.json({ data: newList }, 201);
       } catch (error) {
-        console.error("api:post:create_list - Error al crear nueva lista:", error);
+        console.error(
+          "api:post:create_list - Error al crear nueva lista:",
+          error
+        );
         return c.json({ error: ErrorList.ServerError }, 500);
       }
     }
   )
-  
-
   .patch(
     "/:id",
     verifyAuth(),

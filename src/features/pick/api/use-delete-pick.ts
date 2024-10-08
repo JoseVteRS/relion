@@ -17,8 +17,17 @@ export const useDeletePick = (presentId?: string, listId?: string) => {
       const response = await client.api.picks[":presentId"].$patch({
         param: { presentId },
       });
-      const data = await response.json();
-      return data;
+
+      if (!response.ok) {
+        const error = await response.json();
+        if ("error" in error) {
+          throw new Error(error.error);
+        } else {
+          throw new Error("Error");
+        }
+      }
+
+      return await response.json();
     },
     onMutate: async () => {
       await queryClient.cancelQueries({
@@ -31,26 +40,35 @@ export const useDeletePick = (presentId?: string, listId?: string) => {
       // Actualización optimista de la UI
       queryClient.setQueryData(
         qk.lists.publicListDetails(listId!),
-        (oldData: any) => {
-          oldData.listData.presents.map((present: any) => {
-            if (present.id === presentId) {
-              present.isPicked = false;
-            }
-            return present;
-          });
-        }
+        (oldData: any) => ({
+          ...oldData,
+          listData: {
+            ...oldData.listData,
+            presents: oldData.listData.presents.map((present: any) =>
+              present.id === presentId
+                ? { ...present, isPicked: false }
+                : present
+            ),
+          },
+        })
       );
 
       return { previousData };
     },
-    onSuccess: (present: any) => {
-      //   toast.success("Present created successfully"); //TODO: considerar si dejar o no
+    onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: qk.lists.publicListDetails(listId!),
       });
     },
-    onError: () => {
-      toast.error("No puedes desmarcar un regalo que no hayas escogido");
+    onError: (error, variables, context: any) => {
+      // Revertir a los datos anteriores en caso de error
+      if (context?.previousData) {
+        queryClient.setQueryData(
+          qk.lists.publicListDetails(listId!),
+          context.previousData
+        );
+      }
+      toast.error(`${error.message}`);
     },
   });
 

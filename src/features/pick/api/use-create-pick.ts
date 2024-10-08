@@ -18,14 +18,24 @@ export const useCreatePick = (presentId?: string, listId?: string) => {
         param: { presentId },
       });
 
-      console.log({ presentId });
+      if (!response.ok) {
+        const error = await response.json();
+        if ("error" in error) {
+          throw new Error(error.error);
+        } else {
+          throw new Error("Error");
+        }
+      }
 
       return await response.json();
     },
     onMutate: async () => {
+      // Cancelar queries pendientes
       await queryClient.cancelQueries({
         queryKey: qk.lists.publicListDetails(listId!),
       });
+
+      // Guardar el estado anterior
       const previousData = queryClient.getQueryData(
         qk.lists.publicListDetails(listId!)
       );
@@ -34,26 +44,38 @@ export const useCreatePick = (presentId?: string, listId?: string) => {
       queryClient.setQueryData(
         qk.lists.publicListDetails(listId!),
         (oldData: any) => {
-          console.log({ oldData });
-          oldData.listData.presents.map((present: any) => {
-            if (present.id === presentId) {
-              present.isPicked = true;
-            }
-            return present;
-          });
+          return {
+            ...oldData,
+            listData: {
+              ...oldData.listData,
+              presents: oldData.listData.presents.map((present: any) =>
+                present.id === presentId
+                  ? { ...present, isPicked: true }
+                  : present
+              ),
+            },
+          };
         }
       );
 
       return { previousData };
     },
+
     onSuccess: (present: any) => {
-      //   toast.success("Present created successfully"); //TODO: considerar si dejar o no
       queryClient.invalidateQueries({
         queryKey: qk.lists.publicListDetails(listId!),
       });
     },
-    onError: (error) => {
-      toast.error(`Failed to pick present ${error.message}`);
+    onError: (error, variables, context: any) => {
+      console.log({ error, variables, context });
+      // Revertir a los datos anteriores en caso de error
+      if (context?.previousData) {
+        queryClient.setQueryData(
+          qk.lists.publicListDetails(listId!),
+          context.previousData
+        );
+      }
+      toast.error(`${error.message}`);
     },
   });
 

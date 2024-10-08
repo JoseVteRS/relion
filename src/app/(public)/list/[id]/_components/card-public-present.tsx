@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
+import { toast } from "sonner";
 
 interface CardPublicPresentProps {
   present: any;
@@ -35,6 +36,7 @@ export const CardPublicPresent = ({
 }: CardPublicPresentProps) => {
   const pick = useCreatePick(present.id, listId);
   const unpick = useDeletePick(present.id, listId);
+  const isPickedOwner = present.pickedBy === authUserId;
 
   const onPick = () => {
     pick.mutate(undefined);
@@ -43,10 +45,6 @@ export const CardPublicPresent = ({
   const onUnPick = () => {
     unpick.mutate(undefined);
   };
-
-  const isPickedOwner = present.pickedBy === authUserId;
-
-  console.log({ pickedBy: present.pickedBy, authUserId });
 
   return (
     <Card

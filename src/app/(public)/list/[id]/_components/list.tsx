@@ -29,6 +29,11 @@ export const List = ({ listId }: ListProps) => {
   const { data, isLoading, isError, error } = usePublicList(listId);
   const list = data?.listData;
 
+  const isExpired = useMemo(
+    () => list?.eventDate && new Date(list.eventDate) < new Date(),
+    [list?.eventDate]
+  );
+
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -40,10 +45,7 @@ export const List = ({ listId }: ListProps) => {
   if (isError) {
     return (
       <div className="flex justify-center items-center bg-red-800/30 p-5 rounded">
-        <ErrorMessageComponent
-          message={error.message}
-          callbackUrl={`${process.env.NEXT_PUBLIC_APP_URL}/list/${listId}`}
-        />
+        <ErrorMessageComponent message={error.message} />
       </div>
     );
   }
@@ -61,14 +63,30 @@ export const List = ({ listId }: ListProps) => {
           </>
         )}
 
-        {list?.presents?.map((present) => (
-          <CardPublicPresent
-            key={present.id}
-            present={present}
-            listId={listId}
-            authUserId={authUserId}
-          />
-        ))}
+        <div className="relative h-full">
+          {isExpired && (
+            <>
+              <div className="absolute inset-0 h-full w-full bg-black/70 pointer-events-auto z-[99]"></div>
+              <div className="absolute inset-0 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center w-full h-full z-[1]">
+                <div className="flex flex-col items-center justify-center gap-2 text-center text-white">
+                  <div className="text-5xl font-bold">Lista expirada</div>
+                  <div className="text-sm">
+                    La lista ha expirado, ya no puedes elegir regalos
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
+
+          {list?.presents?.map((present) => (
+            <CardPublicPresent
+              key={present.id}
+              present={present}
+              listId={listId}
+              authUserId={authUserId}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );
