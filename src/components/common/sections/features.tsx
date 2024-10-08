@@ -1,3 +1,5 @@
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 import { Gift, ListTodo, Share2, Lock } from "lucide-react";
 
 export const Features = () => {
@@ -15,7 +17,7 @@ export const Features = () => {
               Crea listas personalizadas
             </h3>
             <p className="text-lg text-muted-foreground">
-              Organiza tus deseos navideños en listas temáticas o por persona. 
+              Organiza tus deseos navideños en listas temáticas o por persona.
               Añade, edita y prioriza tus regalos con facilidad.
             </p>
           </div>
@@ -27,7 +29,8 @@ export const Features = () => {
               Añade regalos detallados
             </h3>
             <p className="text-secondary-foreground/80">
-              Describe tus regalos ideales con enlaces, tallas y colores preferidos.
+              Describe tus regalos ideales con enlaces, tallas y colores
+              preferidos.
             </p>
           </div>
 
@@ -39,13 +42,18 @@ export const Features = () => {
                 Comparte tus listas fácilmente
               </h3>
               <p className="text-lg text-accent-foreground/80 mb-6">
-                Envía tus listas a amigos y familiares con un simple enlace. 
-                Permite que otros vean y reserven regalos para evitar duplicados.
+                Envía tus listas a amigos y familiares con un simple enlace.
+                Permite que otros vean y reserven regalos para evitar
+                duplicados.
               </p>
             </div>
-            <button className="bg-primary text-primary-foreground py-3 px-6 rounded-full text-lg font-semibold hover:bg-primary/90 transition-colors self-start">
-              Prueba ahora
-            </button>
+            <Button
+              asChild
+              size="lg"
+              className="w-[min-content] text-lg"
+            >
+              <Link href="/sign-in">Empieza a compartir</Link>
+            </Button>
           </div>
 
           {/* Privacidad */}
@@ -55,8 +63,8 @@ export const Features = () => {
               Control total de privacidad
             </h3>
             <p className="text-muted-foreground">
-              Decide quién puede ver tus listas y regalos. 
-              Mantén la sorpresa con opciones de privacidad flexibles.
+              Decide quién puede ver tus listas y regalos. Mantén la sorpresa
+              con opciones de privacidad flexibles.
             </p>
           </div>
 
@@ -65,9 +73,14 @@ export const Features = () => {
             <h3 className="text-2xl font-semibold text-primary-foreground mb-4">
               ¿Listo para organizar tu Navidad?
             </h3>
-            <button className="bg-background text-foreground py-2 px-6 rounded-full text-lg font-semibold hover:bg-secondary transition-colors">
-              Comienza gratis
-            </button>
+            <Button
+              asChild
+              size="lg"
+              variant="secondary"
+              className="text-lg"
+            >
+              <Link href="/sign-in">Comienza gratis</Link>
+            </Button>
           </div>
         </div>
       </div>

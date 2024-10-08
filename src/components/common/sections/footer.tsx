@@ -23,11 +23,11 @@ export const Footer = () => {
                   <Link href="/">Inicio</Link>
                 </Button>
               </li>
-              <li>
+              {/* <li>
                 <Button variant="link" size="sm" asChild>
                   <Link href="#pricing">Precios</Link>
                 </Button>
-              </li>
+              </li> */}
               <li>
                 <Button variant="link" size="sm" asChild>
                   <Link href="/sign-in">Iniciar sesión</Link>
