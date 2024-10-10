@@ -67,8 +67,6 @@ const app = new Hono()
         )
         .returning();
 
-      console.log({ updatedPresent });
-
       // if (!updatedPresent) {
       //   return c.json({ error: ErrorMessage.presents.NotAvailable }, 400);
       // }
