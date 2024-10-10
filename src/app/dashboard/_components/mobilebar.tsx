@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { UserButton } from "@/features/auth/components/user-button";
 import { cn } from "@/lib/utils";
-import { GiftIcon, HomeIcon, ListIcon } from "lucide-react";
+import { GiftIcon, HeartIcon, HomeIcon, ListIcon } from "lucide-react";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -12,7 +12,7 @@ const links = [
   { label: "Escritorio", href: "/dashboard", icon: <HomeIcon /> },
   { label: "Regalos", href: "/dashboard/presents", icon: <GiftIcon /> },
   { label: "Listas", href: "/dashboard/lists", icon: <ListIcon /> },
-  // { label: "Settings", href: "/dashboard/settings", icon: <SettingsIcon /> },
+  { label: "Favoritas", href: "/dashboard/favorite-lists", icon: <HeartIcon /> },
 ];
 
 export const Mobilebar = () => {

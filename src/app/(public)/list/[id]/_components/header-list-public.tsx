@@ -1,20 +1,36 @@
+import { Button } from "@/components/ui/button";
+import { useCreateFollow } from "@/features/favorites/api/use-create-follow";
+import { useUnfollow } from "@/features/favorites/api/use-unfollow";
+import { FollowButton } from "@/features/favorites/components/follow-button";
 import { ListWithUserWithPresents } from "@/types/types";
 import { Separator } from "@radix-ui/react-select";
-import { CalendarIcon, InfoIcon, UserIcon } from "lucide-react";
+import { CalendarIcon, HeartIcon, InfoIcon, UserIcon } from "lucide-react";
+import { useSession } from "next-auth/react";
 import { useMemo } from "react";
 
 interface HeaderListPublicProps {
   list: ListWithUserWithPresents;
+  userId: string;
 }
 
-export const HeaderListPublic = ({ list }: HeaderListPublicProps) => {
+export const HeaderListPublic = ({ list, userId }: HeaderListPublicProps) => {
   const isExpired = useMemo(
     () => new Date(list.eventDate) > new Date(),
     [list.eventDate]
   );
 
+  const follow = useCreateFollow({ listId: list.id, userId });
+  const unFollow = useUnfollow({ listId: list.id, userId });
+
   return (
     <header className="bg-card/50 p-4 sm:p-6 rounded-lg shadow-sm mb-6">
+      <div className="flex justify-end">
+        <FollowButton
+          listId={list.id}
+          onFollow={() => follow.mutate({ listId: list.id })}
+          onUnfollow={() => unFollow.mutate({ listId: list.id })}
+        />
+      </div>
       <div className="flex flex-col gap-4 max-w-2xl mx-auto">
         <h1 className="text-2xl sm:text-3xl font-bold text-foreground text-center">
           {list?.name}

@@ -36,6 +36,13 @@
       "when": 1727522133294,
       "tag": "0004_young_talisman",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1728485885387,
+      "tag": "0005_premium_rocket_raccoon",
+      "breakpoints": true
     }
   ]
 }

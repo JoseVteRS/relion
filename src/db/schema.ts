@@ -210,3 +210,27 @@ export const pickedPresentsRelations = relations(pickedPresents, ({ one }) => ({
     references: [users.id],
   }),
 }));
+
+// FAVORITE LISTS
+export const favoriteLists = pgTable("favoriteList", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  userId: text("userId")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  listId: text("listId")
+    .notNull()
+    .references(() => lists.id, { onDelete: "cascade" }),
+});
+export const favoriteListsRelations = relations(favoriteLists, ({ one }) => ({
+  user: one(users, {
+    fields: [favoriteLists.userId],
+    references: [users.id],
+  }),
+  list: one(lists, {
+    fields: [favoriteLists.listId],
+    references: [lists.id],
+  }),
+}));
+

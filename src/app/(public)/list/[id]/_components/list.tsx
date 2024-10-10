@@ -34,6 +34,10 @@ export const List = ({ listId }: ListProps) => {
     [list?.eventDate]
   );
 
+  if (!authUserId) {
+    return <div>No autorizado</div>;
+  }
+
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -52,7 +56,7 @@ export const List = ({ listId }: ListProps) => {
 
   return (
     <div className="relative">
-      {list && <HeaderListPublic list={parseDates(list)} />}
+      {list && <HeaderListPublic list={parseDates(list)} userId={authUserId} />}
 
       <div className="mt-5 flex flex-col gap-2">
         {isLoading && (
@@ -77,15 +81,16 @@ export const List = ({ listId }: ListProps) => {
               </div>
             </>
           )}
-
-          {list?.presents?.map((present) => (
-            <CardPublicPresent
-              key={present.id}
-              present={present}
-              listId={listId}
-              authUserId={authUserId}
-            />
-          ))}
+          <div className="grid lg:grid-cols-3 gap-5">
+            {list?.presents?.map((present) => (
+              <CardPublicPresent
+                key={present.id}
+                present={present}
+                listId={listId}
+                authUserId={authUserId}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </div>

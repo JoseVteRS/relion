@@ -15,6 +15,7 @@ import {
   CheckIcon,
   ExternalLink,
   Gift,
+  HeartIcon,
   ListIcon,
   PackageCheck,
   PackageOpen,

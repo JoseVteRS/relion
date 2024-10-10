@@ -9,6 +9,7 @@ import users from "./users";
 import picks from "./picks";
 import subscriptions from "./subscriptions";
 import firstList from "./first-list";
+import favorites from "./follow-list";
 
 export const runtime = "nodejs";
 
@@ -29,7 +30,8 @@ const routes = app
   .route("/users", users)
   .route("/picks", picks)
   .route("/subscriptions", subscriptions)
-  .route("/firstList", firstList);
+  .route("/firstList", firstList)
+  .route("/favorites", favorites);
 
 export const GET = handle(app);
 export const POST = handle(app);

@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { BoxIcon, GiftIcon, HomeIcon, ListIcon } from "lucide-react";
+import { BoxIcon, GiftIcon, HeartIcon, HomeIcon, ListIcon, ListPlusIcon } from "lucide-react";
 import { SidebarItem } from "./sidebar-item";
 
 export const SidebarRoutes = () => {
@@ -18,15 +18,21 @@ export const SidebarRoutes = () => {
         />
         <SidebarItem
           href="/dashboard/presents"
-          label="Regalos"
+          label="Tus regalos"
           icon={GiftIcon}
           isActive={pathname === "/dashboard/presents"}
         />
         <SidebarItem
           href="/dashboard/lists"
-          label="Listas"
+          label="Tus listas"
           icon={ListIcon}
           isActive={pathname === "/dashboard/lists"}
+        />
+                <SidebarItem
+          href="/dashboard/favorite-lists"
+          label="Listas favoritas"
+          icon={HeartIcon}
+          isActive={pathname === "/dashboard/favorite-lists"}
         />
       </ul>
     </div>

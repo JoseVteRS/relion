@@ -84,6 +84,7 @@ const app = new Hono()
             },
           },
           presents: {
+            where: eq(presents.status, true),
             columns: {
               id: true,
               name: true,

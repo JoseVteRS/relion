@@ -20,4 +20,8 @@ export const qk = {
   tier: {
     get: ["tier"],
   },
+  favorite: {
+    getFavorite: (listId: string) => ["favorite", listId],
+    getFavoritesByUserId: (id?: string) => ["favorites", id],
+  },
 };
