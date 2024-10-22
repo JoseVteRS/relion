@@ -1,19 +1,15 @@
-import { Hono } from "hono";
-import { getAuthUser, verifyAuth } from "@hono/auth-js";
 import { db } from "@/db/drizzle";
-import {
-  insertPresentSchema,
-  lists,
-  presents,
-  pickedPresents,
-} from "@/db/schema";
+import { lists, pickedPresents, presents } from "@/db/schema";
+import { getAuthUser, verifyAuth } from "@hono/auth-js";
 import { zValidator } from "@hono/zod-validator";
 import { and, asc, desc, eq, isNull, not } from "drizzle-orm";
+import { Hono } from "hono";
 import { z } from "zod";
+
 import {
-  createPresetFormSchema,
-  updatePresetFormSchema,
-} from "@/features/present/forms/form-schemas";
+  createPresentSchema,
+  updatePresentSchema,
+} from "@/features/present/schemas";
 import { ErrorMessage } from "@/lib/error-messages";
 
 const app = new Hono()
@@ -114,53 +110,34 @@ const app = new Hono()
 
     return c.json({ data });
   })
-  .get(
-    "/:id",
-    verifyAuth(),
-    zValidator(
-      "param",
-      z.object({
-        id: z.optional(z.string()),
-      })
-    ),
-    async (c) => {
-      const auth = c.get("authUser");
-      const authUserId = auth?.session?.user?.id;
-      const { id } = c.req.valid("param");
-      if (!id) {
-        return c.json({ error: "Missing id" }, 400);
-      }
-      if (!authUserId) {
-        return c.json({ error: "Not found" }, 404);
-      }
-
-      const [data] = await db
-        .select({
-          id: presents.id,
-          name: presents.name,
-          link: presents.link,
-          description: presents.description,
-          status: presents.status,
-          list: {
-            id: lists.id,
-            name: lists.name,
-          },
-        })
-        .from(presents)
-        .leftJoin(lists, eq(presents.listId, lists.id))
-        .where(and(eq(presents.userId, authUserId), eq(presents.id, id)));
-
-      if (!data) {
-        return c.json({ error: "Not found" }, 404);
-      }
-
-      return c.json({ data });
+  .get("/:presentId", verifyAuth(), async (c) => {
+    const auth = c.get("authUser");
+    const authUserId = auth?.session?.user?.id;
+    if (!authUserId) {
+      return c.json({ error: "Not found" }, 404);
     }
-  )
+
+    const { presentId } = c.req.param();
+    if (!presentId) {
+      return c.json({ error: "Missing id" }, 400);
+    }
+
+    const [data] = await db
+      .select()
+      .from(presents)
+      .leftJoin(lists, eq(presents.listId, lists.id))
+      .where(and(eq(presents.userId, authUserId), eq(presents.id, presentId)));
+
+    if (!data) {
+      return c.json({ error: "Not found" }, 404);
+    }
+
+    return c.json({ data });
+  })
   .post(
     "/",
     verifyAuth(),
-    zValidator("json", createPresetFormSchema),
+    zValidator("json", createPresentSchema),
     async (c) => {
       const auth = c.get("authUser");
 
@@ -191,28 +168,27 @@ const app = new Hono()
     }
   )
   .patch(
-    "/:id",
+    "/:presentId",
     verifyAuth(),
-    zValidator("param", z.object({ id: z.optional(z.string()) })),
-    zValidator("json", updatePresetFormSchema),
+    zValidator("json", updatePresentSchema),
     async (c) => {
       const auth = c.get("authUser");
-      const { id } = c.req.valid("param");
-      const values = c.req.valid("json");
-
-      if (!id) {
-        return c.json({ error: "Missing id" }, 400);
-      }
 
       const authUserId = auth?.session?.user?.id;
       if (!authUserId) {
         return c.json({ error: "Not found" }, 404);
       }
 
+      const { presentId } = c.req.param();
+      if (!presentId) {
+        return c.json({ error: "Missing present ID" }, 400);
+      }
+
+      const { name, status, description, link, listId } = c.req.valid("json");
       const [data] = await db
         .update(presents)
-        .set({ ...values, updatedAt: new Date() })
-        .where(and(eq(presents.id, id), eq(presents.userId, authUserId)))
+        .set({ name, status, description, link, listId, updatedAt: new Date() })
+        .where(and(eq(presents.id, presentId), eq(presents.userId, authUserId)))
         .returning();
 
       if (!data) {

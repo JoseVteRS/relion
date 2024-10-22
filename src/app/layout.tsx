@@ -1,15 +1,14 @@
-import type { Metadata } from "next";
-import dynamic from "next/dynamic";
-import { Inter } from "next/font/google";
-import "./globals.css";
-import { SessionProvider } from "next-auth/react";
-import SheetProvider from "@/components/providers/sheet-provider";
-import QueryProvider from "@/components/providers/query-provider";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { auth } from "@/auth";
 import { Modals } from "@/components/common/modals";
-import {Toaster} from "@/components/ui/sonner";
+import QueryProvider from "@/components/providers/query-provider";
+import SheetProvider from "@/components/providers/sheet-provider";
+import { Toaster } from "@/components/ui/sonner";
+import { cn } from "@/lib/utils";
+import type { Metadata } from "next";
+import { SessionProvider } from "next-auth/react";
+import { Inter } from "next/font/google";
 import config from "../../config/config";
+import "./globals.css";
 
 // const LazyToaster = dynamic(
 //   () => import("@/components/ui/sonner").then((mod) => mod.Toaster),
@@ -86,14 +85,14 @@ export default async function RootLayout({
   const session = await auth();
   return (
     <SessionProvider session={session}>
-      <html lang="en" className="dark">
-        <body className={`${inter.className}`}>
+      <html lang="es" className="dark">
+        <body className={cn(inter.className, "antialiased min-h-screen")}>
           <QueryProvider>
             <SheetProvider />
             <Toaster richColors position="top-center" />
             <Modals />
             {children}
-            <ReactQueryDevtools initialIsOpen={false} />
+            {/* <ReactQueryDevtools initialIsOpen={false} /> */}
           </QueryProvider>
         </body>
       </html>

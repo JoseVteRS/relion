@@ -1,14 +1,18 @@
 import { client } from "@/lib/hono";
-import { useQuery } from "@tanstack/react-query";
 import { qk } from "@/lib/query-keys";
+import { useQuery } from "@tanstack/react-query";
 
-export const useGetUserPresent = (id?: string) => {
+interface UseGetUserPresentProps {
+  presentId: string;
+}
+
+export const useGetUserPresent = ({ presentId }: UseGetUserPresentProps) => {
   const query = useQuery({
-    enabled: !!id,
-    queryKey: qk.presents.userPresentDetails(id!),
+    enabled: !!presentId,
+    queryKey: qk.presents.userPresentDetails(presentId!),
     queryFn: async () => {
-      const response = await client.api.presents[":id"].$get({
-        param: { id },
+      const response = await client.api.presents[":presentId"].$get({
+        param: { presentId },
       });
 
       if (!response.ok) {

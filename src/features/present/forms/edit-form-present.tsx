@@ -1,5 +1,4 @@
 "use client";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -9,9 +8,6 @@ import {
   FormLabel,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Switch } from "@/components/ui/switch";
-import { Textarea } from "@/components/ui/textarea";
-import { useForm } from "react-hook-form";
 import {
   Select,
   SelectContent,
@@ -19,33 +15,46 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
+import { Textarea } from "@/components/ui/textarea";
 import { useGetUserLists } from "@/features/list/api/use-get-user-lists";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader, Loader2 } from "lucide-react";
-import {
-  UpdatePresentFormValues,
-  updatePresetFormSchema,
-} from "./form-schemas";
+import { useForm } from "react-hook-form";
 
-type UpdatePresentFormProps = {
-  defaultValues?: any;
-  onSubmit: (values: any) => void;
-  disabled?: boolean;
-};
+import { useRouter } from "next/navigation";
+import { z } from "zod";
+import { useUpdatePresent } from "../api/use-update-present";
+import { updatePresentSchema } from "../schemas";
+import { Present } from "../types";
+
+interface EditPresentFormProps {
+  onCancel?: () => void;
+  initialValues: Present;
+}
 
 export const UpdatePresentForm = ({
-  defaultValues,
-  onSubmit,
-  disabled,
-}: UpdatePresentFormProps) => {
+  initialValues,
+  onCancel,
+}: EditPresentFormProps) => {
+  const router = useRouter();
   const { data: lists, isLoading } = useGetUserLists();
+  const { mutate: updatePresent, isPending: updatingPresent } =
+    useUpdatePresent();
 
   const form = useForm({
-    resolver: zodResolver(updatePresetFormSchema),
-    defaultValues: defaultValues,
+    resolver: zodResolver(updatePresentSchema),
+    defaultValues: {
+      name: initialValues.name || "",
+      status: initialValues.status || false,
+      listId: initialValues.listId || undefined,
+      description: initialValues.description || undefined,
+      link: initialValues.link || undefined,
+    },
   });
 
-  const handleSubmit = (values: UpdatePresentFormValues) => {
-    onSubmit(values);
+  const handleSubmit = (values: z.infer<typeof updatePresentSchema>) => {
+    updatePresent({ json: values, param: { presentId: initialValues.id } });
   };
 
   return (
@@ -60,12 +69,7 @@ export const UpdatePresentForm = ({
                 <FormLabel className="text-base">Nombre</FormLabel>
               </div>
               <FormControl>
-                <Input
-                  placeholder="Nombre de la lista"
-                  autoComplete="off"
-                  disabled={disabled}
-                  {...field}
-                />
+                <Input {...field} placeholder="Nombre de la lista" />
               </FormControl>
             </FormItem>
           )}
@@ -79,12 +83,7 @@ export const UpdatePresentForm = ({
                 <FormLabel className="text-base">Enlace al producto</FormLabel>
               </div>
               <FormControl>
-                <Input
-                  placeholder="https://www.amazon.es/"
-                  autoComplete="off"
-                  disabled={disabled}
-                  {...field}
-                />
+                <Input {...field} placeholder="https://www.amazon.es/" />
               </FormControl>
             </FormItem>
           )}
@@ -100,11 +99,9 @@ export const UpdatePresentForm = ({
               </div>
               <FormControl>
                 <Textarea
-                  autoComplete="off"
-                  rows={5}
-                  disabled={disabled}
-                  placeholder="Descripción del regalo"
                   {...field}
+                  rows={5}
+                  placeholder="Descripción del regalo"
                 />
               </FormControl>
             </FormItem>
@@ -168,9 +165,16 @@ export const UpdatePresentForm = ({
           )}
         />
 
-        <div className="mt-5">
-          <Button type="submit" className="w-full">
-            {disabled ? <Loader2 className="animate-spin" /> : "Actualizar"}
+        <div className="mt-5 flex lg:justify-end">
+          <Button type="submit" className="w-full lg:w-fit">
+            {updatingPresent ? (
+              <>
+                <Loader2 className="animate-spin" />
+                Actualizando
+              </>
+            ) : (
+              "Actualizar"
+            )}
           </Button>
         </div>
       </form>

@@ -1,15 +1,17 @@
 import { TitlePage } from "@/components/common/page-title";
-import { protectServer } from "@/features/auth/utils";
+import { getSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 import { CardInfoList } from "./_components/card-info-list";
 import { CardInfoPresent } from "./_components/card-info-present";
 import { FirstListButton } from "./_components/first-list";
-import NextBreadcrumb from "@/components/common/breadcumbs";
 
 export default async function DashboardPage() {
-  await protectServer();
+  const session = await getSession();
+  if (!session) redirect("/sign-in");
+
+  
   return (
     <div className="">
-
       <div className="flex flex-col items-start justify-between">
         <TitlePage>Escritorio</TitlePage>
         <FirstListButton />

@@ -1,8 +1,9 @@
 import NextBreadcrumb from "@/components/common/breadcumbs";
+import { CreatePresentModal } from "@/features/present/components/create-present-modal";
+import { ChevronRightIcon } from "lucide-react";
 import { Mobilebar } from "./_components/mobilebar";
 import { Navbar } from "./_components/navbar";
 import { Sidebar } from "./_components/sidebar";
-import { ChevronRightIcon } from "lucide-react";
 
 export default function DashboardLayout({
   children,
@@ -11,6 +12,7 @@ export default function DashboardLayout({
 }) {
   return (
     <div className="dark:bg-neutral-950 bg-white h-full">
+      <CreatePresentModal />
       <Sidebar />
       <div className="lg:pl-[300px] flex flex-col h-full">
         <Navbar />

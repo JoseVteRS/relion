@@ -1,6 +1,5 @@
 "use client";
 
-import { SelectMultiple } from "@/components/common/select-multiple";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -10,21 +9,10 @@ import {
   FormLabel,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {
-  MultiSelector,
-  MultiSelectorTrigger,
-  MultiSelectorInput,
-  MultiSelectorContent,
-  MultiSelectorList,
-  MultiSelectorItem,
-} from "@/components/ui/multiple-selector";
 import { Switch } from "@/components/ui/switch";
-import { insertListsSchema } from "@/db/schema";
 import { useGetPresentsWithoutList } from "@/features/present/api/use-get-presents-without-list";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { FormValuesUpdateList, updateListFormSchema } from "./form-schemas";
 
 type CreateListFormProps = {

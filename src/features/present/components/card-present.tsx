@@ -1,31 +1,23 @@
+import { Card, CardContent } from "@/components/ui/card";
 import {
-  CircleDotDashedIcon,
-  EllipsisIcon,
   EllipsisVerticalIcon,
-  EyeIcon,
-  FlipHorizontalIcon,
-  GiftIcon,
   LinkIcon,
-  ListIcon,
   PencilIcon,
-  Trash,
-  Trash2,
   TrashIcon,
 } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
+import { StatusBadge } from "@/components/common/status-badge";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { StatusBadge } from "@/components/common/status-badge";
-import { useDeletePresent } from "../api/use-delete-present";
-import { useConfirm } from "../../../../hooks/use-confirm";
-import { useOpenPresentSheetState } from "../hooks/use-open-present";
 import { List, Present } from "@/types/types";
 import Link from "next/link";
+import { useConfirm } from "../../../../hooks/use-confirm";
+import { useDeletePresent } from "../api/use-delete-present";
+import { useOpenPresentSheetState } from "../hooks/use-open-present";
 
 export type PresentWithList = Present & {
   list: List;
@@ -73,11 +65,13 @@ export const CardPresent = ({ present, onEdit }: CardPresentProps) => {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="bg-popover text-popover-foreground">
                   <DropdownMenuItem
-                    onClick={() => onOpen(present.id)}
+                    asChild
                     className="flex items-center space-x-2 hover:bg-accent hover:text-accent-foreground"
                   >
-                    <PencilIcon className="w-4 h-4" />
-                    <span>Editar</span>
+                    <Link href={`/dashboard/presents/${present.id}`}>
+                      <PencilIcon className="w-4 h-4" />
+                      <span>Editar</span>
+                    </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem
                     className="flex items-center space-x-2 text-destructive hover:bg-destructive/50 hover:text-destructive-foreground"

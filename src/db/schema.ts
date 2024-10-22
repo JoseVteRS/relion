@@ -1,15 +1,14 @@
+import { relations } from "drizzle-orm";
 import {
   boolean,
-  timestamp,
-  pgTable,
-  text,
-  primaryKey,
   integer,
-  pgEnum,
+  pgTable,
+  primaryKey,
+  text,
+  timestamp
 } from "drizzle-orm/pg-core";
-import type { AdapterAccountType } from "next-auth/adapters";
 import { createInsertSchema } from "drizzle-zod";
-import { relations } from "drizzle-orm";
+import type { AdapterAccountType } from "next-auth/adapters";
 import { z } from "zod";
 
 export const users = pgTable("user", {
@@ -233,4 +232,8 @@ export const favoriteListsRelations = relations(favoriteLists, ({ one }) => ({
     references: [lists.id],
   }),
 }));
+
+
+
+
 
