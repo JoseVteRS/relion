@@ -20,7 +20,7 @@ export const ShareWhatsappButton: React.FC<ShareWhatsappButtonProps> = ({
 
   return (
     <button onClick={handleShare}>
-      <WhatsappIcon className="size-5 text-white" />
+      <WhatsappIcon className="size-5 text-black dark:text-white" />
     </button>
   );
 };

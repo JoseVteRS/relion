@@ -1,6 +1,5 @@
-import NextBreadcrumb from "@/components/common/breadcumbs";
+import { NextBreadcrumbs } from "@/components/common/breadcumbs";
 import { CreatePresentModal } from "@/features/present/components/create-present-modal";
-import { ChevronRightIcon } from "lucide-react";
 import { Mobilebar } from "./_components/mobilebar";
 import { Navbar } from "./_components/navbar";
 import { Sidebar } from "./_components/sidebar";
@@ -17,14 +16,9 @@ export default function DashboardLayout({
       <div className="lg:pl-[300px] flex flex-col h-full">
         <Navbar />
         <main className="bg-background flex-1 overflow-auto p-8 rounded-tl-xl">
-          <NextBreadcrumb
-            homeElement={"Inicio"}
-            separator={<ChevronRightIcon className="size-4" />}
-            activeClasses="text-primary"
-            containerClasses="flex items-center text-muted-foreground mb-10"
-            listClasses="hover:underline mx-2  text-sm  font-medium flex items-center"
-            capitalizeLinks
-          />
+          <div className="mb-5">
+            <NextBreadcrumbs />
+          </div>
           {children}
         </main>
         <div className="lg:hidden relative">

@@ -1,8 +1,8 @@
 "use client";
 
+import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
 import { FiCopy } from "react-icons/fi";
-import { Badge } from "@/components/ui/badge";
 
 interface CopyToClipboardProps {
   text: string;
@@ -24,7 +24,7 @@ export const CopyToClipboard: React.FC<CopyToClipboardProps> = ({ text }) => {
         className="p-2 rounded-md focus:border focus:outline-none"
         aria-label="Copiar al portapapeles"
       >
-        <FiCopy className="size-5 text-white" />
+        <FiCopy className="size-5 text-black dark:text-white" />
       </button>
       {showTooltip && (
         <Badge

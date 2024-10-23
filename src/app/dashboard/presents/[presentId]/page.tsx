@@ -49,7 +49,7 @@ export default function SinglePresentPage({ params }: SinglePresentPageProps) {
         <ArrowLeftIcon className="w-5 h-5" />
         Volver
       </Button>
-      <Card>
+      <Card className="border-none shadow-none max-w-2xl mx-auto">
         <CardHeader>
           <CardTitle>
             Editar <strong>{present?.present.name}</strong>

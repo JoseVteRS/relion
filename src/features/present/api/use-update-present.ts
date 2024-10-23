@@ -35,6 +35,9 @@ export const useUpdatePresent = () => {
         queryKey: qk.presents.publicPresentDetails(data.id!),
       });
       queryClient.invalidateQueries({
+        queryKey: qk.presents.publicPresentsInList(data.id!),
+      });
+      queryClient.invalidateQueries({
         queryKey: qk.presents.userPresents,
       });
       queryClient.invalidateQueries({

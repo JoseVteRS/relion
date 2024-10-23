@@ -50,11 +50,10 @@ export const CardPresent = ({ present, onEdit }: CardPresentProps) => {
   return (
     <>
       <ConfirmDialog />
-      <Card className="w-full bg-card text-card-foreground shadow-md hover:shadow-lg transition-shadow duration-300 rounded-lg overflow-hidden">
+      <Card>
         <CardContent className="p-4">
           <div className="flex items-start justify-between mb-3">
             <div className="flex items-center space-x-2">
-              {/* <GiftIcon className="w-5 h-5 text-primary" /> */}
               <h3 className="text-lg font-semibold">{present.name}</h3>
               <StatusBadge status={present.status || false} />
             </div>

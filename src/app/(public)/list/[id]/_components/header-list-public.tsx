@@ -1,11 +1,9 @@
-import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 import { useCreateFollow } from "@/features/favorites/api/use-create-follow";
 import { useUnfollow } from "@/features/favorites/api/use-unfollow";
 import { FollowButton } from "@/features/favorites/components/follow-button";
 import { ListWithUserWithPresents } from "@/types/types";
-import { Separator } from "@radix-ui/react-select";
-import { CalendarIcon, HeartIcon, InfoIcon, UserIcon } from "lucide-react";
-import { useSession } from "next-auth/react";
+import { CalendarIcon, InfoIcon, UserIcon } from "lucide-react";
 import { useMemo } from "react";
 
 interface HeaderListPublicProps {

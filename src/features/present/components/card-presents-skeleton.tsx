@@ -1,11 +1,10 @@
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import React from "react";
 
 export const CardPresentsSkeleton = () => {
   return (
     <div>
-      <Card className="w-full">
+      <Card className="w-full border-none shadow-none">
         <CardHeader>
           <div className="flex items-start">
             <div className="flex flex-col flex-1 items-start gap-1">

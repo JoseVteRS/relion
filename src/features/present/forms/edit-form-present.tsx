@@ -54,41 +54,51 @@ export const UpdatePresentForm = ({
   });
 
   const handleSubmit = (values: z.infer<typeof updatePresentSchema>) => {
-    updatePresent({ json: values, param: { presentId: initialValues.id } });
+    updatePresent(
+      { json: values, param: { presentId: initialValues.id } },
+      {
+        onSuccess: () => {
+          router.back()
+        },
+      }
+    );
   };
 
   return (
     <Form {...form}>
       <form className="space-y-4" onSubmit={form.handleSubmit(handleSubmit)}>
-        <FormField
-          control={form.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem>
-              <div className="space-y-0.5">
-                <FormLabel className="text-base">Nombre</FormLabel>
-              </div>
-              <FormControl>
-                <Input {...field} placeholder="Nombre de la lista" />
-              </FormControl>
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="link"
-          render={({ field }) => (
-            <FormItem>
-              <div className="space-y-0.5">
-                <FormLabel className="text-base">Enlace al producto</FormLabel>
-              </div>
-              <FormControl>
-                <Input {...field} placeholder="https://www.amazon.es/" />
-              </FormControl>
-            </FormItem>
-          )}
-        />
-
+        <div className="flex w-full flex-col lg:flex-row gap-4">
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <div className="space-y-0.5">
+                  <FormLabel className="text-base">Nombre</FormLabel>
+                </div>
+                <FormControl>
+                  <Input {...field} placeholder="Nombre de la lista" />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="link"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <div className="space-y-0.5">
+                  <FormLabel className="text-base">
+                    Enlace al producto
+                  </FormLabel>
+                </div>
+                <FormControl>
+                  <Input {...field} placeholder="https://www.amazon.es/" />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+        </div>
         <FormField
           control={form.control}
           name="description"

@@ -1,4 +1,17 @@
-import { useMemo } from "react";
+import { CopyToClipboard } from "@/components/common/copy-to-clipboard";
+import { ShareWhatsappButton } from "@/components/common/share-whatsapp-button";
+import { StatusBadge } from "@/components/common/status-badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { ListWithUserWithPresents } from "@/types/types";
+import { format } from "date-fns";
+import { es } from "date-fns/locale";
 import {
   Calendar,
   EllipsisVerticalIcon,
@@ -7,24 +20,11 @@ import {
   PencilIcon,
   TrashIcon,
 } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { StatusBadge } from "@/components/common/status-badge";
-import { useConfirm } from "../../../../hooks/use-confirm";
-import { useOpenListSheetState } from "../hooks/use-open-list";
-import { CopyToClipboard } from "@/components/common/copy-to-clipboard";
-import { ShareWhatsappButton } from "@/components/common/share-whatsapp-button";
-import { useDeleteList } from "../api/use-delete-list";
-import { ListWithUserWithPresents } from "@/types/types";
-import { format } from "date-fns";
-import { es } from "date-fns/locale";
 import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
+import { useMemo } from "react";
+import { useConfirm } from "../../../../hooks/use-confirm";
+import { useDeleteList } from "../api/use-delete-list";
+import { useOpenListSheetState } from "../hooks/use-open-list";
 
 interface CardListProps {
   list: ListWithUserWithPresents;
@@ -61,7 +61,7 @@ export const CardList = ({ list }: CardListProps) => {
   return (
     <>
       <DialogConfirm />
-      <Card className="w-full bg-card text-card-foreground rounded-lg overflow-hidden cursor-pointer">
+      <Card className="cursor-pointer hover:border-primary transition-colors">
         <CardContent className="p-4">
           <div className="flex items-start justify-between mb-3">
             <div className="flex items-center space-x-2">
