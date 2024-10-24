@@ -1,6 +1,5 @@
 "use client";
 
-import { NewListSheet } from "@/features/list/sheets/new-list-sheet";
 import { UpdateListSheet } from "@/features/list/sheets/update-list-sheet";
 import { useMemo } from "react";
 import { useMountedState, useWindowSize } from "react-use";
@@ -16,7 +15,7 @@ const SheetProvider = () => {
   return (
     <>
       {/* List Sheets */}
-      <NewListSheet isMobile={isMobile} />
+      {/* <NewListSheet isMobile={isMobile} /> */}
       <UpdateListSheet isMobile={isMobile} />
 
       {/* Present Sheets */}
