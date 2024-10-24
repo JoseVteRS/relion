@@ -17,7 +17,6 @@ import { List, Present } from "@/types/types";
 import Link from "next/link";
 import { useConfirm } from "../../../../hooks/use-confirm";
 import { useDeletePresent } from "../api/use-delete-present";
-import { useOpenPresentSheetState } from "../hooks/use-open-present";
 
 export type PresentWithList = Present & {
   list: List;
@@ -25,24 +24,19 @@ export type PresentWithList = Present & {
 
 interface CardPresentProps {
   present: PresentWithList;
-  onEdit: () => void;
-  onDelete?: () => void;
 }
 
-export const CardPresent = ({ present, onEdit }: CardPresentProps) => {
+export const CardPresent = ({ present }: CardPresentProps) => {
   const deletePresent = useDeletePresent(present.id);
   const [ConfirmDialog, confirm] = useConfirm(
     "Estás seguro que quieres borrar este regalo?",
     "Se borrará permanentemente este regalo"
   );
 
-  const { onOpen } = useOpenPresentSheetState();
-
   const onDelete = async () => {
     const ok = await confirm();
 
     if (ok) {
-      console.log("borrar regalo");
       deletePresent.mutate(undefined);
     }
   };
@@ -50,7 +44,7 @@ export const CardPresent = ({ present, onEdit }: CardPresentProps) => {
   return (
     <>
       <ConfirmDialog />
-      <Card>
+      <Card className="bg-neutral-100 shadow-none border-neutral-300 dark:border-neutral-700 dark:bg-background">
         <CardContent className="p-4">
           <div className="flex items-start justify-between mb-3">
             <div className="flex items-center space-x-2">

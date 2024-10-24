@@ -1,8 +1,7 @@
 "use client";
 
-import { format, parseISO } from "date-fns";
-import { es } from "date-fns/locale";
 import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import {
   Form,
   FormControl,
@@ -19,48 +18,48 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Switch } from "@/components/ui/switch";
-import { insertListsSchema } from "@/db/schema";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Calendar } from "@/components/ui/calendar";
-import { CalendarIcon } from "lucide-react";
+import { format } from "date-fns";
+import { es } from "date-fns/locale";
+import { CalendarIcon, Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { useCreateList } from "../api/use-create-list";
+import { useCreateListModal } from "../hooks/use-create-list-modal";
+import { createListSchema } from "../schemas";
 
-const formSchema = insertListsSchema.pick({
-  name: true,
-  description: true,
-  eventDate: true,
-  status: true,
-});
+interface CreateListFormProps {
+  onCancel?: () => void;
+}
 
-type FormValues = z.input<typeof formSchema>;
+export const CreateListForm = ({ onCancel }: CreateListFormProps) => {
+  const router = useRouter();
+  const { mutate: createList, isPending: creatingList } = useCreateList();
+  const { close } = useCreateListModal();
 
-type CreateListFormProps = {
-  defaultValues?: any;
-  onSubmit: (values: any) => void;
-  disabled?: boolean;
-};
-
-export const CreateListForm = ({
-  defaultValues,
-  onSubmit,
-  disabled,
-}: CreateListFormProps) => {
-  const form = useForm({
-    resolver: zodResolver(formSchema),
-    defaultValues,
+  const form = useForm<z.infer<typeof createListSchema>>({
+    resolver: zodResolver(createListSchema),
+    defaultValues: {
+      name: "",
+      eventDate: new Date(),
+      status: true,
+    },
   });
 
-  const handleSubmit = (values: FormValues) => {
-    onSubmit({
-      ...values,
-      eventDate: values.eventDate.toISOString(),
+  const handleSubmit = (values: z.infer<typeof createListSchema>) => {
+    createList(values, {
+      onSuccess: () => {
+        form.reset();
+        // router.push("/dashboard/lists");
+        close();
+      },
     });
   };
 
   return (
-    <div className="mb-20">
+    <div className="p-3">
       <Form {...form}>
         <form className="space-y-4" onSubmit={form.handleSubmit(handleSubmit)}>
           <FormField
@@ -72,30 +71,7 @@ export const CreateListForm = ({
                   <FormLabel className="text-base">Nombre</FormLabel>
                 </div>
                 <FormControl>
-                  <Input
-                    disabled={form.formState.isSubmitting}
-                    placeholder="Nombre de la lista"
-                    {...field}
-                  />
-                </FormControl>
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="status"
-            render={({ field }) => (
-              <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
-                <div className="space-y-0.5">
-                  <FormLabel className="text-base">Estado</FormLabel>
-                </div>
-                <FormControl>
-                  <Switch
-                    checked={field.value}
-                    onCheckedChange={field.onChange}
-                    aria-readonly
-                    {...field}
-                  />
+                  <Input {...field} placeholder="Nombre de la lista" />
                 </FormControl>
               </FormItem>
             )}
@@ -106,7 +82,7 @@ export const CreateListForm = ({
             name="eventDate"
             render={({ field }) => (
               <FormItem className="flex flex-col w-full">
-                <FormLabel>Fecha del evento</FormLabel>
+                <FormLabel className="text-base">Fecha del evento</FormLabel>
                 <Popover>
                   <PopoverTrigger asChild className="w-full">
                     <FormControl className="w-full">
@@ -147,9 +123,46 @@ export const CreateListForm = ({
             )}
           />
 
-          <div className="mt-5">
-            <Button type="submit" className="w-full">
-              Crear
+          <FormField
+            control={form.control}
+            name="status"
+            render={({ field }) => (
+              <FormItem>
+                <div className="space-y-0.5">
+                  <FormLabel className="text-base">Estado</FormLabel>
+                </div>
+                <FormControl>
+                  <Switch
+                    checked={Boolean(field.value)}
+                    onCheckedChange={field.onChange}
+                    aria-readonly
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <div className="flex items-center justify-between">
+            <Button
+              type="button"
+              size="lg"
+              variant="secondary"
+              onClick={onCancel}
+              disabled={creatingList}
+              className={cn(!onCancel && "invisible")}
+            >
+              Cancelar
+            </Button>
+            <Button disabled={creatingList} type="submit" size="lg">
+              {creatingList ? (
+                <>
+                  <Loader2 className="animate-spin" />
+                  <span>Añadiendo lista</span>
+                </>
+              ) : (
+                "Añadir lista"
+              )}
             </Button>
           </div>
         </form>

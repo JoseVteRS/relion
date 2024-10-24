@@ -8,7 +8,7 @@ export const CreatePresentModal = () => {
   const { isOpen, setIsOpen, close } = useCreatePresentModal();
 
   return (
-    <ResponsiveModal open={isOpen} onOpenChange={setIsOpen} title="Regalo">
+    <ResponsiveModal open={isOpen} onOpenChange={setIsOpen} title="Añadir regalo">
       <CreatePresentForm onCancel={close} />
     </ResponsiveModal>
   );

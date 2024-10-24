@@ -2,6 +2,7 @@ import { auth } from "@/auth";
 import { Modals } from "@/components/common/modals";
 import QueryProvider from "@/components/providers/query-provider";
 import SheetProvider from "@/components/providers/sheet-provider";
+import { ThemeProvider } from "@/components/providers/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
@@ -85,15 +86,22 @@ export default async function RootLayout({
   const session = await auth();
   return (
     <SessionProvider session={session}>
-      <html lang="es" className="dark">
+      <html lang="es" suppressHydrationWarning>
         <body className={cn(inter.className, "antialiased min-h-screen")}>
-          <QueryProvider>
-            <SheetProvider />
-            <Toaster richColors position="top-center" />
-            <Modals />
-            {children}
-            {/* <ReactQueryDevtools initialIsOpen={false} /> */}
-          </QueryProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <QueryProvider>
+              <SheetProvider />
+              <Toaster richColors position="top-center" />
+              <Modals />
+              {children}
+              {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+            </QueryProvider>
+          </ThemeProvider>
         </body>
       </html>
     </SessionProvider>

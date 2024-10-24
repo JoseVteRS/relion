@@ -1,7 +1,6 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { UserButton } from "@/features/auth/components/user-button";
 import { cn } from "@/lib/utils";
 import { GiftIcon, HeartIcon, HomeIcon, ListIcon } from "lucide-react";
 
@@ -22,7 +21,7 @@ export const Mobilebar = () => {
   };
 
   return (
-    <nav className="bg-neutral-950 py-2">
+    <nav className="bg-neutral-950 py-2 fixed bottom-0 left-0 right-0">
       <div className="container mx-auto flex items-center justify-between gap-4">
         {links.map((link) => (
           <div key={link.href} className="flex flex-col items-center gap-1">

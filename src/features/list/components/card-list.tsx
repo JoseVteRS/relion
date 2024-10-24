@@ -20,16 +20,14 @@ import {
   PencilIcon,
   TrashIcon,
 } from "lucide-react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useMemo } from "react";
 import { useConfirm } from "../../../../hooks/use-confirm";
 import { useDeleteList } from "../api/use-delete-list";
-import { useOpenListSheetState } from "../hooks/use-open-list";
 
 interface CardListProps {
   list: ListWithUserWithPresents;
-  onDelete: () => void;
-  onEdit: () => void;
 }
 
 export const CardList = ({ list }: CardListProps) => {
@@ -45,7 +43,6 @@ export const CardList = ({ list }: CardListProps) => {
   );
 
   const deleteList = useDeleteList(list.id);
-  const { onOpen } = useOpenListSheetState();
 
   const onDelete = async () => {
     const ok = await confirm();
@@ -61,7 +58,7 @@ export const CardList = ({ list }: CardListProps) => {
   return (
     <>
       <DialogConfirm />
-      <Card className="cursor-pointer hover:border-primary transition-colors">
+      <Card className="bg-neutral-100 shadow-none border-neutral-300 dark:border-neutral-700 dark:bg-background">
         <CardContent className="p-4">
           <div className="flex items-start justify-between mb-3">
             <div className="flex items-center space-x-2">
@@ -78,14 +75,13 @@ export const CardList = ({ list }: CardListProps) => {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="bg-popover text-popover-foreground">
                   <DropdownMenuItem
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onOpen(list.id);
-                    }}
+                    asChild
                     className="flex items-center space-x-2 hover:bg-accent hover:text-accent-foreground"
                   >
-                    <PencilIcon className="w-4 h-4" />
-                    <span>Editar</span>
+                    <Link href={`/dashboard/lists/${list.id}`}>
+                      <PencilIcon className="w-4 h-4" />
+                      <span>Editar</span>
+                    </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem
                     className="flex items-center space-x-2 text-destructive hover:bg-destructive/50 hover:text-destructive-foreground"

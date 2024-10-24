@@ -1,6 +1,6 @@
-import React from "react";
 import { Button } from "@/components/ui/button";
 
+import LogoLight from "@/components/common/logo/logo-light";
 import {
   Dialog,
   DialogContent,
@@ -9,12 +9,10 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { BoxIcon, CheckCircle2, ListIcon, PencilIcon } from "lucide-react";
-import { useSubscriptionModalStore } from "../store/use-subscription-modal.store";
-import Image from "next/image";
 import { Separator } from "@/components/ui/separator";
+import { BoxIcon, CheckCircle2, ListIcon, PencilIcon } from "lucide-react";
 import { useCheckoutSubscription } from "../api/use-checkout-subscription";
-import Logo from "@/components/common/logo/logo";
+import { useSubscriptionModalStore } from "../store/use-subscription-modal.store";
 
 export const SubscriptionModal = () => {
   const checkout = useCheckoutSubscription();
@@ -24,7 +22,7 @@ export const SubscriptionModal = () => {
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent>
         <DialogHeader className="flex items-center gap-y-4">
-          <Logo />
+          <LogoLight />
           <DialogTitle className="text-center">Mejora tu plan</DialogTitle>
           <DialogDescription className="text-center">
             Mejora tu plan para disfrutar de más funciones

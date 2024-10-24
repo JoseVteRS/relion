@@ -2,7 +2,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -23,11 +22,12 @@ import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { useGetUserLists } from "@/features/list/api/use-get-user-lists";
 import { cn } from "@/lib/utils";
-import { Loader } from "lucide-react";
+import { Loader, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { useCreatePresent } from "../api/use-create-present";
+import { useCreatePresentModal } from "../hooks/use-create-present-modal";
 import { createPresentSchema } from "../schemas";
 
 interface CreatePresentFormProps {
@@ -39,6 +39,8 @@ export const CreatePresentForm = ({ onCancel }: CreatePresentFormProps) => {
   const { data: lists, isLoading } = useGetUserLists();
   const { mutate: createPresent, isPending: creatingPresent } =
     useCreatePresent();
+  const { close } = useCreatePresentModal();
+
   const form = useForm({
     resolver: zodResolver(createPresentSchema),
     defaultValues: {
@@ -54,140 +56,143 @@ export const CreatePresentForm = ({ onCancel }: CreatePresentFormProps) => {
     createPresent(values, {
       onSuccess: () => {
         form.reset();
-        router.push("/dashboard/presents");
+        // router.push("/dashboard/presents");
+        close();
       },
     });
   };
 
   return (
-    <Card className="w-full h-full border-none shadow-none">
-      <CardHeader className="flex p-7">
-        <CardTitle className="text-xl font-bold">
-          Añade un nuevo regalo
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
-        <Form {...form}>
-          <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-sm">Nombre</FormLabel>
-                  <FormControl>
-                    <Input {...field} placeholder="Nombre del regalo" />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
+    <div className="p-3">
+      <Form {...form}>
+        <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-sm">Nombre</FormLabel>
+                <FormControl>
+                  <Input {...field} placeholder="Nombre del regalo" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="link"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-sm">Enlace al producto</FormLabel>
+                <FormControl>
+                  <Input {...field} placeholder="https://www.amazon.es" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="description"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-sm">Descripción</FormLabel>
+
+                <FormControl>
+                  <Textarea
+                    {...field}
+                    rows={5}
+                    placeholder="Descripción del regalo"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="listId"
+            render={({ field }) => (
+              <FormItem className="items-center justify-between">
+                <FormLabel className="text-sm">Listas</FormLabel>
+                <FormControl>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue
+                          className="text-white"
+                          placeholder="Selecciona una lista"
+                        />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {isLoading ? (
+                        <Loader />
+                      ) : (
+                        lists?.map((list) => (
+                          <SelectItem key={list.id} value={list.id}>
+                            {list.name}
+                          </SelectItem>
+                        ))
+                      )}
+                    </SelectContent>
+                  </Select>
+                </FormControl>
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="status"
+            render={({ field }) => (
+              <FormItem>
+                <div className="space-y-0.5">
+                  <FormLabel className="text-base">Estado</FormLabel>
+                </div>
+                <FormControl>
+                  <Switch
+                    checked={Boolean(field.value)}
+                    onCheckedChange={field.onChange}
+                    aria-readonly
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <div className="flex items-center justify-between">
+            <Button
+              type="button"
+              size="lg"
+              variant="secondary"
+              onClick={onCancel}
+              disabled={creatingPresent}
+              className={cn(!onCancel && "invisible")}
+            >
+              Cancelar
+            </Button>
+            <Button disabled={creatingPresent} type="submit" size="lg">
+              {creatingPresent ? (
+                <>
+                  <Loader2 className="animate-spin" />
+                  <span>Añadiendo regalo</span>
+                </>
+              ) : (
+                "Añadir regalo"
               )}
-            />
-
-            <FormField
-              control={form.control}
-              name="link"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-sm">Enlace al producto</FormLabel>
-                  <FormControl>
-                    <Input {...field} placeholder="https://www.amazon.es" />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-sm">Descripción</FormLabel>
-
-                  <FormControl>
-                    <Textarea
-                      {...field}
-                      rows={5}
-                      placeholder="Descripción del regalo"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="status"
-              render={({ field }) => (
-                <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
-                  <FormLabel className="text-sm">Estado</FormLabel>
-
-                  <FormControl>
-                    <Switch
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                      aria-readonly
-                    />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="listId"
-              render={({ field }) => (
-                <FormItem className="items-center justify-between">
-                  <FormLabel className="text-sm">Listas</FormLabel>
-                  <FormControl>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue
-                            className="text-white"
-                            placeholder="Selecciona una lista"
-                          />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {isLoading ? (
-                          <Loader />
-                        ) : (
-                          lists?.map((list) => (
-                            <SelectItem key={list.id} value={list.id}>
-                              {list.name}
-                            </SelectItem>
-                          ))
-                        )}
-                      </SelectContent>
-                    </Select>
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-
-            <div className="flex items-center justify-between">
-              <Button
-                type="button"
-                size="lg"
-                variant="secondary"
-                onClick={onCancel}
-                disabled={creatingPresent}
-                className={cn(!onCancel && "invisible")}
-              >
-                Cancel
-              </Button>
-              <Button disabled={creatingPresent} type="submit" size="lg">
-                Create Project
-              </Button>
-            </div>
-          </form>
-        </Form>
-      </CardContent>
-    </Card>
+            </Button>
+          </div>
+        </form>
+      </Form>
+    </div>
   );
 };

@@ -21,7 +21,6 @@ export function PresentsPageClient() {
           <Plus className="size-4" />
           Añadir regalo
         </Button>
-
       </header>
 
       {isLoading && <PresentIsLoadingSkeleton />}
@@ -34,7 +33,7 @@ export function PresentsPageClient() {
 
       <div className="flex flex-col md:grid md:grid-cols-3 gap-3">
         {presents?.map((present: any) => (
-          <CardPresent key={present.id} present={present} onEdit={() => {}} />
+          <CardPresent key={present.id} present={present} />
         ))}
       </div>
     </div>

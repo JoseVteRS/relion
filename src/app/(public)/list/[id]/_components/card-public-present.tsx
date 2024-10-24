@@ -1,28 +1,16 @@
 import { Button } from "@/components/ui/button";
 import {
   Card,
-  CardHeader,
-  CardTitle,
   CardContent,
   CardFooter,
+  CardHeader,
+  CardTitle,
 } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
 import { useCreatePick } from "@/features/pick/api/use-create-pick";
 import { useDeletePick } from "@/features/pick/api/use-delete-pick";
 import { cn } from "@/lib/utils";
-import {
-  Box,
-  CheckIcon,
-  ExternalLink,
-  Gift,
-  HeartIcon,
-  ListIcon,
-  PackageCheck,
-  PackageOpen,
-} from "lucide-react";
-import { useSession } from "next-auth/react";
+import { LinkIcon, PackageCheck, PackageOpen } from "lucide-react";
 import Link from "next/link";
-import { toast } from "sonner";
 
 interface CardPublicPresentProps {
   present: any;
@@ -70,42 +58,47 @@ export const CardPublicPresent = ({
         </div>
       </CardContent>
 
-      <CardFooter className="flex flex-col gap-2">
-        {present.link && (
-          <div className="w-full flex flex-row items-center justify-start  gap-2">
-            <Button
-              className="text-xs underline md:no-underline"
-              size="sm"
-              variant="link"
-              asChild
-            >
-              <Link
-                href={`${present.link}`}
-                target="_blank"
-                rel="noreferrer noopener"
-              >
-                Ver información
-                <ExternalLink className="size-4" />
-              </Link>
-            </Button>
-          </div>
+      <CardFooter
+        className={cn(
+          "flex items-center",
+          !present.link ? "justify-end" : "justify-between"
         )}
-        <div className="w-full">
+      >
+        {present.link && (
+          <Button
+            className="text-xs underline md:no-underline m-0 p-0"
+            size="sm"
+            variant="link"
+            asChild
+          >
+            <Link
+              href={present.link}
+              target="_blank"
+              rel="noreferrer noopener"
+              className="flex items-center text-xs text-muted-foreground hover:text-primary transition-colors"
+            >
+              <LinkIcon className="w-3 h-3 mr-1" />
+              {new URL(present.link).hostname}
+            </Link>
+          </Button>
+        )}
+        <div className="">
           {present.isPicked ? (
             <Button
               variant="secondary"
-              className="flex items-center gap-2 w-full bg-red-500/20"
+              className="flex items-center gap-2 w-full bg-destructive"
               onClick={onUnPick}
               disabled={!isPickedOwner}
             >
               <PackageCheck className="text-red-500" />
-              {/* TODO: Cambiar texto si el regalo esta pillado por el usuario logueado */}
-              <span className="text-xs">Pillado</span>
+              <span className="text-xs">
+                {isPickedOwner ? "Dejar libre" : "Pillado"}
+              </span>
             </Button>
           ) : (
             <Button
               variant="secondary"
-              className="flex items-center gap-2 w-full"
+              className="flex items-center gap-2 w-fit"
               onClick={onPick}
             >
               <PackageOpen className="text-green-500" />

@@ -1,14 +1,14 @@
 "use client";
 
+import { GiftIcon, HeartIcon, HomeIcon, ListIcon } from "lucide-react";
 import { usePathname } from "next/navigation";
-import { BoxIcon, GiftIcon, HeartIcon, HomeIcon, ListIcon, ListPlusIcon } from "lucide-react";
 import { SidebarItem } from "./sidebar-item";
 
 export const SidebarRoutes = () => {
   const pathname = usePathname();
 
   return (
-    <div className="flex flex-col gap-y-4 flex-1">
+    <div className="flex flex-col gap-y-4 flex-1 pt-3">
       <ul className="flex flex-col gap-y-1 px-3">
         <SidebarItem
           href="/dashboard"
