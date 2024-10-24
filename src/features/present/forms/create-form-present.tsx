@@ -54,7 +54,7 @@ export const CreatePresentForm = ({ onCancel }: CreatePresentFormProps) => {
     createPresent(values, {
       onSuccess: () => {
         form.reset();
-        router.push("/presents");
+        router.push("/dashboard/presents");
       },
     });
   };
