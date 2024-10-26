@@ -15,20 +15,20 @@ export default function DashboardLayout({
       <CreatePresentModal />
       <CreateListModal />
       <Navbar />
-      <div className="flex w-full h-full">
-        <div className="sticky left-0 top-0 hidden lg:block lg:w-[264px] h-full overflow-y-auto">
+      <div className="flex w-full h-screen">
+        <div className="sticky left-0 top-0 hidden lg:block lg:w-[300px] h-full overflow-y-auto">
           <Sidebar />
         </div>
-        <div className="w-full">
-          <div className="mx-auto max-w-screen-2xl h-full">
-            <main className="h-full py-8 px-6 flex flex-col">
-              <div className="mb-4">
-                <NextBreadcrumbs />
-              </div>
-              {children}
-            </main>
-          </div>
+
+        <div className="max-w-screen-2xl w-full mx-auto">
+          <main className="px-6 py-8 w-full">
+            <div className="mb-5">
+              <NextBreadcrumbs />
+            </div>
+            {children}
+          </main>
         </div>
+
         <div className="lg:hidden relative">
           <div className="sticky bottom-0 left-0 right-0 z-10 bg-background border-b">
             <Mobilebar />

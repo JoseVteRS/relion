@@ -14,13 +14,7 @@ const SheetProvider = () => {
 
   return (
     <>
-      {/* List Sheets */}
-      {/* <NewListSheet isMobile={isMobile} /> */}
       <UpdateListSheet isMobile={isMobile} />
-
-      {/* Present Sheets */}
-      {/* <NewPresentSheet isMobile={isMobile} /> */}
-      {/* <UpdatePresentSheet isMobile={isMobile} /> */}
     </>
   );
 };

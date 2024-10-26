@@ -3,7 +3,7 @@ import {
   LockKeyhole,
 } from "lucide-react";
 
-import {} from "react-icons"
+import { } from "react-icons";
 
 interface StatusBadgeProps {
   status: boolean;
@@ -15,8 +15,8 @@ export const StatusBadge = ({ status, className }: StatusBadgeProps) => {
 
   return status ? null : (
     <div className={cn(baseClasses, className)}>
-      <span className="border border-muted-foreground/20 p-1 rounded-md size-6 flex items-center justify-center">
-        <LockKeyhole className="size-3" />
+      <span className="border border-muted-foreground/20 p-1 rounded-md size-5 flex items-center justify-center">
+        <LockKeyhole className="size-2.5" />
       </span>
     </div>
   );

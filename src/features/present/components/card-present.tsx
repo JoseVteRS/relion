@@ -22,6 +22,21 @@ export type PresentWithList = Present & {
   list: List;
 };
 
+interface LinkDetails {
+  fullLink: string;
+  displayText: string;
+}
+
+function processLink(link: string | null): LinkDetails {
+  if (!link) return { fullLink: "", displayText: "" };
+
+  const fullLink = link.startsWith("https://") ? link : `https://${link}`;
+  const displayText = link.startsWith("https://")
+    ? new URL(link).hostname
+    : link;
+  return { fullLink, displayText };
+}
+
 interface CardPresentProps {
   present: PresentWithList;
 }
@@ -41,16 +56,30 @@ export const CardPresent = ({ present }: CardPresentProps) => {
     }
   };
 
+  const presentExternalLink = processLink(present?.link);
+
   return (
     <>
       <ConfirmDialog />
       <Card className="bg-neutral-100 shadow-none border-neutral-300 dark:border-neutral-700 dark:bg-background">
         <CardContent className="p-4">
           <div className="flex items-start justify-between mb-3">
-            <div className="flex items-center space-x-2">
-              <h3 className="text-lg font-semibold">{present.name}</h3>
-              <StatusBadge status={present.status || false} />
+            <div>
+              <div className="flex items-center space-x-2">
+                <h3 className="text-lg font-semibold">{present.name}</h3>
+                <StatusBadge status={present.status || false} />
+              </div>
+
+              {present.list && (
+                <Link
+                  href={`/dashboard/lists/${present.list.id}`}
+                  className="text-sm text-primary hover:underline mb-2 inline-block"
+                >
+                  {present.list.name}
+                </Link>
+              )}
             </div>
+
             <div className="flex items-center space-x-2">
               <DropdownMenu>
                 <DropdownMenuTrigger className="focus:outline-none">
@@ -82,24 +111,15 @@ export const CardPresent = ({ present }: CardPresentProps) => {
             {present.description}
           </p>
 
-          {present.list && (
-            <Link
-              href={`/dashboard/lists/${present.list.id}`}
-              className="text-sm text-primary hover:underline mb-2 inline-block"
-            >
-              {present.list.name}
-            </Link>
-          )}
-
           {present.link && (
             <Link
-              href={present.link}
+              href={presentExternalLink.fullLink}
               target="_blank"
               rel="noreferrer noopener"
-              className="flex items-center text-xs text-muted-foreground hover:text-primary transition-colors"
+              className="flex underline mt-4 items-center text-xs text-muted-foreground hover:text-primary transition-colors"
             >
               <LinkIcon className="w-3 h-3 mr-1" />
-              {new URL(present.link).hostname}
+              {presentExternalLink.displayText}
             </Link>
           )}
         </CardContent>

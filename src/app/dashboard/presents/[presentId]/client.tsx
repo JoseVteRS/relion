@@ -61,7 +61,7 @@ export default function DashboardPresentPageClient({
         <ArrowLeftIcon className="w-5 h-5" />
         Volver
       </Button>
-      <Card className="border-none shadow-none max-w-2xl mx-auto">
+      <Card className="border-none shadow-none">
         <CardHeader>
           <CardTitle>
             Editar <strong>{present?.present.name}</strong>
