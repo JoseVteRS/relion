@@ -110,8 +110,9 @@ export const CreateListForm = ({ onCancel }: CreateListFormProps) => {
                       disabled={(date: Date) =>
                         date < new Date(new Date().setHours(0, 0, 0, 0))
                       }
-                      initialFocus
+                      initialFocus={false}
                       locale={es}
+                    
                     />
                   </PopoverContent>
                 </Popover>
