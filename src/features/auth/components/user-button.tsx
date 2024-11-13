@@ -4,9 +4,9 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-  DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
 import { usePaywall } from "@/features/subscriptions/hooks/use-paywall";
 import {
@@ -18,12 +18,15 @@ import {
   UserIcon,
 } from "lucide-react";
 
-import { useSession, signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
+import { useLocale } from "next-intl";
 import Link from "next/link";
 
 export const UserButton = () => {
   const session = useSession();
   const { shouldBlock } = usePaywall();
+
+  const locale = useLocale();
 
   if (session.status === "loading") {
     return <Loader className="size-4 animate-spin text-muted-foreground" />;
@@ -56,7 +59,7 @@ export const UserButton = () => {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-60">
         <DropdownMenuItem disabled={false} asChild className="h-10">
-          <Link href="/dashboard/profile">
+          <Link href={`/${locale}/dashboard/profile`}>
             <UserIcon className="mr-2 size-4" />
             Perfil
           </Link>
@@ -68,7 +71,7 @@ export const UserButton = () => {
         </DropdownMenuItem>
         <DropdownMenuItem disabled={false} onClick={() => {}} className="h-10">
           <SettingsIcon className="mr-2 size-4" />
-          <Link href="/dashboard/settings">Ajustes</Link>
+          <Link href={`/${locale}/dashboard/settings`}>Ajustes</Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem

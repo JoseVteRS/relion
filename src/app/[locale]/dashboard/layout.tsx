@@ -15,13 +15,13 @@ export default function DashboardLayout({
       <CreatePresentModal />
       <CreateListModal />
       <Navbar />
-      <div className="flex w-full h-screen">
-        <div className="sticky left-0 top-0 hidden lg:block lg:w-[300px] h-full overflow-y-auto">
+      <div className="flex w-full h-full">
+        <div className="sticky left-0 top-0 hidden lg:block lg:w-[300px] h-screen overflow-y-auto">
           <Sidebar />
         </div>
 
         <div className="max-w-screen-2xl w-full mx-auto">
-          <main className="px-6 py-8 w-full">
+          <main className="px-6 pt-5 pb-24 w-full">
             <div className="mb-5">
               <NextBreadcrumbs />
             </div>

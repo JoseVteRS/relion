@@ -33,7 +33,7 @@ export default function FollowedListsClientPage() {
         {favoriteLists?.map((list) => (
           <Card
             key={list.id}
-            className="w-full bg-card text-card-foreground shadow-md hover:shadow-lg transition-shadow duration-300 rounded-lg overflow-hidden"
+            className="w-full bg-card text-card-foreground"
           >
             <CardContent className="p-4">
               <p className="text-sm text-muted-foreground mb-2">

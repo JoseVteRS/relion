@@ -49,7 +49,7 @@ export const Navbar = async () => {
               <LocaleSwitcher />
             </li>
             <li className="hidden md:inline-block">
-              <Button asChild variant="outline" size="sm">
+              <Button asChild variant="outline" size="sm" className="bg-transparent hover:dark:bg-white/10 hover:dark:text-white">
                 <Link href={`/${locale}/sign-in`}>{raw("login")}</Link>
               </Button>
             </li>

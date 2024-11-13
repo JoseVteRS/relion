@@ -2,26 +2,41 @@
 
 import { cn } from "@/lib/utils";
 import { GiftIcon, HeartIcon, HomeIcon, ListIcon } from "lucide-react";
+import { useLocale } from "next-intl";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-
-const links = [
-  { label: "Escritorio", href: "/dashboard", icon: <HomeIcon /> },
-  { label: "Regalos", href: "/dashboard/presents", icon: <GiftIcon /> },
-  { label: "Listas", href: "/dashboard/lists", icon: <ListIcon /> },
-  {
-    label: "Favoritas",
-    href: "/dashboard/favorite-lists",
-    icon: <HeartIcon />,
-  },
-];
+import { useMemo } from "react";
 
 export const Mobilebar = () => {
   const pathname = usePathname();
   const isActive = (href: string) => {
     return pathname === href;
   };
+
+  const locale = useLocale();
+
+  const links = useMemo(
+    () => [
+      { label: "Escritorio", href: `/${locale}/dashboard`, icon: <HomeIcon /> },
+      {
+        label: "Regalos",
+        href: `/${locale}/dashboard/presents`,
+        icon: <GiftIcon />,
+      },
+      {
+        label: "Listas",
+        href: `/${locale}/dashboard/lists`,
+        icon: <ListIcon />,
+      },
+      {
+        label: "Favoritas",
+        href: `/${locale}/dashboard/favorite-lists`,
+        icon: <HeartIcon />,
+      },
+    ],
+    []
+  );
 
   return (
     <>
