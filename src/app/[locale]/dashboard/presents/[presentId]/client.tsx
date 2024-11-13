@@ -49,7 +49,7 @@ export default function DashboardPresentPageClient({
           </p>
           <Button
             variant="outline"
-            onClick={() => router.push("/dashboard/presents")}
+            onClick={() => router.push(`/${locale}/dashboard/presents`)}
           >
             Volver a la lista de regalos
           </Button>

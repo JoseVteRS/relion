@@ -5,6 +5,7 @@ import { useCreateFirstList } from "@/features/first-list/api/use-create-first-l
 import { useCreateFirstPresents } from "@/features/first-list/api/use-create-first-presents";
 import confetti from "canvas-confetti";
 import { ImportIcon } from "lucide-react";
+import { useLocale } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -24,6 +25,9 @@ interface LocalStorageDataPresents {
 
 export const FirstListButton = () => {
   const router = useRouter();
+
+  const locale = useLocale();
+
   const [listData, setListData] = useState<LocalStorageData | null>(null);
   const [presentsData, setPresentsData] = useState<
     LocalStorageDataPresents[] | null
@@ -67,7 +71,7 @@ export const FirstListButton = () => {
               confetti();
               localStorage.removeItem("firstList");
               localStorage.removeItem("firstPresents");
-              router.push("/dashboard/lists");
+              router.push(`/${locale}/dashboard/lists`);
             },
           });
         },
