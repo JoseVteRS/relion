@@ -8,73 +8,47 @@ import { FirstListForm } from "./first-list-form";
 
 export const Header = async () => {
   const { rich } = await getTranslations("Home.Header");
-  const locale = await getLocale()
+  const locale = await getLocale();
 
   return (
-    <header className="min-h-screen py-24 bg-background/95 relative overflow-hidden">
-      {/* Efectos de fondo mejorados */}
-      <Background
-        size="w-[500px] h-[500px]"
-        blur="blur-[120px]"
-        color="bg-primary/30"
-        position="top-[-10%] right-[-10%]"
-        className="absolute z-0 animate-pulse"
-      />
-      <Background
-        size="w-[600px] h-[600px]"
-        blur="blur-[150px]"
-        color="bg-primary/20"
-        position="-left-[10%] top-[30%]"
-        className="absolute z-0 animate-pulse delay-700"
-      />
+    <section className="bg-black text-foreground min-h-screen flex items-center justify-center">
+      <div className="">
+        <div className="mx-auto w-full text-center">
+          <h1 className="text-5xl text-white font-bold">
+            <span className="text-6xl font-bold">¡Haz realidad tus deseos!</span>
+            <span className="block">
+              Crea tu{" "}
+              <span className="text-accent font-extrabold inline-block bg-primary p-2 rounded text-black transform -rotate-3">
+                lista
+              </span>{" "}
+              de regalos ideal
+            </span>
+          </h1>
 
-      <div className="container mx-auto px-4 relative z-10">
-        <div className="flex flex-col lg:flex-row items-center gap-16 justify-between">
-          <div className="lg:w-1/2 space-y-8">
-            {/* Badge superior */}
-            <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium">
-              <SparklesIcon className="w-4 h-4" />
-              {rich("homeBadge")}
-            </div>
+          <p className="mx-auto mt-4 max-w-xl text-lg sm:text-xl text-muted">
+            Permite que tus amigos y familiares sepan exactamente lo que deseas.
+            ¡Convierte cada ocasión en un momento especial!
+          </p>
 
-            {/* Textos principales */}
-            <div className="space-y-6">
-              <h1 className="text-6xl font-bold">
-                {rich("titleStart")}{" "}
-                <span className="text-primary relative">
-                  {rich("titleHighlight")}
-                </span>
-              </h1>
-
-              <p className="text-xl text-muted-foreground">
-                {rich("subtitle")}
-              </p>
-            </div>
-
-            {/* CTA y métricas */}
-            <div className="space-y-8">
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Button size="lg" className="text-lg px-8 group" asChild>
-                  <Link href={`/${locale}/sign-in`}>
-                    {rich("buttonCreateList")}
-                    <GiftIcon className="ml-2 w-5 h-5 group-hover:rotate-12 transition-transform" />
-                  </Link>
-                </Button>
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="text-lg px-8"
-                  asChild
-                >
-                  <Link href={`/${locale}/lists/explore`}>
-                    {rich("buttonExplore")}
-                  </Link>
-                </Button>
-              </div>
-            </div>
+          <div className="mt-8 flex flex-wrap justify-center gap-4">
+            <Link
+              className="block w-full rounded-lg bg-primary px-12 py-3 text-sm font-medium text-foreground hover:bg-primary/80 focus:outline-none focus:ring active:bg-primary sm:w-auto"
+              href="/es/sign-up"
+            >
+              Crea tu lista
+            </Link>
           </div>
         </div>
+        <div className="mt-8 lg:mt-0 lg:ml-8">
+          {/* <img
+            src="/home/lists-screen.webp"
+            alt="Ilustración de regalos"
+            width={500}
+            height={500}
+            className="mx-auto w-full rounded-lg border-2 border-primary"
+          /> */}
+        </div>
       </div>
-    </header>
+    </section>
   );
 };

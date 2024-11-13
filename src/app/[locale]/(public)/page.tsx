@@ -3,6 +3,7 @@ import { Features } from "@/components/common/sections/features";
 import { FirstListForm } from "@/components/common/sections/first-list-form";
 import { Footer } from "@/components/common/sections/footer";
 import { Header } from "@/components/common/sections/header";
+import { Pricing } from "@/components/common/sections/pricing";
 import { protectServer } from "@/features/auth/utils";
 import { getLocale } from "next-intl/server";
 import { redirect } from "next/navigation";
@@ -20,7 +21,7 @@ export default async function Home() {
 
       <Header />
       {/* <FirstListForm /> */}
-      <Features />
+      {/* <Features /> */}
       {/* <NewsletterSection /> */}
       {/* <Pricing /> */}
       <Footer />
