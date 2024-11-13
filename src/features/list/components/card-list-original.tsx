@@ -1,4 +1,11 @@
-import { useMemo } from "react";
+import { StatusBadge } from "@/components/common/status-badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import {
   Calendar,
   EllipsisVerticalIcon,
@@ -8,26 +15,20 @@ import {
   PlusIcon,
   TrashIcon,
 } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { StatusBadge } from "@/components/common/status-badge";
+import { useMemo } from "react";
 import { useConfirm } from "../../../../hooks/use-confirm";
 import { useOpenListSheetState } from "../hooks/use-open-list";
 
 import { CopyToClipboard } from "@/components/common/copy-to-clipboard";
 import { ShareWhatsappButton } from "@/components/common/share-whatsapp-button";
-import { useDeleteList } from "../api/use-delete-list";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { useNewPresentSheetState } from "@/features/present/hooks/use-new-present";
 import { ListWithUserWithPresents } from "@/types/types";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
-import { Separator } from "@/components/ui/separator";
-import { Button } from "@/components/ui/button";
-import { useNewPresentSheetState } from "@/features/present/hooks/use-new-present";
+import { useLocale } from "next-intl";
+import { useDeleteList } from "../api/use-delete-list";
 import { useGetCountLists } from "../api/use-get-count-lists";
 
 interface CardListProps {
@@ -39,9 +40,11 @@ interface CardListProps {
 export const CardList = ({ list, onEdit }: CardListProps) => {
   const { onOpen: onOpenPresentSheet } = useNewPresentSheetState();
 
+  const locale = useLocale();
+
   const shareLink = useMemo(
-    () => `${process.env.NEXT_PUBLIC_APP_URL}/list/${list.id}`,
-    [list.id]
+    () => `${process.env.NEXT_PUBLIC_APP_URL}/${locale}/list/${list.id}`,
+    [list.id, locale]
   );
 
   const [DialogConfirm, confirm] = useConfirm(
