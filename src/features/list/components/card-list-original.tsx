@@ -42,10 +42,7 @@ export const CardList = ({ list, onEdit }: CardListProps) => {
 
   const locale = useLocale();
 
-  const shareLink = useMemo(
-    () => `${process.env.NEXT_PUBLIC_APP_URL}/${locale}/list/${list.id}`,
-    [list.id, locale]
-  );
+  const shareLink = `${process.env.NEXT_PUBLIC_APP_URL}/${locale}/list/${list.id}`;
 
   const [DialogConfirm, confirm] = useConfirm(
     "Estás seguro que quieres borrar esta lista?",
