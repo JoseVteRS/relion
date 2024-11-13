@@ -1,10 +1,12 @@
 import { auth } from "@/auth";
 import { Modals } from "@/components/common/modals";
+import { CSPostHogProvider } from "@/components/providers/posthog-provider";
 import QueryProvider from "@/components/providers/query-provider";
 import SheetProvider from "@/components/providers/sheet-provider";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { routing } from "@/i18n/routing";
+import PostHogPageView from "@/lib/posthog-pageview";
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import { SessionProvider } from "next-auth/react";
@@ -94,24 +96,27 @@ export default async function RootLayout({
   return (
     <SessionProvider session={session}>
       <html lang={locale} suppressHydrationWarning>
-        <body className={cn(inter.className, "antialiased min-h-screen")}>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <QueryProvider>
-              <SheetProvider />
-              <Toaster richColors position="top-center" />
-              <Modals />
-              <NextIntlClientProvider messages={messages}>
-                {children}
-              </NextIntlClientProvider>
-              {/* <ReactQueryDevtools initialIsOpen={false} /> */}
-            </QueryProvider>
-          </ThemeProvider>
-        </body>
+        <CSPostHogProvider>
+          <body className={cn(inter.className, "antialiased min-h-screen")}>
+            <PostHogPageView />
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            >
+              <QueryProvider>
+                <SheetProvider />
+                <Toaster richColors position="top-center" />
+                <Modals />
+                <NextIntlClientProvider messages={messages}>
+                  {children}
+                </NextIntlClientProvider>
+                {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+              </QueryProvider>
+            </ThemeProvider>
+          </body>
+        </CSPostHogProvider>
       </html>
     </SessionProvider>
   );

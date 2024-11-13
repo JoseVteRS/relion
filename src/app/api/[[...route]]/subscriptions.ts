@@ -1,14 +1,14 @@
-import { Hono } from "hono";
-import crypto from "crypto";
-import { eq } from "drizzle-orm";
-import { createId } from "@paralleldrive/cuid2";
-import { HTTPException } from "hono/http-exception";
 import { verifyAuth } from "@hono/auth-js";
 import { createCheckout, getSubscription } from "@lemonsqueezy/lemonsqueezy.js";
+import { createId } from "@paralleldrive/cuid2";
+import crypto from "crypto";
+import { eq } from "drizzle-orm";
+import { Hono } from "hono";
+import { HTTPException } from "hono/http-exception";
 
 import { db } from "@/db/drizzle";
-import { setupLemon } from "@/lib/ls";
 import { subscriptions, tiers, users } from "@/db/schema";
+import { setupLemon } from "@/lib/lemon-squeeze";
 import { zValidator } from "@hono/zod-validator";
 import { z } from "zod";
 

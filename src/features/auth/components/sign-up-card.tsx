@@ -15,6 +15,7 @@ import { Loader2, TriangleAlert } from "lucide-react";
 import { signIn } from "next-auth/react";
 import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
+import { usePostHog } from "posthog-js/react";
 import { FormEvent, useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 
@@ -27,7 +28,12 @@ export const SignUpCard = () => {
   const t = useTranslations("Auth.signUp");
   const locale = useLocale();
 
+  const posthog = usePostHog();
+
   const onProviderSignin = (provider: "google" | "github") => {
+    posthog.capture("signup", {
+      provider: 'Google',
+    });
     signIn(provider, {
       callbackUrl: `/${locale}/dashboard`,
       redirect: true,
@@ -36,6 +42,9 @@ export const SignUpCard = () => {
 
   const onCredentialsSignUp = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    posthog.capture("signup", {
+      provider: "Credentials",
+    });
     mutation.mutate(
       {
         name,
@@ -44,6 +53,9 @@ export const SignUpCard = () => {
       },
       {
         onSuccess: () => {
+          posthog.capture("signup_success", {
+            provider: "Credentials",
+          });
           signIn("credentials", {
             email,
             password,

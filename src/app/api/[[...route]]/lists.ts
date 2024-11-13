@@ -1,12 +1,14 @@
-import { Context, Hono } from "hono";
-import { verifyAuth } from "@hono/auth-js";
-import { insertListsSchema, lists, presents } from "@/db/schema";
+import { ConfirmEmail } from "@/components/emails/confirm-email";
 import { db } from "@/db/drizzle";
-import { zValidator } from "@hono/zod-validator";
-import { z } from "zod";
-import { and, asc, count, countDistinct, desc, eq, not } from "drizzle-orm";
+import { insertListsSchema, lists, presents } from "@/db/schema";
 import { ErrorList } from "@/features/list/errors-enum";
 import { ErrorMessage } from "@/lib/error-messages";
+import { verifyAuth } from "@hono/auth-js";
+import { zValidator } from "@hono/zod-validator";
+import { and, asc, count, countDistinct, desc, eq, not } from "drizzle-orm";
+import { Context, Hono } from "hono";
+import { Resend } from "resend";
+import { z } from "zod";
 
 const app = new Hono()
   .get(

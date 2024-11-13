@@ -1,5 +1,6 @@
 "use client";
 
+import { ConfirmEmail } from "@/components/emails/confirm-email";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -26,11 +27,11 @@ import { CalendarIcon, Loader2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
+import { Resend } from "resend";
 import { z } from "zod";
 import { useCreateList } from "../api/use-create-list";
 import { useCreateListModal } from "../hooks/use-create-list-modal";
 import { createListSchema } from "../schemas";
-
 interface CreateListFormProps {
   onCancel?: () => void;
 }
@@ -53,7 +54,7 @@ export const CreateListForm = ({ onCancel }: CreateListFormProps) => {
 
   const handleSubmit = (values: z.infer<typeof createListSchema>) => {
     createList(values, {
-      onSuccess: () => {
+      onSuccess: async () => {
         form.reset();
         // router.push("/dashboard/lists");
         close();
@@ -85,7 +86,9 @@ export const CreateListForm = ({ onCancel }: CreateListFormProps) => {
             name="eventDate"
             render={({ field }) => (
               <FormItem className="flex flex-col w-full">
-                <FormLabel className="text-base">{t("eventDateTitle")}</FormLabel>
+                <FormLabel className="text-base">
+                  {t("eventDateTitle")}
+                </FormLabel>
                 <Popover>
                   <PopoverTrigger asChild className="w-full">
                     <FormControl className="w-full">
@@ -115,7 +118,6 @@ export const CreateListForm = ({ onCancel }: CreateListFormProps) => {
                       }
                       initialFocus={false}
                       locale={es}
-                    
                     />
                   </PopoverContent>
                 </Popover>
@@ -130,7 +132,9 @@ export const CreateListForm = ({ onCancel }: CreateListFormProps) => {
             render={({ field }) => (
               <FormItem>
                 <div className="space-y-0.5">
-                  <FormLabel className="text-base">{t("estatusTitle")}</FormLabel>
+                  <FormLabel className="text-base">
+                    {t("estatusTitle")}
+                  </FormLabel>
                 </div>
                 <FormControl>
                   <Switch

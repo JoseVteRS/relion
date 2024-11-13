@@ -1,4 +1,4 @@
-import {lemonSqueezySetup} from "@lemonsqueezy/lemonsqueezy.js"
+import { lemonSqueezySetup } from "@lemonsqueezy/lemonsqueezy.js"
 
 export const setupLemon = ()=> {
     return  lemonSqueezySetup({
