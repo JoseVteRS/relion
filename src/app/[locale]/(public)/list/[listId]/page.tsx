@@ -14,7 +14,7 @@ export default async function PublicListPage({ params }: PublicListPageProps) {
   const locale = await getLocale();
 
   if (session) {
-    redirect(`/${locale}/dashboard/lists/${params.listId}/public`);
+    return redirect(`/${locale}/dashboard/lists/${params.listId}/public`);
   }
 
   return (

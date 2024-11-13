@@ -3,10 +3,13 @@
 import { ErrorMessageComponent } from "@/components/common/error-message";
 import { usePublicList } from "@/features/list/api/use-get-list-public";
 import { CardPresentsSkeleton } from "@/features/present/components/card-presents-skeleton";
+import { ErrorMessage } from "@/lib/error-messages";
 import { ListWithUserWithPresents } from "@/types/types";
 import { parseISO } from "date-fns";
 import { Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
+import { useLocale } from "next-intl";
+import { redirect } from "next/navigation";
 import { useMemo } from "react";
 import { CardPublicPresent } from "./card-public-present";
 import { HeaderListPublic } from "./header-list-public";
@@ -25,6 +28,8 @@ const parseDates = (list: any): ListWithUserWithPresents => ({
 export const List = ({ listId }: ListProps) => {
   const session = useSession();
   const authUserId = useMemo(() => session?.data?.user?.id, [session]);
+
+  const locale = useLocale();
 
   const { data, isLoading, isError, error } = usePublicList(listId);
   const list = data?.listData;
@@ -47,6 +52,9 @@ export const List = ({ listId }: ListProps) => {
   }
 
   if (isError) {
+    if (error.message === ErrorMessage.user.Unauthorized) {
+      return redirect(`/${locale}/sign-in`);
+    }
     return (
       <div className="flex justify-center items-center bg-red-800/30 p-5 rounded">
         <ErrorMessageComponent message={error.message} />
