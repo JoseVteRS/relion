@@ -1,8 +1,13 @@
+import { AuroraBackground } from "@/components/ui/aurora-background";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { SignInGoogleButton } from "@/features/auth/components/sign-in-google-button";
 import { GiftIcon, SparklesIcon } from "lucide-react";
+import { signIn } from "next-auth/react";
 import { getLocale, getTranslations } from "next-intl/server";
 import Image from "next/image";
 import Link from "next/link";
+import { FcGoogle } from "react-icons/fc";
 import { Background } from "../background";
 import { FirstListForm } from "./first-list-form";
 
@@ -11,42 +16,38 @@ export const Header = async () => {
   const locale = await getLocale();
 
   return (
-    <section className="bg-black text-foreground min-h-screen flex items-center justify-center">
-      <div className="">
-        <div className="mx-auto w-full text-center">
-          <h1 className="text-5xl text-white font-bold">
-            <span className="text-6xl font-bold">¡Haz realidad tus deseos!</span>
-            <span className="block">
-              Crea tu{" "}
-              <span className="text-accent font-extrabold inline-block bg-primary p-2 rounded text-black transform -rotate-3">
-                lista
-              </span>{" "}
-              de regalos ideal
+    <section className="bg-black text-foreground min-h-screen ">
+      <div className="flex flex-col lg:flex-row gap-20 items-center justify-center  overflow-hidden max-w-screen-2xl mx-auto pt-20 h-[100dvh] px-5">
+        <div className="w-full md:w-1/2 mt-10">
+          <Badge variant="outline" className="text-white">beta</Badge>
+          <h1 className="text-5xl text-center md:text-left tracking-tight text-pretty md:text-7xl font-bold dark:text-white">
+            <span className="bg-gradient-to-r from-primary/70 via-primary to-primary-foreground/30 bg-clip-text text-transparent">
+              Deja de devolver regalos
             </span>
           </h1>
+          <div className="font-extralight text-base text-pretty text-center md:text-left md:text-4xl dark:text-neutral-200 py-4">
+            Crea y comparte listas de regalos
+          </div>
+          <div className="mt-8 md:flex space-y-4 md:space-y-0 justify-start gap-4">
+            <Button asChild className="w-full md:w-full" size="lg">
+              <Link
+                href="/es/sign-up"
+              >
+                Crea tu lista
+              </Link>
+            </Button>
 
-          <p className="mx-auto mt-4 max-w-xl text-lg sm:text-xl text-muted">
-            Permite que tus amigos y familiares sepan exactamente lo que deseas.
-            ¡Convierte cada ocasión en un momento especial!
-          </p>
-
-          <div className="mt-8 flex flex-wrap justify-center gap-4">
-            <Link
-              className="block w-full rounded-lg bg-primary px-12 py-3 text-sm font-medium text-foreground hover:bg-primary/80 focus:outline-none focus:ring active:bg-primary sm:w-auto"
-              href="/es/sign-up"
-            >
-              Crea tu lista
-            </Link>
+            <SignInGoogleButton />
           </div>
         </div>
-        <div className="mt-8 lg:mt-0 lg:ml-8">
-          {/* <img
-            src="/home/lists-screen.webp"
-            alt="Ilustración de regalos"
-            width={500}
-            height={500}
-            className="mx-auto w-full rounded-lg border-2 border-primary"
-          /> */}
+        <div className="relative bg-white/5 border border-white/10 rounded-xl p-2 w-full md:w-1/2">
+          <div className="rounded-2xl">
+            <img
+              src="/home/image-header-01.webp"
+              alt="Ilustración de regalos"
+              className="w-full h-full  rounded-xl"
+            />
+          </div>
         </div>
       </div>
     </section>

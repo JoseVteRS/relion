@@ -20,8 +20,8 @@ export const Navbar = async () => {
             </Link>
             <span className="sr-only">{config.appName}</span>
           </h1>
-          <ul className="flex items-center gap-5">
-            <li>
+         {/* <ul className="flex items-center gap-5">
+             <li>
               <Button
                 asChild
                 variant="link"
@@ -30,8 +30,8 @@ export const Navbar = async () => {
               >
                 <Link href="/">{raw("home")}</Link>
               </Button>
-            </li>
-            <li>
+            </li> */}
+            {/* <li>
               <Button
                 asChild
                 variant="link"
@@ -40,14 +40,11 @@ export const Navbar = async () => {
               >
                 <Link href="mailto:jvrs.90@gmail.com">{raw("contact")}</Link>
               </Button>
-            </li>
-          </ul>
+            </li> 
+          </ul>*/}
         </div>
         {!session && (
           <ul className="flex items-center gap-2">
-            <li>
-              <LocaleSwitcher />
-            </li>
             <li className="hidden md:inline-block">
               <Button asChild variant="outline" size="sm" className="bg-transparent hover:dark:bg-white/10 hover:dark:text-white">
                 <Link href={`/${locale}/sign-in`}>{raw("login")}</Link>

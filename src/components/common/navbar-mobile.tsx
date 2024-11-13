@@ -29,7 +29,7 @@ export const Navbar = async () => {
                 <Link href="/">Inicio</Link>
               </Button>
             </li>
-            <li>
+            <li className="hidden">
               <Button
                 asChild
                 variant="link"
