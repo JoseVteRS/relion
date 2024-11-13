@@ -22,6 +22,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader, Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
 
+import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { z } from "zod";
 import { useUpdatePresent } from "../api/use-update-present";
@@ -38,6 +39,10 @@ export const UpdatePresentForm = ({
   onCancel,
 }: EditPresentFormProps) => {
   const router = useRouter();
+
+  const t = useTranslations("Dashboard.Presents.editScreen");
+  const locale = useLocale();
+
   const { data: lists, isLoading } = useGetUserLists();
   const { mutate: updatePresent, isPending: updatingPresent } =
     useUpdatePresent();
@@ -58,7 +63,7 @@ export const UpdatePresentForm = ({
       { json: values, param: { presentId: initialValues.id } },
       {
         onSuccess: () => {
-          router.back()
+          router.back();
         },
       }
     );
@@ -74,10 +79,10 @@ export const UpdatePresentForm = ({
             render={({ field }) => (
               <FormItem className="w-full">
                 <div className="space-y-0.5">
-                  <FormLabel className="text-base">Nombre</FormLabel>
+                  <FormLabel className="text-base">{t("name")}</FormLabel>
                 </div>
                 <FormControl>
-                  <Input {...field} placeholder="Nombre de la lista" />
+                  <Input {...field} placeholder={t("namePlaceholder")} />
                 </FormControl>
               </FormItem>
             )}
@@ -88,12 +93,10 @@ export const UpdatePresentForm = ({
             render={({ field }) => (
               <FormItem className="w-full">
                 <div className="space-y-0.5">
-                  <FormLabel className="text-base">
-                    Enlace al producto
-                  </FormLabel>
+                  <FormLabel className="text-base">{t("link")}</FormLabel>
                 </div>
                 <FormControl>
-                  <Input {...field} placeholder="https://www.amazon.es/" />
+                  <Input {...field} placeholder={t("linkPlaceholder")} />
                 </FormControl>
               </FormItem>
             )}
@@ -105,13 +108,13 @@ export const UpdatePresentForm = ({
           render={({ field }) => (
             <FormItem>
               <div className="space-y-0.5">
-                <FormLabel className="text-base">Descripción</FormLabel>
+                <FormLabel className="text-base">{t("description")}</FormLabel>
               </div>
               <FormControl>
                 <Textarea
                   {...field}
                   rows={5}
-                  placeholder="Descripción del regalo"
+                  placeholder={t("descriptionPlaceholder")}
                 />
               </FormControl>
             </FormItem>
@@ -122,12 +125,13 @@ export const UpdatePresentForm = ({
           control={form.control}
           name="status"
           render={({ field }) => (
-            <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
-              <div className="space-y-0.5">
-                <FormLabel className="text-base">Estado</FormLabel>
-              </div>
+            <FormItem className="flex flex-row itemscenter justify-start pt-0 py-5">
+              <FormLabel className="text-base">{t("status")}</FormLabel>
+
               <FormControl>
                 <Switch
+                  style={{ marginTop: 0 }}
+                  className="ml-2"
                   checked={field.value}
                   onCheckedChange={field.onChange}
                   aria-readonly
@@ -143,7 +147,7 @@ export const UpdatePresentForm = ({
           render={({ field }) => (
             <FormItem className="items-center justify-between">
               <div className="space-y-0.5">
-                <FormLabel className="text-base">Listas</FormLabel>
+                <FormLabel className="text-base">{t("list")}</FormLabel>
               </div>
               <FormControl>
                 <Select
@@ -154,7 +158,7 @@ export const UpdatePresentForm = ({
                     <SelectTrigger>
                       <SelectValue
                         className="text-white"
-                        placeholder="Selecciona una lista"
+                        placeholder={t("listPlaceholder")}
                       />
                     </SelectTrigger>
                   </FormControl>
@@ -175,15 +179,15 @@ export const UpdatePresentForm = ({
           )}
         />
 
-        <div className="mt-5 flex lg:justify-end">
-          <Button type="submit" className="w-full lg:w-fit">
+        <div className="mt-5 flex md:justify-end lg:justify-end">
+          <Button type="submit" className="w-full md:w-fit lg:w-fit">
             {updatingPresent ? (
               <>
                 <Loader2 className="animate-spin" />
-                Actualizando
+                {t("loading")}
               </>
             ) : (
-              "Actualizar"
+              t("submit")
             )}
           </Button>
         </div>

@@ -14,6 +14,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { List, Present } from "@/types/types";
+import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
 import { useConfirm } from "../../../../hooks/use-confirm";
 import { useDeletePresent } from "../api/use-delete-present";
@@ -42,10 +43,14 @@ interface CardPresentProps {
 }
 
 export const CardPresent = ({ present }: CardPresentProps) => {
+
+  const t = useTranslations("Dashboard.Presents");
+  const locale = useLocale();
+
   const deletePresent = useDeletePresent(present.id);
   const [ConfirmDialog, confirm] = useConfirm(
-    "Estás seguro que quieres borrar este regalo?",
-    "Se borrará permanentemente este regalo"
+    t("deleteConfirm.title"),
+    t("deleteConfirm.description")
   );
 
   const onDelete = async () => {
@@ -90,9 +95,9 @@ export const CardPresent = ({ present }: CardPresentProps) => {
                     asChild
                     className="flex items-center space-x-2 hover:bg-accent hover:text-accent-foreground"
                   >
-                    <Link href={`/dashboard/presents/${present.id}`}>
+                    <Link href={`/${locale}/dashboard/presents/${present.id}`}>
                       <PencilIcon className="w-4 h-4" />
-                      <span>Editar</span>
+                      <span>{t("options.edit")}</span>
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem
@@ -100,7 +105,7 @@ export const CardPresent = ({ present }: CardPresentProps) => {
                     onClick={onDelete}
                   >
                     <TrashIcon className="w-4 h-4" />
-                    <span className="font-bold">Borrar</span>
+                    <span className="font-bold">{t("options.delete")}</span>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>

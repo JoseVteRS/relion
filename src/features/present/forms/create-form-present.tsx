@@ -23,7 +23,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { useGetUserLists } from "@/features/list/api/use-get-user-lists";
 import { cn } from "@/lib/utils";
 import { Loader, Loader2 } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
+import { useParams, useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { useCreatePresent } from "../api/use-create-present";
@@ -36,10 +37,13 @@ interface CreatePresentFormProps {
 
 export const CreatePresentForm = ({ onCancel }: CreatePresentFormProps) => {
   const router = useRouter();
+  const t = useTranslations("Dashboard.Presents.form");
   const { data: lists, isLoading } = useGetUserLists();
   const { mutate: createPresent, isPending: creatingPresent } =
     useCreatePresent();
   const { close } = useCreatePresentModal();
+
+  const { listId } = useParams();
 
   const form = useForm({
     resolver: zodResolver(createPresentSchema),
@@ -48,7 +52,7 @@ export const CreatePresentForm = ({ onCancel }: CreatePresentFormProps) => {
       link: "",
       description: "",
       status: true,
-      listId: "",
+      listId: typeof listId === "string" ? listId : "",
     },
   });
 
@@ -71,9 +75,9 @@ export const CreatePresentForm = ({ onCancel }: CreatePresentFormProps) => {
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-sm">Nombre</FormLabel>
+                <FormLabel className="text-sm">{t("name")}</FormLabel>
                 <FormControl>
-                  <Input {...field} placeholder="Nombre del regalo" />
+                  <Input {...field} placeholder={t("namePlaceholder")} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -85,9 +89,9 @@ export const CreatePresentForm = ({ onCancel }: CreatePresentFormProps) => {
             name="link"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-sm">Enlace al producto</FormLabel>
+                <FormLabel className="text-sm">{t("link")}</FormLabel>
                 <FormControl>
-                  <Input {...field} placeholder="https://www.amazon.es" />
+                  <Input {...field} placeholder={t("linkPlaceholder")} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -99,13 +103,13 @@ export const CreatePresentForm = ({ onCancel }: CreatePresentFormProps) => {
             name="description"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-sm">Descripción</FormLabel>
+                <FormLabel className="text-sm">{t("description")}</FormLabel>
 
                 <FormControl>
                   <Textarea
                     {...field}
                     rows={5}
-                    placeholder="Descripción del regalo"
+                    placeholder={t("descriptionPlaceholder")}
                   />
                 </FormControl>
                 <FormMessage />
@@ -118,7 +122,7 @@ export const CreatePresentForm = ({ onCancel }: CreatePresentFormProps) => {
             name="listId"
             render={({ field }) => (
               <FormItem className="items-center justify-between">
-                <FormLabel className="text-sm">Listas</FormLabel>
+                <FormLabel className="text-sm">{t("list")}</FormLabel>
                 <FormControl>
                   <Select
                     onValueChange={field.onChange}
@@ -128,7 +132,7 @@ export const CreatePresentForm = ({ onCancel }: CreatePresentFormProps) => {
                       <SelectTrigger>
                         <SelectValue
                           className="text-white"
-                          placeholder="Selecciona una lista"
+                          placeholder={t("listPlaceholder")}
                         />
                       </SelectTrigger>
                     </FormControl>
@@ -155,7 +159,7 @@ export const CreatePresentForm = ({ onCancel }: CreatePresentFormProps) => {
             render={({ field }) => (
               <FormItem>
                 <div className="space-y-0.5">
-                  <FormLabel className="text-base">Estado</FormLabel>
+                  <FormLabel className="text-base">{t("status")}</FormLabel>
                 </div>
                 <FormControl>
                   <Switch
@@ -178,16 +182,16 @@ export const CreatePresentForm = ({ onCancel }: CreatePresentFormProps) => {
               disabled={creatingPresent}
               className={cn(!onCancel && "invisible")}
             >
-              Cancelar
+              {t("cancel")}
             </Button>
             <Button disabled={creatingPresent} type="submit" size="lg">
               {creatingPresent ? (
                 <>
                   <Loader2 className="animate-spin" />
-                  <span>Añadiendo regalo</span>
+                  <span>{t("loading")}</span>
                 </>
               ) : (
-                "Añadir regalo"
+                t("submit")
               )}
             </Button>
           </div>

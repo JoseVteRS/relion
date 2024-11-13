@@ -1,0 +1,185 @@
+{
+    "Common": {
+        "language": "Language",
+        "presents": {
+            "add": "Add present"
+        }
+    },
+    "Auth": {
+        "signIn": {
+            "title": "Welcome Back",
+            "subtitle": "Use your email or another service to continue",
+            "email": "Email Address",
+            "password": "Password",
+            "forgotPassword": "Forgot your password?",
+            "rememberMe": "Remember me",
+            "signIn": "Log In",
+            "signInWithGoogle": "Log In with Google",
+            "noAccount": "Don't have an account?",
+            "signUpLink": "Join Us"
+        },
+        "signUp": {
+            "title": "Join Us",
+            "subtitle": "Create an account to start making your gift lists.",
+            "name": "Full Name",
+            "email": "Email Address",
+            "password": "Password",
+            "confirmPassword": "Confirm Password",
+            "signUp": "Join Now",
+            "signUpWithGoogle": "Join with Google",
+            "alreadyHaveAccount": "Already a member?",
+            "signInLink": "Log In"
+        }
+    },
+    "Navbar": {
+        "home": "Home",
+        "signUp": "Sign up",
+        "login": "Log in",
+        "contact": "Contact"
+    },
+    "Home": {
+        "Header": {
+            "titleStart": "Your Christmas wishes,",
+            "titleHighlight": "organized",
+            "subtitle": "Create your perfect gift list and share it with family and friends. No duplicates, no awkward surprises, just the magic of Christmas.",
+            "buttonCreateList": "Create my list",
+            "buttonExplore": "See examples",
+            "homeBadge": "Christmas 2024"
+        },
+        "CreateFreeList": {
+            "title": "Create your free gift list",
+            "subtitle": "Start organizing your gifts for your next special event.",
+            "buttonCreateFreeList": "Create my list",
+            "steps": {
+                "stepOne": {
+                    "labelFirstListName": "Name of your first list",
+                    "placeholderFirstListName": "Christmas 2024",
+                    "labelFirstListEventDate": "Event date",
+                    "placeholderFirstListEventDate": "Select a date"
+                },
+                "stepTwo": {
+                    "labelFirstPresentName": "Name of your first Present",
+                    "placeholderFirstPresentName": "Christmas 2024",
+                    "labelFirstPresentEventDate": "Event date",
+                    "placeholderFirstPresentEventDate": "Select a date"
+                }
+            }
+        },
+        "Features": {
+            "title": "Features",
+            "subtitle": "Discover how our app can make your gifts perfect (and drama-free).",
+            "cta": {
+                "title": "Don't waste time returning gifts.",
+                "button": "Create my list"
+            },
+            "feature1": {
+                "title": "Create Lists and Gifts",
+                "description": "Create personalized lists and add all the gifts you want. Because we know your wish list is never-ending!"
+            },
+            "feature2": {
+                "title": "Share with Family and Friends",
+                "description": "Share your lists with your loved ones so they know exactly what to get you. Because trusting their intuition can be risky!"
+            },
+            "feature3": {
+                "title": "Perfect Gifts",
+                "description": "Make sure you get what you really need or want, avoiding returns and forgotten gifts. Because nobody wants another pair of Christmas socks!"
+            },
+            "feature4": {
+                "title": "No Duplicates",
+                "description": "Avoid receiving duplicate gifts and enjoy a more organized gift-giving experience. Because one set of pans is enough!"
+            }
+        }
+    },
+    "Dashboard": {
+        "Sidebar": {
+            "Items": {
+                "homeItem": "Home",
+                "presentsItem": "Presents",
+                "listsItem": "Lists",
+                "favoritesItem": "Favorites"
+            },
+            "ListSectionTitle": "Lists"
+        },
+        "Presents": {
+            "titleSection": "Presents",
+            "deleteConfirm": {
+                "title": "Are you sure you want to delete this present?",
+                "description": "This present will be deleted permanently"
+            },
+            "options": {
+                "edit": "Edit",
+                "delete": "Delete"
+            },
+            "form": {
+                "name": "Name",
+                "namePlaceholder": "Gift name",
+                "link": "Link",
+                "linkPlaceholder": "Gift link",
+                "description": "Description",
+                "descriptionPlaceholder": "Gift description",
+                "list": "List",
+                "listPlaceholder": "Select a list",
+                "status": "Status",
+                "submit": "Add gift",
+                "cancel": "Cancel",
+                "loading": "Adding gift"
+            },
+            "editScreen": {
+                "title": "Editing: {presentName}",
+                "name": "Name",
+                "namePlaceholder": "Gift name",
+                "link": "Link",
+                "linkPlaceholder": "Gift link",
+                "description": "Description",
+                "descriptionPlaceholder": "Gift description",
+                "list": "List",
+                "listPlaceholder": "Select a list",
+                "status": "Status",
+                "submit": "Save",
+                "cancel": "Cancel",
+                "loading": "Saving present"
+            },
+            "noPresents": {
+                "title": "No presents in this list",
+                "description": "Add a present to get started organizing your gifts for your next special event.",
+                "button": "Add present"
+            },
+            "presentShared": {
+                "buttons": {
+                    "pick": "I want it!",
+                    "unPick": "Leave free",
+                    "pickedForOther": "Picked"
+                },
+                "noPresents": "{userName}, you have not added presents to this list"
+            }
+        },
+        "Lists": {
+            "titleSection": "Lists",
+            "error": "An error occurred while loading the lists",
+            "edit": "Edit",
+            "delete": "Delete",
+            "noPresents": "Empty list",
+            "presentsCount": "{count, plural, =0 {Empty list} one {1 present} other {# presents}}",
+            "viewDetails": "View details",
+            "whatsappLinkShare": "Check out the list {listName} from {userName}!",
+            "form": {
+                "title": "Add list",
+                "name": "Name",
+                "namePlaceholder": "List name",
+                "eventDateTitle": "Select event date",
+                "eventDatePlaceholder": "Select a date",
+                "submit": "Add list",
+                "estatusTitle": "Status (Public or Private)",
+                "cancel": "Cancel",
+                "loading": "Adding list"
+            }
+        },
+        "FavoriteLists": {
+            "title": "Favorite lists",
+            "buttons": {
+                "viewDetails": "View details",
+                "unfollow": "Unfollow"
+            }
+        }
+    }
+}

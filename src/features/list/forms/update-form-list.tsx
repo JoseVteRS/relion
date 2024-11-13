@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { useGetPresentsWithoutList } from "@/features/present/api/use-get-presents-without-list";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { FormValuesUpdateList, updateListFormSchema } from "./form-schemas";
 
@@ -26,13 +27,7 @@ export const UpdateListForm = ({
   onSubmit,
   disabled,
 }: CreateListFormProps) => {
-  const { data: presents, isLoading } = useGetPresentsWithoutList();
-
-  const presentOptions =
-    presents?.map((present) => ({
-      value: present.id,
-      label: present.name,
-    })) || [];
+  const t = useTranslations("Dashboard.Lists.form");
 
   const form = useForm<FormValuesUpdateList>({
     resolver: zodResolver(updateListFormSchema),
@@ -43,25 +38,24 @@ export const UpdateListForm = ({
     const presents = values.presentIds;
     const presentsIds = presents?.map((present: any) => present.value);
     onSubmit({ ...values, presentIds: presentsIds });
-    // form.getValues()
   };
 
   return (
     <div className="mb-20">
       <Form {...form}>
-        <form className="space-y-4" onSubmit={form.handleSubmit(handleSubmit)}>
+        <form className="space-y-6" onSubmit={form.handleSubmit(handleSubmit)}>
           <FormField
             control={form.control}
             name="name"
             render={({ field }) => (
               <FormItem>
                 <div className="space-y-0.5">
-                  <FormLabel className="text-base">Nombre</FormLabel>
+                  <FormLabel className="text-base">{t("name")}</FormLabel>
                 </div>
                 <FormControl>
                   <Input
                     disabled={disabled}
-                    placeholder="Nombre de la lista"
+                    placeholder={t("namePlaceholder")}
                     {...field}
                     value={field.value ?? ""}
                   />
@@ -75,7 +69,7 @@ export const UpdateListForm = ({
             render={({ field }) => (
               <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                 <div className="space-y-0.5">
-                  <FormLabel className="text-base">Estado</FormLabel>
+                  <FormLabel className="text-base">{t("estatusTitle")}</FormLabel>
                 </div>
                 <FormControl>
                   <Switch
@@ -90,7 +84,7 @@ export const UpdateListForm = ({
           {/* //TODO: Add multiselect presents */}
           <div className="mt-5">
             <Button type="submit" className="w-full">
-              Actualizar
+              {t("submit")}
             </Button>
           </div>
         </form>

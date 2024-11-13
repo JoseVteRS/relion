@@ -1,50 +1,77 @@
 import { Button } from "@/components/ui/button";
-import { CheckIcon } from "lucide-react";
+import { GiftIcon, SparklesIcon } from "lucide-react";
+import { getLocale, getTranslations } from "next-intl/server";
 import Image from "next/image";
 import Link from "next/link";
 import { Background } from "../background";
-export const Header = () => {
+import { FirstListForm } from "./first-list-form";
+
+export const Header = async () => {
+  const { rich } = await getTranslations("Home.Header");
+  const locale = await getLocale()
+
   return (
-    <header className="py-20 bg-background relative">
+    <header className="min-h-screen py-24 bg-background/95 relative overflow-hidden">
+      {/* Efectos de fondo mejorados */}
       <Background
-        size="w-40 h-40"
-        blur="blur-[180px]"
-        color="bg-primary"
-        position="top-96 md:top-56 right-0"
-        className="absolute z-0"
+        size="w-[500px] h-[500px]"
+        blur="blur-[120px]"
+        color="bg-primary/30"
+        position="top-[-10%] right-[-10%]"
+        className="absolute z-0 animate-pulse"
       />
       <Background
-        size="w-80 h-80"
-        blur="blur-[200px]"
-        color="bg-primary"
-        position="left-[300px] top-20 left-5"
-        className="absolute z-0 opacity-30"
+        size="w-[600px] h-[600px]"
+        blur="blur-[150px]"
+        color="bg-primary/20"
+        position="-left-[10%] top-[30%]"
+        className="absolute z-0 animate-pulse delay-700"
       />
-      <div className="container mx-auto px-4">
-        <div className="flex flex-col items-center justify-center">
-          <div className="lg:w-1/2 text-center lg:text-left mb-10 lg:mb-0">
-            <h1 className="text-5xl md:text-7xl font-extrabold text-foreground mb-6 text-center">
-              Navidad sin <span className="text-primary">sorpresas</span>
-            </h1>
-            <p className="text-2xl text-muted-foreground mb-8 text-center">
-              Organiza tus regalos ahora y disfruta de unas fiestas sin estrés
-            </p>
-            <div className="flex items-center justify-center mb-10">
-            <Button size="lg" className="text-lg px-8 py-4" asChild>
-              <Link href="/sign-in">Crear mi lista navideña</Link>
-            </Button>
+
+      <div className="container mx-auto px-4 relative z-10">
+        <div className="flex flex-col lg:flex-row items-center gap-16 justify-between">
+          <div className="lg:w-1/2 space-y-8">
+            {/* Badge superior */}
+            <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium">
+              <SparklesIcon className="w-4 h-4" />
+              {rich("homeBadge")}
             </div>
-  
-          </div>
-          <div className="lg:w-full flex justify-center">
-            <Image
-              src="/home/image-03.webp"
-              alt="Regalos navideños organizados"
-              width={1200}
-              height={676}
-              className="rounded-lg shadow-lg"
-              quality={60}
-            />
+
+            {/* Textos principales */}
+            <div className="space-y-6">
+              <h1 className="text-6xl font-bold">
+                {rich("titleStart")}{" "}
+                <span className="text-primary relative">
+                  {rich("titleHighlight")}
+                </span>
+              </h1>
+
+              <p className="text-xl text-muted-foreground">
+                {rich("subtitle")}
+              </p>
+            </div>
+
+            {/* CTA y métricas */}
+            <div className="space-y-8">
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Button size="lg" className="text-lg px-8 group" asChild>
+                  <Link href={`/${locale}/sign-in`}>
+                    {rich("buttonCreateList")}
+                    <GiftIcon className="ml-2 w-5 h-5 group-hover:rotate-12 transition-transform" />
+                  </Link>
+                </Button>
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="text-lg px-8"
+                  asChild
+                >
+                  <Link href={`/${locale}/lists/explore`}>
+                    {rich("buttonExplore")}
+                  </Link>
+                </Button>
+              </div>
+            </div>
           </div>
         </div>
       </div>

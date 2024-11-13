@@ -161,6 +161,7 @@ const app = new Hono()
           description,
           status,
           listId: listId ? listId : null,
+          createdAt: new Date(),
         })
         .returning();
 
@@ -222,7 +223,7 @@ const app = new Hono()
       const [data] = await db
         .delete(presents)
         .where(and(eq(presents.id, id), eq(presents.userId, authUserId)))
-        .returning({ id: presents.id });
+        .returning({ id: presents.id, listId: presents.listId });
 
       if (!data) {
         return c.json({ error: "Not found" }, 404);

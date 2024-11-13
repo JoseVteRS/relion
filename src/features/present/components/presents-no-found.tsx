@@ -1,22 +1,37 @@
 import { Button } from "@/components/ui/button";
-import React from "react";
-import { useNewPresentSheetState } from "../hooks/use-new-present";
+import { useTranslations } from "next-intl";
+import React, { useTransition } from "react";
+import { useCreatePresentModal } from "../hooks/use-create-present-modal";
 
 export const PresentNotFount = () => {
-  const { onOpen } = useNewPresentSheetState();
-  return (
-    <div>
-      <header className="">
-        <h2 className="text-2xl font-semibold">
-          Todavía no has creado ningún
-          <span className="text-primary"> regalo</span>
-        </h2>
-      </header>
-      <div className="mt-2 text-lg text-neutral-300">
-        <h3>Empieza a crear un regalo ahora mismo</h3>
+  const { open } = useCreatePresentModal();
 
-        <Button onClick={onOpen} className="mt-2">
-          Crea tus primeros regalos
+  const t = useTranslations("Dashboard.Presents.noPresents");
+
+  return (
+    <div className="h-full flex flex-col items-center justify-center">
+      <div className="flex flex-col items-center justify-center">
+        <img
+          src="/images/elf-01.webp"
+          alt="Elfo navideño"
+          className="w-1/2 aspect-1280/965 mb-5"
+        />
+
+        <h2 className="text-base md:text-2xl font-semibold">
+          {t("title")}
+        </h2>
+      </div>
+      <div className="mt-2 md:flex md:flex-col flex-col items-center justify-center">
+        <h3 className="text-sm md:text-base text-muted-foreground">
+          {t("description")}
+        </h3>
+
+        <Button
+          onClick={open}
+          className="mt-6 w-full md:w-fit"
+          aria-label="Añadir regalo"
+        >
+          {t("button")}
         </Button>
       </div>
     </div>

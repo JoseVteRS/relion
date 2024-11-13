@@ -1,0 +1,186 @@
+{
+    "Common": {
+        "language": "Idioma",
+        "presents": {
+            "add": "Añadir regalo"
+        }
+    },
+    "Auth": {
+        "signIn": {
+            "title": "¡De vuelta!",
+            "subtitle": "Usa tu correo electrónico o un servicio para continuar",
+            "email": "Correo electrónico",
+            "password": "Contraseña",
+            "forgotPassword": "¿Olvidaste tu contraseña?",
+            "rememberMe": "Recuérdame",
+            "signIn": "Iniciar sesión",
+            "signInWithGoogle": "Iniciar sesión con Google",
+            "noAccount": "¿Aún no tienes cuenta?",
+            "signUpLink": "Únete a Relion"
+        },
+        "signUp": {
+            "title": "Únete a Relion",
+            "subtitle": "Crea una cuenta para empezar a hacer tus listas de regalos.",
+            "name": "Nombre completo",
+            "email": "Correo electrónico",
+            "password": "Contraseña",
+            "confirmPassword": "Confirma tu contraseña",
+            "signUp": "Regístrate ahora",
+            "signUpWithGoogle": "Regístrate con Google",
+            "alreadyHaveAccount": "¿Ya eres miembro?",
+            "signInLink": "Inicia sesión"
+        }
+    },
+    "Navbar": {
+        "home": "Inicio",
+        "signUp": "Regístrate",
+        "login": "Iniciar sesión",
+        "contact": "Contacto"
+    },
+    "Home": {
+        "Header": {
+            "titleStart": "Tus deseos navideños,",
+            "titleHighlight": "organizados",
+            "subtitle": "Crea tu lista de regalos perfecta y compártela con familia y amigos. Sin duplicados, sin sorpresas incómodas, solo la magia de la Navidad.",
+            "buttonCreateList": "Crear mi lista",
+            "buttonExplore": "Ver ejemplos",
+            "homeBadge": "Navidad 2024"
+        },
+        "CreateFreeList": {
+            "title": "Crea tu lista de regalos gratis",
+            "subtitle": "Comienza a organizar tus regalos para tu próximo evento especial.",
+            "buttonCreateFreeList": "Crear mi lista",
+            "steps": {
+                "stepOne": {
+                    "labelFirstListName": "Nombre de tu primer lista",
+                    "placeholderFirstListName": "Navidad 2024",
+                    "labelFirstListEventDate": "Fecha de tu evento",
+                    "placeholderFirstListEventDate": "Selecciona una fecha"
+                },
+                "stepTwo": {
+                    "labelFirstPresentName": "Nombre de tu primer Presenta",
+                    "placeholderFirstPresentName": "Navidad 2024",
+                    "labelFirstPresentEventDate": "Fecha de tu evento",
+                    "placeholderFirstPresentEventDate": "Selecciona una fecha"
+                }
+            }
+        },
+        "Features": {
+            "title": "Características",
+            "subtitle": "Descubre cómo nuestra app puede hacer que tus regalos sean perfectos (y sin dramas).",
+            "cta": {
+                "title": "No pierdas el tiempo devolviendo regalos.",
+                "button": "Crear mi lista"
+            },
+            "feature1": {
+                "title": "Crear listas y regalos",
+                "description": "Crea listas personalizadas y añade todos los regalos que deseas. ¡Porque sabemos que tu lista de deseos es interminable!"
+            },
+            "feature2": {
+                "title": "Compartir con familiares y amigos",
+                "description": "Comparte tus listas con tus seres queridos para que sepan exactamente qué regalarte. ¡Porque confiar en su intuición puede ser arriesgado!"
+            },
+            "feature3": {
+                "title": "Regalos acertados",
+                "description": "Asegúrate de recibir lo que realmente necesitas o quieres, evitando devoluciones y regalos olvidados. ¡Porque nadie quiere otro par de calcetines navideños!"
+            },
+            "feature4": {
+                "title": "Sin duplicados",
+                "description": "Evita recibir regalos repetidos y disfruta de una experiencia de regalo más organizada. ¡Porque un solo juego de sartenes es suficiente!"
+            }
+        }
+    },
+    "Dashboard": {
+        "Sidebar": {
+            "Items": {
+                "homeItem": "Escritorio",
+                "presentsItem": "Regalos",
+                "listsItem": "Listas",
+                "favoritesItem": "Favoritos"
+            },
+            "ListSectionTitle": "Listas"
+        },
+        "Presents": {
+            "titleSection": "Regalos",
+            "deleteConfirm": {
+                "title": "¿Estás seguro que quieres borrar este regalo?",
+                "description": "Se borrará permanentemente este regalo"
+            },
+            "options": {
+                "edit": "Editar",
+                "delete": "Borrar"
+            },
+            "form": {
+                "title": "Añadir presente",
+                "name": "Nombre",
+                "namePlaceholder": "Nombre del regalo",
+                "link": "Enlace",
+                "linkPlaceholder": "Enlace al regalo",
+                "description": "Descripción",
+                "descriptionPlaceholder": "Descripción del regalo",
+                "list": "Lista",
+                "listPlaceholder": "Selecciona una lista",
+                "status": "Estado",
+                "submit": "Añadir regalo",
+                "cancel": "Cancelar",
+                "loading": "Añadiendo regalo"
+            },
+            "editScreen": {
+                "title": "Editando: {presentName}",
+                "name": "Nombre",
+                "namePlaceholder": "Nombre del regalo",
+                "link": "Enlace",
+                "linkPlaceholder": "Enlace al regalo",
+                "description": "Descripción",
+                "descriptionPlaceholder": "Descripción del regalo",
+                "list": "Lista",
+                "listPlaceholder": "Selecciona una lista",
+                "status": "Estado",
+                "submit": "Guardar",
+                "cancel": "Cancelar",
+                "loading": "Guardando regalo"
+            },
+            "noPresents": {
+                "title": "No tienes regalos en esta lista",
+                "description": "Añade un regalo para empezar a organizar tus regalos para tu próximo evento especial.",
+                "button": "Añadir regalo"
+            },
+            "presentShared": {
+                "buttons": {
+                    "pick": "¡Me lo pido!",
+                    "unPick": "Dejar libre",
+                    "pickedForOther": "Pillado"
+                },
+                "noPresents": "{userName}, no tiene regalos en esta lista"
+            }
+        },
+        "Lists": {
+            "titleSection": "Listas",
+            "error": "Ha ocurrido un error al cargar las listas",
+            "edit": "Editar",
+            "delete": "Borrar",
+            "noPresents": "Lista vacía",
+            "presentsCount": "{count, plural, =0 {Sin regalos} one {1 regalo} other {# regalos}}",
+            "viewDetails": "Ver detalles",
+            "whatsappLinkShare": "¡Échale un vistazo a la lista {listName}! de {userName}",
+            "form": {
+                "title": "Añadir lista",
+                "name": "Nombre",
+                "namePlaceholder": "Nombre de la lista",
+                "eventDateTitle": "Selecciona la fecha del evento",
+                "eventDatePlaceholder": "Selecciona una fecha",
+                "submit": "Añadir lista",
+                "estatusTitle": "Estado (Pública o Privada)",
+                "cancel": "Cancelar",
+                "loading": "Añadiendo lista"
+            }
+        },
+        "FavoriteLists": {
+            "title": "Listas favoritas",
+            "buttons": {
+                "viewDetails": "Ver detalles",
+                "unfollow": "Dejar de seguir"
+            }
+        }
+    }
+}

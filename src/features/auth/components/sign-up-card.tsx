@@ -8,14 +8,15 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import Link from "next/link";
-import { FcGoogle } from "react-icons/fc";
-import { signIn } from "next-auth/react";
 import { Input } from "@/components/ui/input";
-import { FormEvent, useState } from "react";
+import { Separator } from "@/components/ui/separator";
 import { useSignUp } from "@/features/auth/hooks/use-sign-up";
 import { Loader2, TriangleAlert } from "lucide-react";
+import { signIn } from "next-auth/react";
+import { useLocale, useTranslations } from "next-intl";
+import Link from "next/link";
+import { FormEvent, useState } from "react";
+import { FcGoogle } from "react-icons/fc";
 
 export const SignUpCard = () => {
   const [email, setEmail] = useState("");
@@ -23,9 +24,12 @@ export const SignUpCard = () => {
   const [name, setName] = useState("");
   const mutation = useSignUp();
 
+  const t = useTranslations("Auth.signUp");
+  const locale = useLocale();
+
   const onProviderSignin = (provider: "google" | "github") => {
     signIn(provider, {
-      callbackUrl: "/dashboard",
+      callbackUrl: `/${locale}/dashboard`,
       redirect: true,
     });
   };
@@ -43,7 +47,7 @@ export const SignUpCard = () => {
           signIn("credentials", {
             email,
             password,
-            callbackUrl: "/dashboard",
+            callbackUrl: `/${locale}/dashboard`,
             redirect: true,
           });
         },
@@ -54,15 +58,13 @@ export const SignUpCard = () => {
   return (
     <Card className="w-full h-full p-8 bg-background border-none">
       <CardHeader className="px-0 pt-0">
-        <CardTitle>Create an account</CardTitle>
-        <CardDescription>
-          Use your email or another service to continue
-        </CardDescription>
+        <CardTitle>{t("title")}</CardTitle>
+        <CardDescription>{t("subtitle")}</CardDescription>
       </CardHeader>
       {!!mutation.error && (
         <div className="bg-destructive/60 text-red-200 p-3 rounded-md flex items-center gap-x-2 text-sm mb-6">
           <TriangleAlert />
-          <p>Invalid email or password</p>
+          <p>{t("error")}</p>
         </div>
       )}
       <CardContent className="space-y-4 px-0 pb-0">
@@ -71,7 +73,7 @@ export const SignUpCard = () => {
             disabled={mutation.isPending}
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="Full name"
+            placeholder={t("name")}
             type="text"
             required
             min={3}
@@ -81,7 +83,7 @@ export const SignUpCard = () => {
             disabled={mutation.isPending}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="Email"
+            placeholder={t("email")}
             type="email"
             required
           />
@@ -89,7 +91,7 @@ export const SignUpCard = () => {
             disabled={mutation.isPending}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            placeholder="password"
+            placeholder={t("password")}
             type="password"
             required
             min={8}
@@ -101,7 +103,7 @@ export const SignUpCard = () => {
             className="w-full"
             size="lg"
           >
-            Continue
+            {t("signUp")}
             {mutation.isPending && (
               <Loader2 className="ml-2 size-4 animate-spin durarion-75" />
             )}
@@ -122,13 +124,13 @@ export const SignUpCard = () => {
               className="mr-2 size-5 top-1/2 -translate-y-1/2 left-2.5 absolute"
               onClick={() => onProviderSignin("google")}
             />
-            Continue with Google
+            {t("signUpWithGoogle")}
           </Button>
         </div>
         <p className="text-sm text-muted-foreground">
-          Already have an account?{" "}
-          <Link href="/sign-in">
-            <span className="text-primary underline">Sign in</span>
+          {t("alreadyHaveAccount")}{" "}
+          <Link href={`/${locale}/sign-in`}>
+            <span className="text-primary underline">{t("signInLink")}</span>
           </Link>
         </p>
       </CardContent>

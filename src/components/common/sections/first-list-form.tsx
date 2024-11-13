@@ -1,10 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
 import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import {
   Form,
   FormControl,
@@ -14,8 +11,17 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { Textarea } from "@/components/ui/textarea";
-import { toast } from "sonner";
+import { cn } from "@/lib/utils";
+import { zodResolver } from "@hookform/resolvers/zod";
+import confetti from "canvas-confetti";
+import { format } from "date-fns";
+import { es } from "date-fns/locale";
 import {
   CalendarIcon,
   CheckCircleIcon,
@@ -25,19 +31,14 @@ import {
   Share2Icon,
   ShareIcon,
 } from "lucide-react";
-import { Calendar } from "@/components/ui/calendar";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { format } from "date-fns";
-import { es } from "date-fns/locale";
-import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import * as z from "zod";
 import { CardFirstList } from "./card-first-list";
 import { CardFirstPresent } from "./card-first-present";
-import confetti from "canvas-confetti";
 
 const listFormSchema = z.object({
   name: z.string().min(3, {
@@ -82,6 +83,7 @@ export function FirstListForm() {
   const [localList, setLocalList] = useState<LocalList | null>(null);
   const [localPresents, setLocalPresents] = useState<LocalPresent[]>([]);
   const router = useRouter();
+  const t = useTranslations("Home.CreateFreeList");
 
   const listForm = useForm<ListFormValues>({
     resolver: zodResolver(listFormSchema),
@@ -166,224 +168,214 @@ export function FirstListForm() {
   }
 
   return (
-    <div className="bg-gradient-to-b from-background to-primary/10">
-      <div className="container mx-auto px-4 py-8">
-        <ProgressSteps steps={steps} currentStep={step} />
+    <div className="container max-w-2xl mx-auto px-4 py-8">
+      <ProgressSteps steps={steps} currentStep={step} />
 
-        {step === 1 && (
-          <section className="py-16">
-            <div className="max-w-3xl mx-auto text-center">
-              <GiftIcon className="w-16 h-16 mx-auto mb-6 text-primary animate-bounce" />
-              <h2 className="text-4xl md:text-5xl font-extrabold text-foreground mb-6">
-                Crea tu{" "}
-                <span className="text-primary">primera lista de deseos</span>
-              </h2>
-              <p className="text-xl text-muted-foreground mb-12">
-                Comienza a organizar tus regalos para tu próximo evento
-                especial.
-              </p>
+      {step === 1 && (
+        <div className="mt-8 space-y-6">
+          <div className="text-center space-y-2">
+            <h2 className="text-2xl font-semibold tracking-tight">
+              {t("title")}
+            </h2>
+            <p className="text-sm text-muted-foreground">{t("subtitle")}</p>
+          </div>
 
-              <Form {...listForm}>
-                <form
-                  onSubmit={listForm.handleSubmit(onSubmitList)}
-                  className="space-y-8 bg-card p-8 rounded-lg shadow-lg"
-                >
-                  <FormField
-                    control={listForm.control}
-                    name="name"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-lg">
-                          Nombre de la lista
-                        </FormLabel>
+          <Form {...listForm}>
+            <form
+              onSubmit={listForm.handleSubmit(onSubmitList)}
+              className="space-y-4 bg-card p-6 rounded-lg border shadow-sm"
+            >
+              <FormField
+                control={listForm.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t("labelFirstListName")}</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder={t("placeholderFirstListName")}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={listForm.control}
+                name="eventDate"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col">
+                    <FormLabel>{t("labelFirstListEventDate")}</FormLabel>
+                    <Popover>
+                      <PopoverTrigger asChild>
                         <FormControl>
-                          <Input
-                            placeholder="Mi lista de cumpleaños"
-                            {...field}
-                            className="text-lg py-6"
-                          />
+                          <Button
+                            variant={"outline"}
+                            className={cn(
+                              "w-full pl-3 text-left font-normal",
+                              !field.value && "text-muted-foreground"
+                            )}
+                          >
+                            {field.value ? (
+                              format(field.value, "PPP", { locale: es })
+                            ) : (
+                              <span>{t("placeholderFirstListEventDate")}</span>
+                            )}
+                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                          </Button>
                         </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={listForm.control}
-                    name="eventDate"
-                    render={({ field }) => (
-                      <FormItem className="flex flex-col">
-                        <FormLabel className="text-lg">
-                          Fecha del evento
-                        </FormLabel>
-                        <Popover>
-                          <PopoverTrigger asChild>
-                            <FormControl>
-                              <Button
-                                variant={"outline"}
-                                className={cn(
-                                  "w-full pl-3 text-left font-normal text-lg py-6",
-                                  !field.value && "text-muted-foreground"
-                                )}
-                              >
-                                {field.value ? (
-                                  format(field.value, "PPP", { locale: es })
-                                ) : (
-                                  <span>Escoge una fecha</span>
-                                )}
-                                <CalendarIcon className="ml-auto size-5 opacity-50" />
-                              </Button>
-                            </FormControl>
-                          </PopoverTrigger>
-                          <PopoverContent className="w-auto p-0" align="start">
-                            <Calendar
-                              mode="single"
-                              selected={field.value}
-                              onSelect={field.onChange}
-                              disabled={(date) =>
-                                date < new Date(new Date().setHours(0, 0, 0, 0))
-                              }
-                              initialFocus
-                            />
-                          </PopoverContent>
-                        </Popover>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <Button type="submit" className="w-full text-lg py-6">
-                    Crear lista
-                  </Button>
-                </form>
-              </Form>
-            </div>
-          </section>
-        )}
-
-        {step === 2 && (
-          <section className="py-16">
-            <div className="max-w-3xl mx-auto text-center">
-              <PlusIcon className="w-16 h-16 mx-auto mb-6 text-primary animate-pulse" />
-              <h2 className="text-4xl md:text-5xl font-extrabold text-foreground mb-6">
-                Añade regalos a tu lista
-              </h2>
-              <p className="text-xl text-muted-foreground mb-12">
-                Agrega al menos dos regalos a tu lista de deseos.
-              </p>
-
-              {localList && <CardFirstList list={localList as any} />}
-              {localPresents.map((present) => (
-                <CardFirstPresent key={present.id} present={present as any} />
-              ))}
-              <div className="bg-card p-8 rounded-lg shadow-lg mt-8">
-                <Form {...presentForm}>
-                  <form
-                    onSubmit={presentForm.handleSubmit(onSubmitPresent)}
-                    className="space-y-8"
-                  >
-                    <FormField
-                      control={presentForm.control}
-                      name="name"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="text-lg">
-                            Nombre del regalo
-                          </FormLabel>
-                          <FormControl>
-                            <Input
-                              placeholder="Nuevo regalo"
-                              {...field}
-                              className="text-lg py-6"
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={presentForm.control}
-                      name="description"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="text-lg">
-                            Descripción (opcional)
-                          </FormLabel>
-                          <FormControl>
-                            <Textarea
-                              placeholder="Describe el regalo..."
-                              {...field}
-                              className="text-lg py-3"
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={presentForm.control}
-                      name="link"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="text-lg">
-                            Enlace (opcional)
-                          </FormLabel>
-                          <FormControl>
-                            <Input
-                              type="url"
-                              placeholder="https://ejemplo.com"
-                              {...field}
-                              className="text-lg py-6"
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <Button type="submit" className="w-full text-lg py-6">
-                      Añadir regalo
-                    </Button>
-                  </form>
-                </Form>
-              </div>
-
-              {localPresents.length >= 2 && (
-                <Button
-                  onClick={() => setStep(3)}
-                  className="mt-8 text-lg py-6"
-                >
-                  Continuar
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0" align="start">
+                        <Calendar
+                          mode="single"
+                          selected={field.value}
+                          onSelect={field.onChange}
+                          disabled={(date) =>
+                            date < new Date(new Date().setHours(0, 0, 0, 0))
+                          }
+                          initialFocus
+                        />
+                      </PopoverContent>
+                    </Popover>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <div className="flex justify-end">
+                <Button type="submit" className="w-fit" variant="secondary">
+                  {t("buttonCreateFreeList")}
                 </Button>
-              )}
+              </div>
+            </form>
+          </Form>
+        </div>
+      )}
+
+      {step === 2 && (
+        <div className="mt-8 space-y-6">
+          <div className="text-center space-y-2">
+            <h2 className="text-2xl font-semibold tracking-tight">
+              Añade regalos a tu lista
+            </h2>
+            <p className="text-sm text-muted-foreground">
+              Agrega al menos dos regalos a tu lista de deseos
+            </p>
+          </div>
+
+          {localList && (
+            <div className="bg-muted/50 rounded-lg p-4 mb-4">
+              <CardFirstList list={localList as any} />
             </div>
-          </section>
-        )}
+          )}
 
-        {step === 3 && (
-          <section className="py-16">
-            <div className="max-w-3xl mx-auto text-center">
-              <ShareIcon className="w-16 h-16 mx-auto mb-6 text-primary animate-bounce" />
-              <h2 className="text-4xl md:text-5xl font-extrabold text-foreground mb-6">
-                ¡Tu lista está lista para compartir!
-              </h2>
-              <p className="text-xl text-muted-foreground mb-12">
-                Regístrate para poder compartir tu lista y recibir regalos.
-              </p>
+          {localPresents.map((present) => (
+            <div key={present.id} className="bg-muted/50 rounded-lg p-4">
+              <CardFirstPresent present={present as any} />
+            </div>
+          ))}
 
-              {localList && <CardFirstList list={localList as any} />}
-
-              {localPresents.map((present) => (
-                <CardFirstPresent key={present.id} present={present as any} />
-              ))}
-
-              <Button
-                onClick={redirectToRegister}
-                className="mt-8 text-lg py-6 px-8"
-              >
-                <Share2Icon className="mr-2" /> Compartir lista
+          <Form {...presentForm}>
+            <form
+              onSubmit={presentForm.handleSubmit(onSubmitPresent)}
+              className="space-y-4 bg-card p-6 rounded-lg border shadow-sm"
+            >
+              <FormField
+                control={presentForm.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Nombre del regalo</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Nuevo regalo" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={presentForm.control}
+                name="description"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Descripción (opcional)</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder="Describe el regalo..."
+                        {...field}
+                        rows={3}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={presentForm.control}
+                name="link"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Enlace (opcional)</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="url"
+                        placeholder="https://ejemplo.com"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button type="submit" className="w-full">
+                Añadir regalo
               </Button>
-            </div>
-          </section>
-        )}
-      </div>
+            </form>
+          </Form>
+
+          {localPresents.length >= 2 && (
+            <Button
+              onClick={() => setStep(3)}
+              className="w-full"
+              variant="secondary"
+            >
+              Continuar
+            </Button>
+          )}
+        </div>
+      )}
+
+      {step === 3 && (
+        <div className="mt-8 space-y-6">
+          <div className="text-center space-y-2">
+            <h2 className="text-2xl font-semibold tracking-tight">
+              ¡Lista completada!
+            </h2>
+            <p className="text-sm text-muted-foreground">
+              Regístrate para poder compartir tu lista y recibir regalos
+            </p>
+          </div>
+
+          <div className="space-y-4">
+            {localList && (
+              <div className="bg-muted/50 rounded-lg p-4">
+                <CardFirstList list={localList as any} />
+              </div>
+            )}
+
+            {localPresents.map((present) => (
+              <div key={present.id} className="bg-muted/50 rounded-lg p-4">
+                <CardFirstPresent present={present as any} />
+              </div>
+            ))}
+          </div>
+
+          <Button onClick={redirectToRegister} className="w-full">
+            <Share2Icon className="mr-2 h-4 w-4" />
+            Registrarme y compartir
+          </Button>
+        </div>
+      )}
     </div>
   );
 }

@@ -23,6 +23,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
 import { CalendarIcon, Loader2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -38,6 +39,8 @@ export const CreateListForm = ({ onCancel }: CreateListFormProps) => {
   const router = useRouter();
   const { mutate: createList, isPending: creatingList } = useCreateList();
   const { close } = useCreateListModal();
+
+  const t = useTranslations("Dashboard.Lists.form");
 
   const form = useForm<z.infer<typeof createListSchema>>({
     resolver: zodResolver(createListSchema),
@@ -61,17 +64,17 @@ export const CreateListForm = ({ onCancel }: CreateListFormProps) => {
   return (
     <div className="p-3">
       <Form {...form}>
-        <form className="space-y-4" onSubmit={form.handleSubmit(handleSubmit)}>
+        <form className="space-y-6" onSubmit={form.handleSubmit(handleSubmit)}>
           <FormField
             control={form.control}
             name="name"
             render={({ field }) => (
               <FormItem>
                 <div className="space-y-0.5">
-                  <FormLabel className="text-base">Nombre</FormLabel>
+                  <FormLabel className="text-base">{t("name")}</FormLabel>
                 </div>
                 <FormControl>
-                  <Input {...field} placeholder="Nombre de la lista" />
+                  <Input {...field} placeholder={t("namePlaceholder")} />
                 </FormControl>
               </FormItem>
             )}
@@ -82,7 +85,7 @@ export const CreateListForm = ({ onCancel }: CreateListFormProps) => {
             name="eventDate"
             render={({ field }) => (
               <FormItem className="flex flex-col w-full">
-                <FormLabel className="text-base">Fecha del evento</FormLabel>
+                <FormLabel className="text-base">{t("eventDateTitle")}</FormLabel>
                 <Popover>
                   <PopoverTrigger asChild className="w-full">
                     <FormControl className="w-full">
@@ -96,7 +99,7 @@ export const CreateListForm = ({ onCancel }: CreateListFormProps) => {
                         {field.value ? (
                           format(field.value, "PPP", { locale: es })
                         ) : (
-                          <span>Escoge la fecha</span>
+                          <span>{t("eventDatePlaceholder")}</span>
                         )}
                         <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                       </Button>
@@ -116,9 +119,6 @@ export const CreateListForm = ({ onCancel }: CreateListFormProps) => {
                     />
                   </PopoverContent>
                 </Popover>
-                <FormDescription>
-                  Indica la fecha en la que se deberá celebrar el evento
-                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -130,7 +130,7 @@ export const CreateListForm = ({ onCancel }: CreateListFormProps) => {
             render={({ field }) => (
               <FormItem>
                 <div className="space-y-0.5">
-                  <FormLabel className="text-base">Estado</FormLabel>
+                  <FormLabel className="text-base">{t("estatusTitle")}</FormLabel>
                 </div>
                 <FormControl>
                   <Switch
@@ -153,16 +153,16 @@ export const CreateListForm = ({ onCancel }: CreateListFormProps) => {
               disabled={creatingList}
               className={cn(!onCancel && "invisible")}
             >
-              Cancelar
+              {t("cancel")}
             </Button>
             <Button disabled={creatingList} type="submit" size="lg">
               {creatingList ? (
                 <>
                   <Loader2 className="animate-spin" />
-                  <span>Añadiendo lista</span>
+                  <span>{t("loading")}</span>
                 </>
               ) : (
-                "Añadir lista"
+                t("submit")
               )}
             </Button>
           </div>

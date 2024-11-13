@@ -1,11 +1,12 @@
 import { client } from "@/lib/hono";
+import { qk } from "@/lib/query-keys";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { InferResponseType } from "hono";
 import { toast } from "sonner";
-import { qk } from "@/lib/query-keys";
 
 type ResponseType = InferResponseType<
-  (typeof client.api.presents)[":id"]["$delete"]
+  (typeof client.api.presents)[":id"]["$delete"],
+  200
 >;
 
 export const useDeletePresent = (id?: string) => {
@@ -17,28 +18,29 @@ export const useDeletePresent = (id?: string) => {
         param: { id },
       });
 
+      if (!response.ok) {
+        if (response.status === 404) {
+          throw new Error("Present not found");
+        }
+        throw new Error("Error deleting present");
+      }
+
       return await response.json();
     },
-    onSuccess: () => {
+    onSuccess: ({ data }) => {
       toast.success("Present deleted successfully");
       queryClient.invalidateQueries({
         queryKey: qk.presents.userPresents,
       });
       queryClient.invalidateQueries({
-        queryKey: qk.lists.userLists,
+        queryKey: qk.presents.publicPresents,
       });
       queryClient.invalidateQueries({
-        queryKey: qk.lists.userListDetails(id!),
-      });
-      queryClient.invalidateQueries({
-        queryKey: qk.lists.publicLists,
-      });
-      queryClient.invalidateQueries({
-        queryKey: qk.lists.publicListDetails(id!),
+        queryKey: qk.lists.privateListDetails(data.listId!),
       });
     },
-    onError: () => {
-      toast.error("Error deleting present");
+    onError: (error) => {
+      toast.error(error.message);
     },
   });
 

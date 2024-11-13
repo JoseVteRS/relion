@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { ListWithUserWithPresents } from "@/types/types";
 import { format } from "date-fns";
-import { es } from "date-fns/locale";
+import { enGB, es } from "date-fns/locale";
 import {
   Calendar,
   EllipsisVerticalIcon,
@@ -20,6 +20,7 @@ import {
   PencilIcon,
   TrashIcon,
 } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useMemo } from "react";
@@ -32,6 +33,8 @@ interface CardListProps {
 
 export const CardList = ({ list }: CardListProps) => {
   const router = useRouter();
+  const locale = useLocale();
+  const t = useTranslations("Dashboard.Lists");
   const shareLink = useMemo(
     () => `${process.env.NEXT_PUBLIC_APP_URL}/list/${list.id}`,
     [list.id]
@@ -49,10 +52,6 @@ export const CardList = ({ list }: CardListProps) => {
     if (ok) {
       deleteList.mutate(undefined);
     }
-  };
-
-  const goToListDetail = () => {
-    router.push(`/dashboard/lists/${list.id}`);
   };
 
   return (
@@ -78,9 +77,9 @@ export const CardList = ({ list }: CardListProps) => {
                     asChild
                     className="flex items-center space-x-2 hover:bg-accent hover:text-accent-foreground"
                   >
-                    <Link href={`/dashboard/lists/${list.id}`}>
+                    <Link href={`/${locale}/dashboard/lists/${list.id}`}>
                       <PencilIcon className="w-4 h-4" />
-                      <span>Editar</span>
+                      <span>{t("edit")}</span>
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem
@@ -91,7 +90,7 @@ export const CardList = ({ list }: CardListProps) => {
                     }}
                   >
                     <TrashIcon className="w-4 h-4" />
-                    <span className="font-bold">Borrar</span>
+                    <span className="font-bold">{t("delete")}</span>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -101,19 +100,17 @@ export const CardList = ({ list }: CardListProps) => {
           <div className="text-sm text-muted-foreground mb-2 flex items-center gap-2">
             <Calendar className="w-4 h-4" />
             <span>
-              {format(new Date(list.eventDate), "PPP", { locale: es })}
+              {new Intl.DateTimeFormat(locale, {
+                day: "numeric",
+                month: "long",
+                year: "numeric",
+              }).format(new Date(list.eventDate))}
             </span>
           </div>
 
           <div className="text-sm text-muted-foreground mb-3 flex items-center gap-2">
             <GiftIcon className="w-4 h-4" />
-            <span>
-              {list?.presents?.length === 0
-                ? "Sin regalos"
-                : `${list?.presents?.length} ${
-                    list?.presents?.length === 1 ? "regalo" : "regalos"
-                  }`}
-            </span>
+            <span>{t("presentsCount", { count: list?.presents?.length })}</span>
           </div>
 
           <div className="flex items-center justify-between mt-4">
@@ -121,19 +118,21 @@ export const CardList = ({ list }: CardListProps) => {
               variant="outline"
               size="sm"
               className="text-primary hover:text-primary/80"
-              onClick={(e) => {
-                e.stopPropagation();
-                goToListDetail();
-              }}
+              asChild
             >
-              <EyeIcon className="w-4 h-4 mr-2" />
-              Ver detalles
+              <Link href={`/${locale}/dashboard/lists/${list.id}`}>
+                <EyeIcon className="w-4 h-4 mr-2" />
+                {t("viewDetails")}
+              </Link>
             </Button>
             <div className="flex w-full justify-end gap-2">
               <CopyToClipboard text={shareLink} />
               <ShareWhatsappButton
                 url={shareLink}
-                message={`¡Échale un vistazo a la lista ${list.name}! de ${list.user.name}`}
+                message={t("whatsappLinkShare", {
+                  listName: list.name,
+                  userName: list.user.name,
+                })}
               />
             </div>
           </div>
