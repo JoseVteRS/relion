@@ -19,7 +19,8 @@ export const Header = () => {
 
   return (
     <section className="bg-black text-foreground min-h-screen ">
-      <div className="flex flex-col lg:flex-row gap-20 items-center justify-center  overflow-hidden max-w-screen-2xl mx-auto pt-20 h-[100dvh] px-5">
+      <div className="flex flex-col lg:flex-row gap-20 items-start justify-center  overflow-hidden max-w-screen-2xl mx-auto pt-20 px-5">
+
         <div className="w-full md:w-1/2 mt-10">
           <Badge variant="outline" className="text-white">beta</Badge>
           <h1 className="text-5xl text-center md:text-left tracking-tight text-pretty md:text-7xl font-bold dark:text-white">

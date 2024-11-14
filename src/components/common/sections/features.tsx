@@ -1,70 +1,144 @@
-import { Button } from "@/components/ui/button";
+"use client";
+
 import { Gift, ListTodo, Share2, Star } from "lucide-react";
 import { useTranslations } from "next-intl";
-import Link from "next/link";
+import { useEffect } from "react";
 
 export function Features() {
   const t = useTranslations("Home.Features");
 
+  useEffect(() => {}, []);
+
   return (
-<section className="py-16 bg-neutral-900">
-  <div className="container mx-auto px-4">
-    <h2 className="text-4xl font-bold text-center text-primary mb-12">
-      Características Principales
-    </h2>
-    <p className="text-lg text-center text-muted-foreground mb-12">
-      Descubre las funcionalidades que ofrecemos para mejorar tu experiencia.
-    </p>
-    <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-      {[
-        {
-          imgSrc: "/home/list-add-screen.webp",
-          alt: "Crear listas",
-          title: "Crear listas",
-          description: "Organiza tus regalos en listas personalizadas para cada ocasión.",
-          colSpan: "col-span-2",
-        },
-        {
-          imgSrc: "/home/presents-add-screen.webp",
-          alt: "Crear regalos",
-          title: "Crear regalos",
-          description: "Añade regalos a tus listas de manera fácil y rápida.",
-          colSpan: "col-span-2",
-        },
-        {
-          imgSrc: "/home/lists-screen.webp",
-          alt: "Compartir listas",
-          title: "Compartir listas",
-          description: "Comparte tus listas con amigos y familiares para que sepan qué regalarte.",
-          colSpan: "md:col-span-3 md:row-span-2",
-        },
-        {
-          imgSrc: "/home/presents-screen.webp",
-          alt: "Inspiración navideña",
-          title: "Inspiración navideña",
-          description: "Encuentra ideas para regalos navideños que sorprenderán a todos.",
-          colSpan: "",
-        },
-      ].map(({ imgSrc, alt, title, description, colSpan }, index) => (
-        <div key={index} className={`relative ${colSpan} bg-white p-8 rounded-3xl shadow-lg`}>
-          <img src={imgSrc} alt={alt} className="w-full h-full object-cover rounded-3xl" />
-          <div className="absolute inset-0 bg-black bg-opacity-50 p-6 rounded-3xl flex flex-col justify-end">
-            <h3 className="text-3xl font-semibold text-white mb-4">{title}</h3>
-            <p className="text-lg text-white">{description}</p>
+    <section className="py-16 bg-neutral-950 relative overflow-hidden">
+      {/* Luces flotantes */}
+      {Array.from({ length: 6 }).map((_, i) => (
+        <FloatingLight key={i} />
+      ))}
+
+      {/* Overlay sutil para suavizar las luces */}
+      {/* <div className="absolute inset-0 bg-neutral-950/50" /> */}
+
+      <div className="relative z-10">
+        {/* Decorative elements */}
+        <div className="absolute -right-20 top-20 w-72 h-72 bg-purple-500/20 rounded-full blur-3xl" />
+        <div className="absolute -left-20 bottom-20 w-72 h-72 bg-blue-500/20 rounded-full blur-3xl" />
+
+        <div className="container mx-auto px-4">
+          <h2 className="text-6xl mb-5 font-bold text-center text-white">
+            Todo esto podrás hacer
+          </h2>
+          <p className="text-3xl font-light text-center text-neutral-400 mb-16">
+            Y mucho más
+          </p>
+
+          <div className="grid grid-cols-12 gap-4 md:gap-6">
+            {/* Feature 1 - Large card */}
+            <div className="col-span-12 md:col-span-8">
+              <div className="bg-white/5 p-8 rounded-2xl border border-white/10 shadow-lg relative h-[300px] group overflow-hidden">
+                <div className="absolute -right-[450px] top-10 w-full h-full transition-transform group-hover:scale-125 bg-neutral-950 p-1 border border-muted rounded-2xl">
+                  <img
+                    src="/home/presents-screen.webp"
+                    alt="Lista de regalos"
+                    className="object-cover h-full opacity-80 rounded-2xl"
+                  />
+                </div>
+                <div className="relative z-10">
+                  <ListTodo className="w-12 h-12 mb-4 text-purple-400" />
+                  <h3 className="text-3xl font-bold text-white mb-4">
+                    Crear listas
+                  </h3>
+                  <p className="text-xl font-light text-neutral-400 max-w-md">
+                    Crea listas de regalos para tus amigos y familiares.
+                    Organiza todo de forma sencilla y comparte con quien
+                    quieras.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Feature 2 - Small card */}
+            <div className="col-span-12 md:col-span-4">
+              <div className="bg-white/5 p-6 rounded-2xl border border-white/10 shadow-lg h-[300px] group overflow-hidden">
+                <Star className="w-8 h-8 mb-4 text-yellow-400" />
+                <h3 className="text-2xl font-bold text-white mb-2">
+                  Añadir a favoritos
+                </h3>
+                <p className="text-lg font-light text-neutral-400">
+                  Guarda las listas que más te interesan para acceder
+                  rápidamente
+                </p>
+              </div>
+            </div>
+
+            {/* Feature 3 - Medium card with image */}
+            <div className="col-span-12 md:col-span-6">
+              <div className="bg-white/5 p-6 rounded-2xl border border-white/10 shadow-lg relative h-[250px] group overflow-hidden">
+                <div className="absolute -right-[450px] top-10 w-full h-full transition-transform group-hover:scale-125 bg-neutral-950 p-1 border border-muted rounded-2xl">
+                  <img
+                    src="/home/lists-screen.webp"
+                    alt="Lista de regalos"
+                    className="object-cover h-full opacity-80 rounded-2xl"
+                  />
+                </div>
+                <Share2 className="w-8 h-8 mb-4 text-blue-400" />
+                <h3 className="text-2xl font-bold text-white mb-2">
+                  Compartir listas
+                </h3>
+                <p className="text-lg font-light text-neutral-400 max-w-sm">
+                  Comparte tus listas de regalos con quien quieras de forma
+                  fácil y rápida
+                </p>
+              </div>
+            </div>
+
+            {/* Feature 4 - Medium card with gradient */}
+            <div className="col-span-12 md:col-span-6">
+              <div className="bg-gradient-to-br from-white/5 to-purple-500/10 p-6 rounded-2xl border border-white/10 shadow-lg h-[250px]">
+                <Gift className="w-8 h-8 mb-4 text-pink-400" />
+                <h3 className="text-2xl font-bold text-white mb-2">
+                  Crear regalos
+                </h3>
+                <p className="text-lg font-light text-neutral-400">
+                  Que tus amigos y familiares te regalen lo que realmente deseas
+                </p>
+                <small className="text-neutral-500 block mt-4">
+                  Se acabó hacer colas en enero para devolver el jersey
+                </small>
+              </div>
+            </div>
           </div>
         </div>
-      ))}
-      <div className="relative flex flex-col justify-center items-center text-center bg-white p-8 rounded-3xl shadow-lg">
-        <img src="/home/cta.jpg" alt="Call to Action" className="w-full h-full object-cover rounded-3xl" />
-        <div className="absolute inset-0 p-6 rounded-3xl flex flex-col justify-center items-center">
-          <h3 className="text-2xl font-semibold text-white mb-4">Únete a nosotros</h3>
-          <Button asChild size="lg" variant="secondary" className="text-lg">
-            <Link href="/sign-in">Regístrate ahora</Link>
-          </Button>
-        </div>
       </div>
-    </div>
-  </div>
-</section>
+    </section>
+  );
+}
+
+function FloatingLight() {
+  const colors = [
+    "from-purple-500/20",
+    "from-blue-500/20",
+    "from-pink-500/20",
+    "from-indigo-500/20",
+  ];
+
+  const randomColor = colors[Math.floor(Math.random() * colors.length)];
+  const randomDuration = `${Math.random() * 10 + 15}s`; // Entre 15-25s
+  const randomDelay = `${Math.random() * -20}s`; // Delay negativo para empezar en diferentes posiciones
+  const size = Math.random() * 300 + 200; // Entre 200-500px
+
+  return (
+    <div
+      className={`absolute rounded-full blur-3xl animate-floating opacity-30
+        bg-gradient-to-br ${randomColor} to-transparent`}
+      style={{
+        width: `${size}px`,
+        height: `${size}px`,
+        animationDuration: randomDuration,
+        animationDelay: randomDelay,
+        left: `${Math.random() * 100}%`,
+        top: `${Math.random() * 100}%`,
+      }}
+    />
   );
 }
