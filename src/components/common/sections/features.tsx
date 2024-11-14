@@ -7,8 +7,6 @@ import { useEffect } from "react";
 export function Features() {
   const t = useTranslations("Home.Features");
 
-  useEffect(() => {}, []);
-
   return (
     <section className="py-16 bg-neutral-950 relative overflow-hidden">
       {/* Luces flotantes */}
@@ -26,10 +24,10 @@ export function Features() {
 
         <div className="container mx-auto px-4">
           <h2 className="text-6xl mb-5 font-bold text-center text-white">
-            Todo esto podrás hacer
+            {t("title")}
           </h2>
           <p className="text-3xl font-light text-center text-neutral-400 mb-16">
-            Y mucho más
+            {t("subtitle")}
           </p>
 
           <div className="grid grid-cols-12 gap-4 md:gap-6">
@@ -46,12 +44,10 @@ export function Features() {
                 <div className="relative z-10">
                   <ListTodo className="w-12 h-12 mb-4 text-purple-400" />
                   <h3 className="text-3xl font-bold text-white mb-4">
-                    Crear listas
+                    {t("feature1.title")}
                   </h3>
                   <p className="text-xl font-light text-neutral-400 max-w-md">
-                    Crea listas de regalos para tus amigos y familiares.
-                    Organiza todo de forma sencilla y comparte con quien
-                    quieras.
+                    {t("feature1.description")}
                   </p>
                 </div>
               </div>
@@ -62,11 +58,10 @@ export function Features() {
               <div className="bg-white/5 p-6 rounded-2xl border border-white/10 shadow-lg h-[300px] group overflow-hidden">
                 <Star className="w-8 h-8 mb-4 text-yellow-400" />
                 <h3 className="text-2xl font-bold text-white mb-2">
-                  Añadir a favoritos
+                  {t("feature2.title")}
                 </h3>
                 <p className="text-lg font-light text-neutral-400">
-                  Guarda las listas que más te interesan para acceder
-                  rápidamente
+                  {t("feature2.description")}
                 </p>
               </div>
             </div>
@@ -83,11 +78,10 @@ export function Features() {
                 </div>
                 <Share2 className="w-8 h-8 mb-4 text-blue-400" />
                 <h3 className="text-2xl font-bold text-white mb-2">
-                  Compartir listas
+                  {t("feature3.title")}
                 </h3>
                 <p className="text-lg font-light text-neutral-400 max-w-sm">
-                  Comparte tus listas de regalos con quien quieras de forma
-                  fácil y rápida
+                  {t("feature3.description")}
                 </p>
               </div>
             </div>
@@ -97,14 +91,11 @@ export function Features() {
               <div className="bg-gradient-to-br from-white/5 to-purple-500/10 p-6 rounded-2xl border border-white/10 shadow-lg h-[250px]">
                 <Gift className="w-8 h-8 mb-4 text-pink-400" />
                 <h3 className="text-2xl font-bold text-white mb-2">
-                  Crear regalos
+                    {t("feature4.title")}
                 </h3>
                 <p className="text-lg font-light text-neutral-400">
-                  Que tus amigos y familiares te regalen lo que realmente deseas
+                  {t("feature4.description")}
                 </p>
-                <small className="text-neutral-500 block mt-4">
-                  Se acabó hacer colas en enero para devolver el jersey
-                </small>
               </div>
             </div>
           </div>

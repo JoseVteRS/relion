@@ -39,9 +39,9 @@
     },
     "Home": {
         "Header": {
-            "titleStart": "Your Christmas wishes,",
+            "titleStart": "Stop returning gifts",
             "titleHighlight": "organized",
-            "subtitle": "Create your perfect gift list and share it with family and friends. No duplicates, no awkward surprises, just the magic of Christmas.",
+            "subtitle": "Create and share gift lists",
             "buttonCreateList": "Create my list",
             "buttonExplore": "See examples",
             "homeBadge": "Christmas 2024"
@@ -66,27 +66,27 @@
             }
         },
         "Features": {
-            "title": "Features",
-            "subtitle": "Discover how our app can make your gifts perfect (and drama-free).",
+            "title": "All this you can do",
+            "subtitle": "And much more",
             "cta": {
-                "title": "Don't waste time returning gifts.",
+                "title": "Stop returning gifts",
                 "button": "Create my list"
             },
             "feature1": {
-                "title": "Create Lists and Gifts",
-                "description": "Create personalized lists and add all the gifts you want. Because we know your wish list is never-ending!"
+                "title": "Create lists",
+                "description": "Create gift lists for your friends and family. Organize everything easily and share with whomever you want."
             },
             "feature2": {
-                "title": "Share with Family and Friends",
-                "description": "Share your lists with your loved ones so they know exactly what to get you. Because trusting their intuition can be risky!"
+                "title": "Add to favorites",
+                "description": "Save the lists that interest you the most for quick access."
             },
             "feature3": {
-                "title": "Perfect Gifts",
-                "description": "Make sure you get what you really need or want, avoiding returns and forgotten gifts. Because nobody wants another pair of Christmas socks!"
+                "title": "Share lists",
+                "description": "Share your gift lists with whomever you want easily and quickly."
             },
             "feature4": {
-                "title": "No Duplicates",
-                "description": "Avoid receiving duplicate gifts and enjoy a more organized gift-giving experience. Because one set of pans is enough!"
+                "title": "Create gifts",
+                "description": "Let your friends and family give you what you really want. No more standing in line in January to return the sweater."
             }
         }
     },

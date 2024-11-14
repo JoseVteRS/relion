@@ -39,9 +39,9 @@
     },
     "Home": {
         "Header": {
-            "titleStart": "Tus deseos navideños,",
+            "titleStart": "Deja de devolver regalos",
             "titleHighlight": "organizados",
-            "subtitle": "Crea tu lista de regalos perfecta y compártela con familia y amigos. Sin duplicados, sin sorpresas incómodas, solo la magia de la Navidad.",
+            "subtitle": "Crea y comparte listas de regalos",
             "buttonCreateList": "Crear mi lista",
             "buttonExplore": "Ver ejemplos",
             "homeBadge": "Navidad 2024"
@@ -66,27 +66,27 @@
             }
         },
         "Features": {
-            "title": "Características",
-            "subtitle": "Descubre cómo nuestra app puede hacer que tus regalos sean perfectos (y sin dramas).",
+            "title": "Todo esto podrás hacer",
+            "subtitle": "Y mucho más",
             "cta": {
-                "title": "No pierdas el tiempo devolviendo regalos.",
+                "title": "Deja de devolver regalos",
                 "button": "Crear mi lista"
             },
             "feature1": {
-                "title": "Crear listas y regalos",
-                "description": "Crea listas personalizadas y añade todos los regalos que deseas. ¡Porque sabemos que tu lista de deseos es interminable!"
+                "title": "Crear listas",
+                "description": "Crea listas de regalos para tus amigos y familiares. Organiza todo de forma sencilla y comparte con quien quieras."
             },
             "feature2": {
-                "title": "Compartir con familiares y amigos",
-                "description": "Comparte tus listas con tus seres queridos para que sepan exactamente qué regalarte. ¡Porque confiar en su intuición puede ser arriesgado!"
+                "title": "Añadir a favoritos",
+                "description": "Guarda las listas que más te interesan para acceder rápidamente."
             },
             "feature3": {
-                "title": "Regalos acertados",
-                "description": "Asegúrate de recibir lo que realmente necesitas o quieres, evitando devoluciones y regalos olvidados. ¡Porque nadie quiere otro par de calcetines navideños!"
+                "title": "Compartir listas",
+                "description": "Comparte tus listas de regalos con quien quieras de forma fácil y rápida."
             },
             "feature4": {
-                "title": "Sin duplicados",
-                "description": "Evita recibir regalos repetidos y disfruta de una experiencia de regalo más organizada. ¡Porque un solo juego de sartenes es suficiente!"
+                "title": "Crear regalos",
+                "description": "Que tus amigos y familiares te regalen lo que realmente deseas. Se acabó hacer colas en enero para devolver el jersey."
             }
         }
     },

@@ -4,10 +4,15 @@ import { CtaButton } from "@/components/cta-button";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { SignInGoogleButton } from "@/features/auth/components/sign-in-google-button";
+import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
 import posthog from "posthog-js";
 
 export const Header = () => {
+
+  const locale = useLocale();
+  const t = useTranslations("Home.Header");
+
   const handleClick = () => {
     posthog.capture("home_signup", {
       provider: "Credentials",
@@ -23,11 +28,11 @@ export const Header = () => {
           </Badge>
           <h1 className="text-6xl text-center md:text-left tracking-tight md:text-8xl text-balance font-black dark:text-white">
             <span className="bg-gradient-to-r from-primary/80 via-primary to-primary-foreground/30 bg-clip-text text-transparent">
-              Deja de devolver regalos
+              {t("titleStart")}
             </span>
           </h1>
           <div className="font-extralight text-base text-pretty text-center md:text-left md:text-4xl dark:text-neutral-200 py-4">
-            Crea y comparte listas de regalos
+            {t("subtitle")}
           </div>
           <div className="mt-8 md:flex space-y-4 md:space-y-0 justify-start gap-4">
             <Button
@@ -36,7 +41,7 @@ export const Header = () => {
               size="lg"
               onClick={handleClick}
             >
-              <Link href="/es/sign-up">Crea tu lista</Link>
+              <Link href={`/${locale}/sign-up`}>{t("buttonCreateList")}</Link>
             </Button>
 
             <SignInGoogleButton />
