@@ -1,12 +1,10 @@
 import { auth } from "@/auth";
 import { Modals } from "@/components/common/modals";
-import { CSPostHogProvider } from "@/components/providers/posthog-provider";
 import QueryProvider from "@/components/providers/query-provider";
 import SheetProvider from "@/components/providers/sheet-provider";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { routing } from "@/i18n/routing";
-import PostHogPageView from "@/lib/posthog-pageview";
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import { SessionProvider } from "next-auth/react";
@@ -16,6 +14,13 @@ import { Manrope } from "next/font/google";
 import { notFound } from "next/navigation";
 import config from "../../../config/config";
 import "../globals.css";
+
+import { PHProvider } from "@/components/providers/posthog-provider";
+import dynamic from "next/dynamic";
+
+const PostHogPageView = dynamic(() => import("@/lib/posthog-pageview"), {
+  ssr: false,
+});
 
 const inter = Manrope({
   subsets: ["latin"],
@@ -96,27 +101,27 @@ export default async function RootLayout({
   return (
     <SessionProvider session={session}>
       <html lang={locale} suppressHydrationWarning>
-        <CSPostHogProvider>
-          <body className={cn(inter.className, "antialiased min-h-screen")}>
-            <PostHogPageView />
-            <ThemeProvider
-              attribute="class"
-              defaultTheme="system"
-              enableSystem
-              disableTransitionOnChange
-            >
-              <QueryProvider>
-                <SheetProvider />
-                <Toaster richColors position="top-center" />
-                <Modals />
-                <NextIntlClientProvider messages={messages}>
+        <body className={cn(inter.className, "antialiased min-h-screen")}>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <QueryProvider>
+              <SheetProvider />
+              <Toaster richColors position="top-center" />
+              <Modals />
+              <NextIntlClientProvider messages={messages}>
+                <PHProvider>
+                  <PostHogPageView />
                   {children}
-                </NextIntlClientProvider>
-                {/* <ReactQueryDevtools initialIsOpen={false} /> */}
-              </QueryProvider>
-            </ThemeProvider>
-          </body>
-        </CSPostHogProvider>
+                </PHProvider>
+              </NextIntlClientProvider>
+              {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+            </QueryProvider>
+          </ThemeProvider>
+        </body>
       </html>
     </SessionProvider>
   );

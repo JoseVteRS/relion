@@ -1,19 +1,21 @@
-import { AuroraBackground } from "@/components/ui/aurora-background";
+"use client"
+
+import { CtaButton } from "@/components/cta-button";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { SignInGoogleButton } from "@/features/auth/components/sign-in-google-button";
-import { GiftIcon, SparklesIcon } from "lucide-react";
-import { signIn } from "next-auth/react";
-import { getLocale, getTranslations } from "next-intl/server";
-import Image from "next/image";
 import Link from "next/link";
-import { FcGoogle } from "react-icons/fc";
-import { Background } from "../background";
-import { FirstListForm } from "./first-list-form";
+import posthog from "posthog-js";
 
-export const Header = async () => {
-  const { rich } = await getTranslations("Home.Header");
-  const locale = await getLocale();
+export const Header = () => {
+ 
+  const handleClick = () => {
+    posthog.capture("home_signup", {
+      provider: "Credentials",
+    });
+  };
+
+  
 
   return (
     <section className="bg-black text-foreground min-h-screen ">
@@ -29,9 +31,9 @@ export const Header = async () => {
             Crea y comparte listas de regalos
           </div>
           <div className="mt-8 md:flex space-y-4 md:space-y-0 justify-start gap-4">
-            <Button asChild className="w-full md:w-full" size="lg">
+            <Button asChild className="w-full md:w-full" size="lg" onClick={handleClick}>
               <Link
-                href="/es/sign-up"
+                href="#"
               >
                 Crea tu lista
               </Link>
@@ -50,6 +52,7 @@ export const Header = async () => {
           </div>
         </div>
       </div>
+      <CtaButton />
     </section>
   );
 };

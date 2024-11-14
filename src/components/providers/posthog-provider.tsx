@@ -1,19 +1,20 @@
-"use client";
-import posthog from "posthog-js";
-import { PostHogProvider } from "posthog-js/react";
-import { type ReactNode } from "react";
+'use client'
+import posthog from 'posthog-js'
+import { PostHogProvider } from 'posthog-js/react'
+import { useEffect } from 'react'
 
-if (typeof window !== "undefined") {
-  posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY!, {
-    api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST,
-    person_profiles: "identified_only", // or 'always' to create profiles for anonymous users as well
-  });
-}
+export function PHProvider({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+    useEffect(() => {
+      console.log(process.env.NEXT_PUBLIC_POSTHOG_KEY)
+      posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY!, {
+        api_host: "/ingest",
+        ui_host: 'https://eu.posthog.com'
+      })
+  }, []);
 
-type Props = {
-  children: ReactNode;
-};
-
-export function CSPostHogProvider({ children }: Props) {
-  return <PostHogProvider client={posthog}>{children}</PostHogProvider>;
+  return <PostHogProvider client={posthog}>{children}</PostHogProvider>
 }
