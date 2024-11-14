@@ -52,19 +52,18 @@ export const DashboardListDetailsPageClient = ({ id }: { id: string }) => {
           {list?.name}
           <StatusBadge status={list.status || false} />
         </CardTitle>
-        <div className="flex flex-col items-start gap-1 pt-5">
-          <span className="text-sm text-muted-foreground">Fecha evento</span>
-          <time dateTime={list.eventDate} className="text-sm font-medium">
+        <div className="flex flex-col md:flex-row items-start gap-1 pt-5">
+          <span className="text-sm text-muted-foreground">Fecha evento: </span>
+          <div className="text-sm font-medium">
             {new Date(list.eventDate).toLocaleDateString("es-ES", {
               day: "numeric",
               month: "long",
               year: "numeric",
             })}
-          </time>
+          </div>
         </div>
       </CardHeader>
       <CardContent>
-        
         {list?.presents.length === 0 && <PresentNotFount />}
         {list?.presents.length !== 0 && (
           <div className="flex justify-between items-center mb-6 mt-10">

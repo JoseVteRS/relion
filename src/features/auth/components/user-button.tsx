@@ -24,7 +24,7 @@ import Link from "next/link";
 
 export const UserButton = () => {
   const session = useSession();
-  const { shouldBlock } = usePaywall();
+  const { isPremium } = usePaywall();
 
   const locale = useLocale();
 
@@ -41,8 +41,8 @@ export const UserButton = () => {
 
   return (
     <DropdownMenu modal={false}>
-      <DropdownMenuTrigger>
-        {!shouldBlock && (
+      <DropdownMenuTrigger className="rounded-sm">
+        {isPremium && (
           <div className="relative">
             <div className="absolute -top-1 -left-1 bg-black border-[1px] border-primary p-0.5 rounded-full z-10 opacity-75">
               <Crown className="size-3 text-primary fill-primary" />
@@ -50,7 +50,7 @@ export const UserButton = () => {
           </div>
         )}
 
-        <Avatar className="size-10 hover:opacity-75 transition rounded-full">
+        <Avatar className="size-10 hover:opacity-75 transition rounded-sm">
           <AvatarImage alt={name} src={imageUrl || ""} />
           <AvatarFallback className="bg-primary font-medium text-neutral-900">
             {name.charAt(0).toUpperCase()}

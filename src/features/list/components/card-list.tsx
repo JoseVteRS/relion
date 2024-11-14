@@ -110,7 +110,7 @@ export const CardList = ({ list }: CardListProps) => {
 
           <div className="text-sm text-muted-foreground mb-3 flex items-center gap-2">
             <GiftIcon className="w-4 h-4" />
-            <span>{t("presentsCount", { count: list?.presents?.length })}</span>
+            <span>{t("presentsCount", { count: list?.presents?.length  })}</span>
           </div>
 
           <div className="flex items-center justify-between mt-4">

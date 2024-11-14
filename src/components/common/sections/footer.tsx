@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export const Footer = () => {
   return (
@@ -20,17 +20,17 @@ export const Footer = () => {
             <ul className="space-y-1">
               <li>
                 <Button variant="link" size="sm" asChild>
-                  <Link href="/">Inicio</Link>
+                  <Link href="/es/">Inicio</Link>
                 </Button>
               </li>
               {/* <li>
                 <Button variant="link" size="sm" asChild>
-                  <Link href="#pricing">Precios</Link>
+                  <Link href="/es#pricing">Precios</Link>
                 </Button>
               </li> */}
               <li>
                 <Button variant="link" size="sm" asChild>
-                  <Link href="/sign-in">Iniciar sesión</Link>
+                  <Link href="/es/sign-in">Iniciar sesión</Link>
                 </Button>
               </li>
             </ul>
@@ -42,21 +42,21 @@ export const Footer = () => {
             <ul className="space-y-1">
               <li>
                 <Button variant="link" size="sm" asChild>
-                  <Link href="/legal/terminos-y-condiciones-de-servicio">
+                  <Link href="/es/legal/terminos-y-condiciones-de-servicio">
                     Términos y condiciones de servicio
                   </Link>
                 </Button>
               </li>
               <li>
                 <Button variant="link" size="sm" asChild>
-                  <Link href="/legal/politicas-de-privacidad">
+                  <Link href="/es/legal/politicas-de-privacidad">
                     Política de privacidad
                   </Link>
                 </Button>
               </li>
               <li>
                 <Button variant="link" size="sm" asChild>
-                  <Link href="/legal/politicas-de-cookies">
+                  <Link href="/es/legal/politicas-de-cookies">
                     Política de cookies
                   </Link>
                 </Button>
@@ -73,7 +73,7 @@ export const Footer = () => {
 
             <Link
               className="text-primary hover:underline"
-              href="https://x.com/ImSilencio_"
+              href="/eshttps://x.com/ImSilencio_"
               target="_blank"
               rel="noopener noreferrer"
             >

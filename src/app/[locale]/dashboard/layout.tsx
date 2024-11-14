@@ -1,6 +1,8 @@
 import { NextBreadcrumbs } from "@/components/common/breadcumbs";
+import { Notifications } from "@/components/common/notifications";
 import { CreateListModal } from "@/features/list/components/create-list-modal";
 import { CreatePresentModal } from "@/features/present/components/create-present-modal";
+import { BellDotIcon, BellIcon } from "lucide-react";
 import { Mobilebar } from "./_components/mobilebar";
 import { Navbar } from "./_components/navbar";
 import { Sidebar } from "./_components/sidebar";
@@ -22,7 +24,7 @@ export default function DashboardLayout({
 
         <div className="max-w-screen-2xl w-full mx-auto">
           <main className="px-6 pt-5 pb-24 w-full">
-            <div className="mb-5">
+            <div className="mb-5 flex items-center gap-2 justify-between">
               <NextBreadcrumbs />
             </div>
             {children}

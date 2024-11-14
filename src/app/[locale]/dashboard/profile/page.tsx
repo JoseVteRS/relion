@@ -1,10 +1,10 @@
+import { auth } from "@/auth";
 import { TitlePage } from "@/components/common/page-title";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { auth } from "@/auth";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CameraIcon, User } from "lucide-react";
 
 export default async function ProfilePage() {
@@ -28,22 +28,17 @@ export default async function ProfilePage() {
                 <User className="w-12 h-12 text-muted-foreground" />
               </AvatarFallback>
             </Avatar>
-            <Button variant="outline" size="sm" className="flex items-center gap-2">
-              <CameraIcon className="w-4 h-4" />
-              Cambiar foto
-            </Button>
           </div>
           <div className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="name">Nombre</Label>
-              <Input id="name" value={session?.user?.name || ""} readOnly />
+              <Input id="name" value={session?.user?.name || ""} readOnly disabled />
             </div>
             <div className="space-y-2">
               <Label htmlFor="email">Correo electrónico</Label>
-              <Input id="email" value={session?.user?.email || ""} readOnly />
+              <Input id="email" value={session?.user?.email || ""} readOnly disabled />
             </div>
           </div>
-          <Button className="w-full">Guardar cambios</Button>
         </CardContent>
       </Card>
     </div>

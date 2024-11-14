@@ -1,5 +1,6 @@
 "use client";
 
+import { StatusBadge } from "@/components/common/status-badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useGetUserPresent } from "@/features/present/api/use-get-user-present";
@@ -59,7 +60,7 @@ export default function DashboardPresentPageClient({
   }
 
   return (
-    <div className="space-y-10">
+    <Card className="bg-white dark:bg-background">
       <Button
         className="w-fit"
         size="sm"
@@ -69,18 +70,30 @@ export default function DashboardPresentPageClient({
         <ArrowLeftIcon className="w-5 h-5" />
         Volver
       </Button>
-      <Card className="border-none shadow-none">
-        <CardHeader>
-          <CardTitle>
-            {t("title", { presentName: present?.present.name })}
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          {present && (
-            <UpdatePresentForm initialValues={present.present as Present} />
-          )}
-        </CardContent>
-      </Card>
-    </div>
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2">
+          {t("title", { presentName: present?.present.name })}
+          <StatusBadge status={present?.present.status || false} />
+        </CardTitle>
+        <div className="flex flex-row items-start gap-1 pt-5">
+          <span className="text-sm text-muted-foreground">Creado el:</span>
+          <div className="text-sm font-medium">
+            {new Date(present?.present?.createdAt || "").toLocaleDateString(
+              "es-ES",
+              {
+                day: "numeric",
+                month: "long",
+                year: "numeric",
+              }
+            )}
+          </div>
+        </div>
+      </CardHeader>
+      <CardContent>
+        {present && (
+          <UpdatePresentForm initialValues={present.present as Present} />
+        )}
+      </CardContent>
+    </Card>
   );
 }
