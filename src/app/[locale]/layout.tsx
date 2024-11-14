@@ -101,27 +101,27 @@ export default async function RootLayout({
   return (
     <SessionProvider session={session}>
       <html lang={locale} suppressHydrationWarning>
-        <body className={cn(inter.className, "antialiased min-h-screen")}>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <QueryProvider>
-              <SheetProvider />
-              <Toaster richColors position="top-center" />
-              <Modals />
-              <NextIntlClientProvider messages={messages}>
-                <PHProvider>
+        <PHProvider>
+          <body className={cn(inter.className, "antialiased min-h-screen")}>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            >
+              <QueryProvider>
+                <SheetProvider />
+                <Toaster richColors position="top-center" />
+                <Modals />
+                <NextIntlClientProvider messages={messages}>
                   <PostHogPageView />
                   {children}
-                </PHProvider>
-              </NextIntlClientProvider>
-              {/* <ReactQueryDevtools initialIsOpen={false} /> */}
-            </QueryProvider>
-          </ThemeProvider>
-        </body>
+                </NextIntlClientProvider>
+                {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+              </QueryProvider>
+            </ThemeProvider>
+          </body>
+        </PHProvider>
       </html>
     </SessionProvider>
   );

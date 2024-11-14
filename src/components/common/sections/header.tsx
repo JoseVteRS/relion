@@ -33,7 +33,7 @@ export const Header = () => {
           <div className="mt-8 md:flex space-y-4 md:space-y-0 justify-start gap-4">
             <Button asChild className="w-full md:w-full" size="lg" onClick={handleClick}>
               <Link
-                href="#"
+                href="/es/sign-up"
               >
                 Crea tu lista
               </Link>
@@ -52,7 +52,6 @@ export const Header = () => {
           </div>
         </div>
       </div>
-      <CtaButton />
     </section>
   );
 };
