@@ -3,11 +3,12 @@ import { ConfigProps } from "./confit.types";
 const config = {
   // REQUIRED
   appName: "Relion",
+  appTitle: "Relicon - Crea, Organiza y Comparte tus Listas de Regalos",
   // REQUIRED: a short description of your app for SEO tags (can be overwritten)
   appDescription:
-    "Crea y comparte listas de regalos personalizadas para cumpleaños, bodas y eventos especiales. Organiza tus deseos y facilita a tus amigos y familiares la elección del regalo perfecto.",
+    "¿Buscas una forma fácil de crear listas de regalos personalizadas y compartirlas con familiares y amigos? Con nuestra app, puedes crear y organizar tus listas de regalos, añadir ideas únicas y permitir que otros conozcan tus deseos en cada ocasión especial. ¡Regalos perfectos y compartidos con solo un clic!",
   // REQUIRED (no https://, not trialing slash at the end, just the naked domain)
-  domainName: "saasandfast.com",
+  domainName: "https://relion.app",
   crisp: {
     // Crisp website ID. IF YOU DON'T USE CRISP: just remove this => Then add a support email in this config file (mailgun.supportEmail) otherwise customer support won't work.
     id: "",

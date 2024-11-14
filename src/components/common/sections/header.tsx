@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { CtaButton } from "@/components/cta-button";
 import { Badge } from "@/components/ui/badge";
@@ -8,23 +8,21 @@ import Link from "next/link";
 import posthog from "posthog-js";
 
 export const Header = () => {
- 
   const handleClick = () => {
     posthog.capture("home_signup", {
       provider: "Credentials",
     });
   };
 
-  
-
   return (
     <section className="bg-black text-foreground min-h-screen ">
       <div className="flex flex-col lg:flex-row gap-20 items-start justify-center  overflow-hidden max-w-screen-2xl mx-auto pt-20 px-5">
-
         <div className="w-full md:w-1/2 mt-10">
-          <Badge variant="outline" className="text-white">beta</Badge>
-          <h1 className="text-5xl text-center md:text-left tracking-tight text-pretty md:text-7xl font-bold dark:text-white">
-            <span className="bg-gradient-to-r from-primary/70 via-primary to-primary-foreground/30 bg-clip-text text-transparent">
+          <Badge variant="outline" className="text-white">
+            beta
+          </Badge>
+          <h1 className="text-6xl text-center md:text-left tracking-tight md:text-8xl text-balance font-black dark:text-white">
+            <span className="bg-gradient-to-r from-primary/80 via-primary to-primary-foreground/30 bg-clip-text text-transparent">
               Deja de devolver regalos
             </span>
           </h1>
@@ -32,12 +30,13 @@ export const Header = () => {
             Crea y comparte listas de regalos
           </div>
           <div className="mt-8 md:flex space-y-4 md:space-y-0 justify-start gap-4">
-            <Button asChild className="w-full md:w-full" size="lg" onClick={handleClick}>
-              <Link
-                href="/es/sign-up"
-              >
-                Crea tu lista
-              </Link>
+            <Button
+              asChild
+              className="w-full md:w-full"
+              size="lg"
+              onClick={handleClick}
+            >
+              <Link href="/es/sign-up">Crea tu lista</Link>
             </Button>
 
             <SignInGoogleButton />

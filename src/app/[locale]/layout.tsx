@@ -31,10 +31,13 @@ export const metadata: Metadata = {
     process.env.NEXT_PUBLIC_APP_URL || "https://relion.app"
   ),
   title: {
-    default: config.appName,
+    default: config.appTitle,
     template: `%s | ${config.appName}`,
   },
   description: config.appDescription,
+  icons: {
+    icon: "/favicon.svg",
+  },
   keywords: [
     "regalos",
     "listas de regalos",
@@ -52,11 +55,11 @@ export const metadata: Metadata = {
     locale: "es_ES",
     url: "/",
     siteName: config.appName,
-    title: config.appName,
+    title: config.appTitle,
     description: config.appDescription,
     images: [
       {
-        url: "/images/og-image.webp",
+        url: "/home/og-image.webp",
         width: 1200,
         height: 630,
         alt: `${config.appName} Logo`,
@@ -65,11 +68,11 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    site: "@ImSilencio_",
     creator: "@ImSilencio_",
-    title: config.appName,
+    title: config.appTitle,
     description: config.appDescription,
-    images: ["/images/og-image.webp"],
+    images: ["/home/og-image.webp"],
+    site: "@ImSilencio_",
   },
   robots: {
     index: true,

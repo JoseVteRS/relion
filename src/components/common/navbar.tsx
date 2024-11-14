@@ -4,6 +4,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 import Link from "next/link";
 import config from "../../../config/config";
 import { LocaleSwitcher } from "./locale-switcher";
+import LogoDark from "./logo/logo-dark";
 import LogoLight from "./logo/logo-light";
 
 export const Navbar = async () => {
@@ -20,28 +21,6 @@ export const Navbar = async () => {
             </Link>
             <span className="sr-only">{config.appName}</span>
           </h1>
-         {/* <ul className="flex items-center gap-5">
-             <li>
-              <Button
-                asChild
-                variant="link"
-                size="sm"
-                className="text-white p-0"
-              >
-                <Link href="/">{raw("home")}</Link>
-              </Button>
-            </li> */}
-            {/* <li>
-              <Button
-                asChild
-                variant="link"
-                size="sm"
-                className="text-white p-0"
-              >
-                <Link href="mailto:jvrs.90@gmail.com">{raw("contact")}</Link>
-              </Button>
-            </li> 
-          </ul>*/}
         </div>
         {!session && (
           <ul className="flex items-center gap-2">
