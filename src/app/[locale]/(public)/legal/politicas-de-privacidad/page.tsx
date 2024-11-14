@@ -29,9 +29,15 @@ export default function PoliticaPrivacidad() {
           2. Responsable del tratamiento
         </h2>
         <p>
-          {config.appName}, con domicilio en [dirección completa], es el responsable del tratamiento 
-          de los datos personales que nos proporcione. Puede contactarnos en [correo electrónico] 
-          o [número de teléfono].
+          {config.appName}, es el responsable del tratamiento de los datos personales
+          que nos proporcione. Puede contactarnos en este{" "}
+          <Link
+            href="mailto:jvrs.90@gmail.com"
+            className="font-semibold text-blue-500 hover:underline"
+          >
+            email
+          </Link>
+          .
         </p>
       </section>
 
@@ -43,7 +49,7 @@ export default function PoliticaPrivacidad() {
         <ul className="list-disc pl-6 mb-4">
           <li>
             Información de registro: nombre completo, dirección de correo electrónico,
-            contraseña encriptada y, opcionalmente, número de teléfono.
+            contraseña encriptada.
           </li>
           <li>
             Información de uso: datos sobre cómo utiliza nuestra plataforma, incluyendo
@@ -62,10 +68,9 @@ export default function PoliticaPrivacidad() {
         </h2>
         <p>Utilizamos sus datos personales para:</p>
         <ul className="list-disc pl-6 mb-4">
-          <li>Gestionar su cuenta y proporcionar nuestros servicios de [descripción breve del servicio].</li>
+          <li>Gestionar su cuenta y proporcionar nuestros servicios de creación de listas de regalos.</li>
           <li>Enviar comunicaciones relacionadas con el servicio, como actualizaciones de la plataforma o cambios en los términos.</li>
           <li>Mejorar y personalizar su experiencia en nuestra plataforma, analizando patrones de uso y preferencias.</li>
-          <li>Enviar boletines informativos y ofertas promocionales si ha dado su consentimiento explícito.</li>
           <li>Prevenir fraudes y garantizar la seguridad de nuestra plataforma.</li>
         </ul>
       </section>
@@ -197,24 +202,9 @@ export default function PoliticaPrivacidad() {
           a través de un aviso prominente en nuestra plataforma o por correo electrónico.
         </p>
       </section>
-
-      <section className="mb-8">
-        <h2 className="text-2xl font-semibold mb-4">11. Contacto</h2>
-        <p>
-          Si tiene preguntas, comentarios o solicitudes relacionadas con esta política de privacidad,
-          póngase en contacto con nuestro Delegado de Protección de Datos en [correo electrónico del DPO]
-          o escriba a:
-        </p>
-        <p className="mt-2">
-          [Nombre de la empresa]<br />
-          Attn: Privacidad<br />
-          [Dirección completa]
-        </p>
-      </section>
-
       <section className="mb-8">
         <h2 className="text-2xl font-semibold mb-4">
-          12. Autoridad de control
+          11. Autoridad de control
         </h2>
         <p>
           Si considera que el tratamiento de sus datos personales infringe la

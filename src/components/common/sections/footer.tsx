@@ -1,16 +1,23 @@
 import { Button } from "@/components/ui/button";
+import { X, XIcon } from "lucide-react";
 import Link from "next/link";
+import { BsGithub, BsTwitterX } from "react-icons/bs";
+import LogoLight from "../logo/logo-light";
 
 export const Footer = () => {
   return (
     <footer className="py-12 bg-card border-t border-border">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="text-center md:text-left">
-            <h3 className="text-2xl font-bold text-foreground mb-4">Relion</h3>
+            <h3 className="font-bold text-foreground">
+              <Link href="/es">
+                <LogoLight />
+              </Link>
+              <span className="sr-only">Relion</span>
+            </h3>
             <p className="text-muted-foreground">
-              Simplificando la organización de regalos para todas tus
-              celebraciones.
+              Simplificando la organización de regalos y haz que no fallen.
             </p>
           </div>
           <div className="text-center md:text-left">
@@ -23,11 +30,6 @@ export const Footer = () => {
                   <Link href="/es/">Inicio</Link>
                 </Button>
               </li>
-              {/* <li>
-                <Button variant="link" size="sm" asChild>
-                  <Link href="/es#pricing">Precios</Link>
-                </Button>
-              </li> */}
               <li>
                 <Button variant="link" size="sm" asChild>
                   <Link href="/es/sign-in">Iniciar sesión</Link>
@@ -63,6 +65,45 @@ export const Footer = () => {
               </li>
             </ul>
           </div>
+          <div className="text-center md:text-left">
+            <h4 className="text-lg font-semibold text-foreground mb-4">
+              Sígueme en:
+            </h4>
+            <ul className="space-y-1 flex items-center justify-center md:justify-start gap-2">
+              <li>
+                <Button
+                  variant="secondary"
+                  size="icon"
+                  asChild
+                  aria-label="Sígueme en X"
+                >
+                  <Link
+                    href="https:/x.com/ImSilencio_"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <BsTwitterX />
+                  </Link>
+                </Button>
+              </li>
+              <li>
+                <Button
+                  variant="secondary"
+                  size="icon"
+                  asChild
+                  aria-label="Sígueme en GitHub"
+                >
+                  <Link
+                    href="https://github.com/ImSilencio_"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <BsGithub className="size-5" />
+                  </Link>
+                </Button>
+              </li>
+            </ul>
+          </div>
         </div>
 
         <div className="w-full border-t border-border mt-5">
@@ -73,7 +114,7 @@ export const Footer = () => {
 
             <Link
               className="text-primary hover:underline"
-              href="/eshttps://x.com/ImSilencio_"
+              href="https:/x.com/ImSilencio_"
               target="_blank"
               rel="noopener noreferrer"
             >

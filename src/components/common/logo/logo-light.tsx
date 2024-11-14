@@ -1,6 +1,6 @@
 import Image from "next/image";
 const LogoLight = () => (
-  <div className="flex items-center gap-x-2 hover:opacity-75 transition-opacity h-[68px] px-4">
+  <div className="flex items-center gap-x-2 hover:opacity-75 transition-opacity h-[68px]">
     <Image
       src="/logo/iso-light.svg"
       alt="Logo"
