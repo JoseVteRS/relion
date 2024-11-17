@@ -10,7 +10,7 @@ const SignInPage = async () => {
   const locale = await getLocale();
 
   if (session) {
-    redirect(`/${locale}/dashboard`);
+    redirect(`/${locale}/dashboard`, );
   }
 
   return <SignInCard />; 

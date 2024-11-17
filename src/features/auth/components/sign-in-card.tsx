@@ -25,6 +25,7 @@ export const SignInCard = () => {
 
   const params = useSearchParams();
   const error = params.get("error");
+  const callbackUrl = params.get("callbackUrl");
 
   const t = useTranslations("Auth.signIn");
   const locale = useLocale();
@@ -37,13 +38,15 @@ export const SignInCard = () => {
     signIn("credentials", {
       email: email,
       password: password,
-      callbackUrl: params.get("callbackUrl") ?? `/${locale}/dashboard`,
+      callbackUrl: callbackUrl ? callbackUrl : `/${locale}/dashboard`,
     });
   };
 
   const onProviderSignIn = (provider: "github" | "google") => {
     posthog.capture("sign_in_with_provider", { provider });
-    signIn(provider, { callbackUrl: `/${locale}/dashboard` });
+    signIn(provider, {
+      callbackUrl: callbackUrl ? callbackUrl : `/${locale}/dashboard`,
+    });
   };
 
   return (

@@ -15,6 +15,7 @@ import { Loader2, TriangleAlert } from "lucide-react";
 import { signIn } from "next-auth/react";
 import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { usePostHog } from "posthog-js/react";
 import { FormEvent, useState } from "react";
 import { FcGoogle } from "react-icons/fc";
@@ -23,17 +24,22 @@ export const SignUpCard = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
-  const mutation = useSignUp();
+  const searchParams = useSearchParams();
 
   const t = useTranslations("Auth.signUp");
   const locale = useLocale();
-
   const posthog = usePostHog();
+
+  const mutation = useSignUp();
+
+  const callbackUrl = searchParams.get("callbackUrl");
 
   const onProviderSignin = (provider: "google" | "github") => {
     posthog.capture("signup_with_provider", { provider });
     signIn(provider, {
-      callbackUrl: `/${locale}/dashboard`,
+      callbackUrl: callbackUrl
+        ? callbackUrl
+        : `${process.env.NEXT_PUBLIC_APP_URL}/${locale}/dashboard`,
       redirect: true,
     });
   };
@@ -55,7 +61,9 @@ export const SignUpCard = () => {
           signIn("credentials", {
             email,
             password,
-            callbackUrl: `/${locale}/dashboard`,
+            callbackUrl: callbackUrl
+              ? callbackUrl
+              : `${process.env.NEXT_PUBLIC_APP_URL}/${locale}/dashboard`,
             redirect: true,
           });
         },

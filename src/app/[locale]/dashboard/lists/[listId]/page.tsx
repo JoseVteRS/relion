@@ -15,7 +15,11 @@ export default async function DashboardListDetailsPage({
   const session = await protectServer();
   const locale = await getLocale();
   if (!session) {
-    return redirect(`/${locale}/sign-in`);
+    return redirect(
+      `/${locale}/sign-in?callbackUrl=${encodeURIComponent(
+        `${process.env.NEXT_PUBLIC_APP_URL}/${locale}/dashboard/lists/${listId}`
+      )}`
+    );
   }
 
   return <DashboardListDetailsPageClient id={listId} />;

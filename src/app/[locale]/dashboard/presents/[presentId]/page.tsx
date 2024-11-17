@@ -15,6 +15,11 @@ export default async function DashboardPresentPage({
   const session = await protectServer();
   const locale = await getLocale();
 
-  if (!session) redirect(`/${locale}/sign-in`);
+  if (!session)
+    redirect(
+      `/${locale}/sign-in?callbackUrl=${encodeURIComponent(
+        `${process.env.NEXT_PUBLIC_APP_URL}/${locale}/dashboard/presents/${params.presentId}`
+      )}`
+    );
   return <DashboardPresentPageClient params={params} />;
 }

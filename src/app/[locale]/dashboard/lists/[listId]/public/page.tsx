@@ -15,7 +15,7 @@ export default async function PublicListPage({ params }: PublicListPageProps) {
 
   if (!session) {
     return redirect(
-      `/${locale}/sign-in?callbackUrl=/${locale}/dashboard/lists/${params.listId}/public`
+      `/${locale}/sign-in?callbackUrl=${process.env.NEXT_PUBLIC_APP_URL}/${locale}/dashboard/lists/${params.listId}/public`
     );
   }
 
