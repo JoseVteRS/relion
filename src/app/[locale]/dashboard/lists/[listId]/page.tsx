@@ -9,7 +9,7 @@ interface ListDetailPageProps {
   };
 }
 
-export default async function  DashboardListDetailsPage({
+export default async function DashboardListDetailsPage({
   params: { listId },
 }: ListDetailPageProps) {
   const session = await protectServer();

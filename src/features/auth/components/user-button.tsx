@@ -36,6 +36,8 @@ export const UserButton = () => {
     return null;
   }
 
+  console.log("user-button", { session });
+
   const name = session.data?.user?.name!;
   const imageUrl = session.data?.user?.image;
 
@@ -53,7 +55,7 @@ export const UserButton = () => {
         <Avatar className="size-10 hover:opacity-75 transition rounded-sm">
           <AvatarImage alt={name} src={imageUrl || ""} />
           <AvatarFallback className="bg-primary font-medium text-neutral-900">
-            {name.charAt(0).toUpperCase()}
+            {name ? name.charAt(0).toUpperCase() : "U"}
           </AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>

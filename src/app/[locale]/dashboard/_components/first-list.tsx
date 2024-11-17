@@ -56,8 +56,6 @@ export const FirstListButton = () => {
 
   function handleImport() {
     if (!listData || !presentsData) return;
-
-    console.log({ listData, presentsData });
     firstList.mutate(
       {
         eventDate: new Date(listData.eventDate),

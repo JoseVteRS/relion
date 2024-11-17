@@ -15,6 +15,7 @@ import { signIn } from "next-auth/react";
 import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import { usePostHog } from "posthog-js/react";
 import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 
@@ -22,24 +23,27 @@ export const SignInCard = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const t = useTranslations("Auth.signIn");
-  const locale = useLocale();
-
   const params = useSearchParams();
   const error = params.get("error");
 
+  const t = useTranslations("Auth.signIn");
+  const locale = useLocale();
+
+  const posthog = usePostHog();
+
   const onCredentialSignIn = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    posthog.capture("sign_in_with_credentials");
     signIn("credentials", {
       email: email,
       password: password,
-      callbackUrl: params.get("callbackUrl") ?? "/dashboard",
+      callbackUrl: params.get("callbackUrl") ?? `/${locale}/dashboard`,
     });
   };
 
   const onProviderSignIn = (provider: "github" | "google") => {
-    signIn(provider, { callbackUrl: "/" });
+    posthog.capture("sign_in_with_provider", { provider });
+    signIn(provider, { callbackUrl: `/${locale}/dashboard` });
   };
 
   return (

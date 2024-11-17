@@ -1,15 +1,15 @@
-import { Hono } from "hono";
-import { verifyAuth } from "@hono/auth-js";
+import { db } from "@/db/drizzle";
 import {
   insertListsSchema,
   insertPresentSchema,
   lists,
   presents,
 } from "@/db/schema";
-import { db } from "@/db/drizzle";
-import { zValidator } from "@hono/zod-validator";
 import { ErrorList } from "@/features/list/errors-enum";
+import { verifyAuth } from "@hono/auth-js";
+import { zValidator } from "@hono/zod-validator";
 import { eq } from "drizzle-orm";
+import { Hono } from "hono";
 import { z } from "zod";
 
 const app = new Hono()
@@ -89,8 +89,6 @@ const app = new Hono()
       }
 
       const values = c.req.valid("json");
-
-      console.log({ values });
 
       try {
         // Verificar si la lista existe y pertenece al usuario

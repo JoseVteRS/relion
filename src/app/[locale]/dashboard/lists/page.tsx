@@ -6,7 +6,8 @@ import { DashboadListsPageClient } from "./client";
 export default async function DashboardListsPage() {
   const session = await protectServer();
   const locale = await getLocale();
-  if (!session) redirect(`/${locale}/sign-in`);
+
+  if (!session) redirect(`/${locale}/sign-in?callbackUrl=/${locale}/dashboard/lists`);
 
   return <DashboadListsPageClient />;
 }

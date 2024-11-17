@@ -31,9 +31,7 @@ export const SignUpCard = () => {
   const posthog = usePostHog();
 
   const onProviderSignin = (provider: "google" | "github") => {
-    posthog.capture("signup", {
-      provider: 'Google',
-    });
+    posthog.capture("signup_with_provider", { provider });
     signIn(provider, {
       callbackUrl: `/${locale}/dashboard`,
       redirect: true,
@@ -42,9 +40,7 @@ export const SignUpCard = () => {
 
   const onCredentialsSignUp = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    posthog.capture("signup", {
-      provider: "Credentials",
-    });
+    posthog.capture("signup_with_credentials");
     mutation.mutate(
       {
         name,

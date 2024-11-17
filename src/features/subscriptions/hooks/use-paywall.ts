@@ -53,8 +53,6 @@ export const usePaywall = () => {
 
   const shouldBlock = isSubscriptionExpired;
 
-  console.log(tier.name, { tier });
-
   return {
     isPremium: tier.name === "PREMIUM",
     shouldBlock,

@@ -24,9 +24,6 @@ export const usePublicList = (listId?: string) => {
         }
 
         const { data: listData } = await response.json();
-
-        console.log({ listData });
-
         return { listData };
       } catch (error) {
         if (error instanceof Error) {

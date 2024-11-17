@@ -2,10 +2,8 @@
 import { StatusBadge } from "@/components/common/status-badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useCreateList } from "@/features/list/api/use-create-list";
 import { useGetPrivateList } from "@/features/list/api/use-get-private.list";
 import { ListsNotFound } from "@/features/list/components/lists-not-found";
-import { useCreateListModal } from "@/features/list/hooks/use-create-list-modal";
 import {
   CardPresent,
   PresentWithList,
@@ -23,7 +21,6 @@ const convertDatesToDate = (present: any): PresentWithList => ({
 export const DashboardListDetailsPageClient = ({ id }: { id: string }) => {
   const { data: list, isLoading, isError, error } = useGetPrivateList(id);
   const { open } = useCreatePresentModal();
-  const { open: openCreateList } = useCreateListModal();
 
   if (isLoading) {
     return (

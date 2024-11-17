@@ -67,7 +67,6 @@ export const useCreatePick = (presentId?: string, listId?: string) => {
       });
     },
     onError: (error, variables, context: any) => {
-      console.log({ error, variables, context });
       // Revertir a los datos anteriores en caso de error
       if (context?.previousData) {
         queryClient.setQueryData(

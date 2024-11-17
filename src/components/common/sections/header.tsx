@@ -20,21 +20,6 @@ export const Header = () => {
 
   return (
     <section className="bg-black text-foreground min-h-screen ">
-      <div className="flex justify-end w-full pt-20 mx-auto max-w-screen-2xl">
-        <a
-          href="https://www.producthunt.com/products/relion/reviews?utm_source=badge-product_review&utm_medium=badge&utm_souce=badge-relion"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <img
-            src="https://api.producthunt.com/widgets/embed-image/v1/product_review.svg?product_id=724000&theme=light"
-            alt="Relion - Create, organize, and share your gift lists. | Product Hunt"
-            width={250}
-            height={54}
-            className="w-[250px] h-[54px]"
-          />
-        </a>
-      </div>
       <div className="flex flex-col lg:flex-row gap-20 items-start justify-center  overflow-hidden max-w-screen-2xl mx-auto pt-20 px-5">
         <div className="w-full md:w-1/2 mt-10">
           <Badge variant="outline" className="text-white">

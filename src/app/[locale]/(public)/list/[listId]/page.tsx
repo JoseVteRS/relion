@@ -13,13 +13,11 @@ export default async function PublicListPage({ params }: PublicListPageProps) {
   const session = await protectServer();
   const locale = await getLocale();
 
-  if (session) {
-    return redirect(`/${locale}/dashboard/lists/${params.listId}/public`);
+  if (!session) {
+    return redirect(
+      `/${locale}/sign-in?callbackUrl=/${locale}/dashboard/lists/${params.listId}/public`
+    );
   }
 
-  return (
-    <div className="min-h-screen">
-      <List listId={params.listId} />
-    </div>
-  );
+  redirect(`/${locale}/dashboard/lists/${params.listId}/public`);
 }
