@@ -89,7 +89,8 @@ export const CreateListForm = ({ onCancel }: CreateListFormProps) => {
                 <FormLabel className="text-base">
                   {t("eventDateTitle")}
                 </FormLabel>
-                <Popover modal={false}>
+
+                {/* <Popover>
                   <PopoverTrigger asChild className="w-full">
                     <FormControl className="w-full">
                       <Button
@@ -108,19 +109,24 @@ export const CreateListForm = ({ onCancel }: CreateListFormProps) => {
                       </Button>
                     </FormControl>
                   </PopoverTrigger>
-                  <PopoverContent className="w-full p-0" align="start">
-                    <Calendar
-                      mode="single"
-                      selected={field.value}
-                      onSelect={field.onChange}
-                      disabled={(date: Date) =>
-                        date < new Date(new Date().setHours(0, 0, 0, 0))
-                      }
-                      initialFocus={false}
-                      locale={es}
-                    />
-                  </PopoverContent>
-                </Popover>
+                  <PopoverContent
+                    className="w-full p-0"
+                    align="start"
+                  ></PopoverContent>
+                </Popover> */}
+
+                <Calendar
+                  className="w-full"
+                  mode="single"
+                  selected={field.value}
+                  onSelect={field.onChange}
+                  disabled={(date: Date) =>
+                    date < new Date(new Date().setHours(0, 0, 0, 0))
+                  }
+                  // initialFocus={false}
+                  locale={es}
+                />
+
                 <FormMessage />
               </FormItem>
             )}
@@ -131,18 +137,18 @@ export const CreateListForm = ({ onCancel }: CreateListFormProps) => {
             name="status"
             render={({ field }) => (
               <FormItem>
-                <div className="space-y-0.5">
+                <div className="flex flex-col space-y-0.5">
                   <FormLabel className="text-base">
                     {t("estatusTitle")}
                   </FormLabel>
+                  <FormControl>
+                    <Switch
+                      checked={Boolean(field.value)}
+                      onCheckedChange={field.onChange}
+                      aria-readonly
+                    />
+                  </FormControl>
                 </div>
-                <FormControl>
-                  <Switch
-                    checked={Boolean(field.value)}
-                    onCheckedChange={field.onChange}
-                    aria-readonly
-                  />
-                </FormControl>
                 <FormMessage />
               </FormItem>
             )}

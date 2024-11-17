@@ -120,7 +120,7 @@
                 "descriptionPlaceholder": "Descripción del regalo",
                 "list": "Lista",
                 "listPlaceholder": "Selecciona una lista",
-                "status": "Estado",
+                "status": "Marcar como regalo privado",
                 "submit": "Añadir regalo",
                 "cancel": "Cancelar",
                 "loading": "Añadiendo regalo"
@@ -135,7 +135,7 @@
                 "descriptionPlaceholder": "Descripción del regalo",
                 "list": "Lista",
                 "listPlaceholder": "Selecciona una lista",
-                "status": "Estado",
+                "status": "Marcar como regalo privado",
                 "submit": "Guardar",
                 "cancel": "Cancelar",
                 "loading": "Guardando regalo"
@@ -170,7 +170,7 @@
                 "eventDateTitle": "Selecciona la fecha del evento",
                 "eventDatePlaceholder": "Selecciona una fecha",
                 "submit": "Añadir lista",
-                "estatusTitle": "Estado (Pública o Privada)",
+                "estatusTitle": "Marcar como lista privada",
                 "cancel": "Cancelar",
                 "loading": "Añadiendo lista"
             }
