@@ -89,7 +89,7 @@ export const CreateListForm = ({ onCancel }: CreateListFormProps) => {
                 <FormLabel className="text-base">
                   {t("eventDateTitle")}
                 </FormLabel>
-                <Popover>
+                <Popover modal={false}>
                   <PopoverTrigger asChild className="w-full">
                     <FormControl className="w-full">
                       <Button
