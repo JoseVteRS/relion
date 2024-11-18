@@ -6,7 +6,7 @@ import LogoLight from "../logo/logo-light";
 
 export const Footer = () => {
   return (
-    <footer className="py-12 bg-card border-t border-border">
+    <footer className="py-12 bg-black border-t border-white/10">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="text-center md:text-left">
@@ -17,11 +17,12 @@ export const Footer = () => {
               <span className="sr-only">Relion</span>
             </h3>
             <p className="text-muted-foreground">
-              Simplificando la organización de regalos y haz que no fallen.
+              En Relion puedes crear una lista de regalos y compartirla con tu
+              familia y amigos sin necesidad de registro.
             </p>
           </div>
           <div className="text-center md:text-left">
-            <h4 className="text-lg font-semibold text-foreground mb-4">
+            <h4 className="text-lg font-semibold text-white mb-4">
               Enlaces de interés
             </h4>
             <ul className="space-y-1">
@@ -35,10 +36,15 @@ export const Footer = () => {
                   <Link href="/es/sign-in">Iniciar sesión</Link>
                 </Button>
               </li>
+              <li>
+                <Button variant="link" size="sm" asChild>
+                  <Link href="/es/sign-up">Registrarme</Link>
+                </Button>
+              </li>
             </ul>
           </div>
           <div className="text-center md:text-left">
-            <h4 className="text-lg font-semibold text-foreground mb-4">
+            <h4 className="text-lg font-semibold text-white mb-4">
               Legal
             </h4>
             <ul className="space-y-1">
@@ -66,7 +72,7 @@ export const Footer = () => {
             </ul>
           </div>
           <div className="text-center md:text-left">
-            <h4 className="text-lg font-semibold text-foreground mb-4">
+            <h4 className="text-lg font-semibold text-white mb-4">
               Sígueme en:
             </h4>
             <ul className="space-y-1 flex items-center justify-center md:justify-start gap-2">
@@ -106,7 +112,7 @@ export const Footer = () => {
           </div>
         </div>
 
-        <div className="w-full border-t border-border mt-5">
+        <div className="w-full border-t border-white/10 mt-5">
           <div className="w-full text-center md:text-left mt-5 flex justify-center items-center">
             <h4 className="text-md font-semibold text-foreground">
               Made with ❤️ by&nbsp;

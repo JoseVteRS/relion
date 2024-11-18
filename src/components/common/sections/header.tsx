@@ -25,10 +25,10 @@ export const Header = () => {
           <Badge variant="outline" className="text-white">
             beta
           </Badge>
-          <h1 className="text-6xl text-center md:text-left tracking-tight md:text-8xl text-balance font-black dark:text-white">
+          <h1 className="text-6xl text-center md:text-left tracking-tight md:text-8xl text-balance font-black  text-white">
             <span>{t("titleStart")}</span>
           </h1>
-          <div className="font-extralight text-base text-pretty text-center md:text-left md:text-4xl dark:text-neutral-400 py-4">
+          <div className="font-extralight text-base text-pretty text-center md:text-left md:text-4xl text-neutral-400 py-4">
             {t("subtitle")}
           </div>
           <div className="mt-8 md:flex space-y-4 md:space-y-0 justify-start gap-4">
@@ -44,12 +44,12 @@ export const Header = () => {
             <SignInGoogleButton />
           </div>
         </div>
-        <div className="relative   p-2 w-full md:w-1/2">
-          <div className="rounded-2xl">
+        <div className="relative p-2 w-full md:w-1/2">
+          <div className="rounded-2xl ">
             <img
               src="/home/image-header-01.webp"
               alt="Ilustración de regalos"
-              className="border border-white/10 rounded-md bg-card p-16 relative z-20"
+              className="border border-white/10  rounded-xl bg-black/20  relative z-20"
             />
             <div className="absolute -inset-1 rounded-md blur-md bg-gradient-to-br from-purple-500 via-yellow-500 to-pink-500 z-10"></div>
           </div>
