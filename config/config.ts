@@ -3,7 +3,7 @@ import { ConfigProps } from "./confit.types";
 const config = {
   // REQUIRED
   appName: "Relion",
-  appTitle: "Relicon - Crea, Organiza y Comparte tus Listas de Regalos",
+  appTitle: "Relion - Crea, Organiza y Comparte tus Listas de Regalos",
   // REQUIRED: a short description of your app for SEO tags (can be overwritten)
   appDescription:
     "¿Buscas una forma fácil de crear listas de regalos personalizadas y compartirlas con familiares y amigos? Con nuestra app, puedes crear y organizar tus listas de regalos, añadir ideas únicas y permitir que otros conozcan tus deseos en cada ocasión especial. ¡Regalos perfectos y compartidos con solo un clic!",

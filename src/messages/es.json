@@ -66,27 +66,27 @@
             }
         },
         "Features": {
-            "title": "Todo esto podrás hacer",
-            "subtitle": "Y mucho más",
+            "title": "¿Cómo crear mi primera lista en Relion?",
+            "subtitle": "Solo necesitas unos minutos",
             "cta": {
-                "title": "Deja de devolver regalos",
+                "title": "¡Vamos!",
                 "button": "Crear mi lista"
             },
             "feature1": {
-                "title": "Crear listas",
-                "description": "Crea listas de regalos para tus amigos y familiares. Organiza todo de forma sencilla y comparte con quien quieras."
+                "title": "Crea una lista de regalos de forma gratuita",
+                "description": "Crea una lista de regalos para tu próximo evento especial en Relion con tan solo unos minutos."
             },
             "feature2": {
-                "title": "Añadir a favoritos",
-                "description": "Guarda las listas que más te interesan para acceder rápidamente."
+                "title": "Crea y añade regalos a tu lista",
+                "description": "Añade los regalos que quieras para tu próximo evento especial."
             },
             "feature3": {
-                "title": "Compartir listas",
-                "description": "Comparte tus listas de regalos con quien quieras de forma fácil y rápida."
+                "title": "Compartir listas entre con tu familia y amigos",
+                "description": "Podrás compartir tu lista de regalos con tu familia y amigos a través de un enlace o directamente en WhatsApp."
             },
             "feature4": {
-                "title": "Crear regalos",
-                "description": "Que tus amigos y familiares te regalen lo que realmente deseas. Se acabó hacer colas en enero para devolver el jersey."
+                "title": "Empezar con mi primera lista",
+                "description": "¡Vamos! Empezar con tu primera lista de regalos es muy sencillo."
             }
         }
     },

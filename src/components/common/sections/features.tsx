@@ -1,11 +1,14 @@
 "use client";
 
-import { Gift, ListTodo, Share2, Star } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { Button } from "@/components/ui/button";
+import { Gift, GiftIcon, ListTodo, Share, Share2, Star } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
+import Link from "next/link";
 import { useEffect } from "react";
 
 export function Features() {
   const t = useTranslations("Home.Features");
+  const locale = useLocale();
 
   return (
     <section className="py-16 bg-neutral-950 relative overflow-hidden">
@@ -34,68 +37,75 @@ export function Features() {
             {/* Feature 1 - Large card */}
             <div className="col-span-12 md:col-span-8">
               <div className="bg-white/5 p-8 rounded-2xl border border-white/10 shadow-lg relative h-[300px] group overflow-hidden">
-                <div className="absolute -right-[450px] top-10 w-full h-full transition-transform group-hover:scale-125 bg-neutral-950 p-1 border border-muted rounded-2xl">
-                  <img
-                    src="/home/presents-screen.webp"
-                    alt="Lista de regalos"
-                    className="object-cover h-full opacity-80 rounded-2xl"
-                  />
-                </div>
                 <div className="relative z-10">
-                  <ListTodo className="w-12 h-12 mb-4 text-purple-400" />
-                  <h3 className="text-3xl font-bold text-white mb-4">
+                  <div className="size-12 bg-purple-500/10 rounded-full flex items-center justify-center mb-4 ">
+                    <span className="text-4xl font-bold text-purple-400">
+                      1.
+                    </span>
+                  </div>
+                  <h3 className="text-3xl font-bold text-balance max-w-[400px] text-white mb-4">
                     {t("feature1.title")}
                   </h3>
                   <p className="text-xl font-light text-neutral-400 max-w-md">
                     {t("feature1.description")}
                   </p>
                 </div>
+                <ListTodo className="absolute -right-20 -bottom-20 size-80 text-purple-500/10" />
               </div>
             </div>
 
             {/* Feature 2 - Small card */}
-            <div className="col-span-12 md:col-span-4">
-              <div className="bg-white/5 p-6 rounded-2xl border border-white/10 shadow-lg h-[300px] group overflow-hidden">
-                <Star className="w-8 h-8 mb-4 text-yellow-400" />
+            <div className="relative col-span-12 md:col-span-4">
+              <div className="relative bg-white/5 p-6 rounded-2xl border border-white/10 shadow-lg h-[300px] group overflow-hidden">
+                <div className="size-12 bg-yellow-500/10 rounded-full flex items-center justify-center mb-4 ">
+                  <span className="text-4xl font-bold text-yellow-400">2.</span>
+                </div>
                 <h3 className="text-2xl font-bold text-white mb-2">
                   {t("feature2.title")}
                 </h3>
                 <p className="text-lg font-light text-neutral-400">
                   {t("feature2.description")}
                 </p>
+                <GiftIcon className="absolute -right-20 -bottom-20 size-80 text-yellow-500/10" />
               </div>
             </div>
 
             {/* Feature 3 - Medium card with image */}
             <div className="col-span-12 md:col-span-6">
-              <div className="bg-white/5 p-6 rounded-2xl border border-white/10 shadow-lg relative h-[250px] group overflow-hidden">
-                <div className="absolute -right-[450px] top-10 w-full h-full transition-transform group-hover:scale-125 bg-neutral-950 p-1 border border-muted rounded-2xl">
-                  <img
-                    src="/home/lists-screen.webp"
-                    alt="Lista de regalos"
-                    className="object-cover h-full opacity-80 rounded-2xl"
-                  />
+              <div className="bg-white/5 p-6 rounded-2xl border border-white/10 shadow-lg relative h-full group overflow-hidden">
+                <div className="size-12 bg-blue-500/10 rounded-full flex items-center justify-center mb-4 ">
+                  <span className="text-4xl font-bold text-blue-400">3.</span>
                 </div>
-                <Share2 className="w-8 h-8 mb-4 text-blue-400" />
                 <h3 className="text-2xl font-bold text-white mb-2">
                   {t("feature3.title")}
                 </h3>
                 <p className="text-lg font-light text-neutral-400 max-w-sm">
                   {t("feature3.description")}
                 </p>
+                <Share2 className="absolute -right-20 -bottom-20 size-80 text-blue-500/10" />
               </div>
             </div>
 
             {/* Feature 4 - Medium card with gradient */}
             <div className="col-span-12 md:col-span-6">
-              <div className="bg-gradient-to-br from-white/5 to-purple-500/10 p-6 rounded-2xl border border-white/10 shadow-lg h-[250px]">
-                <Gift className="w-8 h-8 mb-4 text-pink-400" />
-                <h3 className="text-2xl font-bold text-white mb-2">
-                    {t("feature4.title")}
+              <div className="relative bg-gradient-to-br from-white/5 to-purple-500/10 p-6 rounded-2xl border h-full border-white/10 shadow-lg overflow-hidden">
+                <div className="size-12 bg-pink-500/10  rounded-full flex items-center justify-center mb-4 ">
+                  <span className="text-3xl font-bold text-pink-400">4.</span>
+                </div>
+                <h3 className="text-2xl text-pretty  font-bold text-white mb-2">
+                  {t("feature4.title")}
                 </h3>
                 <p className="text-lg font-light text-neutral-400">
                   {t("feature4.description")}
                 </p>
+                <Star className="absolute -right-20 -bottom-20 size-80 text-pink-500/10" />
+                <div className="flex justify-end mt-4">
+                  <Button className="z-10 text-lg font-semibold w-full h-16" asChild>
+                    <Link href={`/${locale}/sign-up`}>
+                      {t("cta.button")}
+                    </Link>
+                  </Button>
+                </div>
               </div>
             </div>
           </div>

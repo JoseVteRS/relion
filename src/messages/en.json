@@ -66,27 +66,27 @@
             }
         },
         "Features": {
-            "title": "All this you can do",
-            "subtitle": "And much more",
+            "title": "How to create my first list on Relion?",
+            "subtitle": "It only takes a few minutes",
             "cta": {
-                "title": "Stop returning gifts",
+                "title": "Let's go!",
                 "button": "Create my list"
             },
             "feature1": {
-                "title": "Create lists",
-                "description": "Create gift lists for your friends and family. Organize everything easily and share with whomever you want."
+                "title": "Create a gift list for free",
+                "description": "Create a gift list for your next special event on Relion in just a few minutes."
             },
             "feature2": {
-                "title": "Add to favorites",
-                "description": "Save the lists that interest you the most for quick access."
+                "title": "Create and add gifts to your list",
+                "description": "Add the gifts you want for your next special event."
             },
             "feature3": {
-                "title": "Share lists",
-                "description": "Share your gift lists with whomever you want easily and quickly."
+                "title": "Share lists with your family and friends",
+                "description": "You can share your gift list with your family and friends via a link or directly on WhatsApp."
             },
             "feature4": {
-                "title": "Create gifts",
-                "description": "Let your friends and family give you what you really want. No more standing in line in January to return the sweater."
+                "title": "Start with my first list",
+                "description": "Let's go! Starting with your first gift list is very easy."
             }
         }
     },
