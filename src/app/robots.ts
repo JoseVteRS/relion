@@ -5,17 +5,19 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: [
+        "/",
         "/es",
         "/en",
         "/es/sign-in/",
         "/en/sign-in/",
         "/es/sign-up/",
         "/en/sign-up/",
-        "/es/blog/",
-        "/es/blog/*",
+        "/es/listas/boda",
+        "/es/listas/navidad",
       ],
-      disallow: ["/api/", "/dashboard/"],
+      disallow: ["/api/", "/api/*", "/dashboard/", "/dashboard/*"],
     },
     sitemap: "https://relion.app/sitemap.xml",
+    host: "https://relion.app/",
   };
 }

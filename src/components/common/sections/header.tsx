@@ -7,6 +7,7 @@ import { SignInGoogleButton } from "@/features/auth/components/sign-in-google-bu
 import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
 import posthog from "posthog-js";
+import AnimatedBorderButton from "../spectacular-background";
 
 export const Header = () => {
   const locale = useLocale();
@@ -20,13 +21,13 @@ export const Header = () => {
 
   return (
     <section className="bg-black text-foreground min-h-full">
-      <div className="flex flex-col lg:flex-row gap-20 items-start justify-center py-24  overflow-hidden max-w-screen-2xl mx-auto pt-20 px-5">
-        <div className="w-full md:w-1/2 mt-10 py-20">
+      <div className="flex flex-col lg:flex-row gap-20 items-start justify-center pb-20 pt-10 overflow-hidden max-w-screen-2xl mx-auto px-5">
+        <div className="w-full md:w-1/2">
           <Badge variant="outline" className="text-white">
             beta
           </Badge>
           <h1 className="text-6xl text-center md:text-left tracking-tight md:text-8xl text-balance font-black  text-white">
-            <span>{t("titleStart")}</span>
+            {t("titleStart")}
           </h1>
           <div className="font-extralight text-base text-pretty text-center md:text-left md:text-4xl text-neutral-400 py-4">
             {t("subtitle")}
@@ -44,14 +45,19 @@ export const Header = () => {
             <SignInGoogleButton />
           </div>
         </div>
-        <div className="relative p-2 w-full md:w-1/2">
-          <div className="rounded-2xl ">
+        <div className="relative w-full md:w-1/2">
+          <div className="rounded-2xl aspect-[727/697]">
             <img
               src="/home/image-header-01.webp"
               alt="Ilustración de regalos"
-              className="border border-white/10  rounded-xl bg-black/20  relative z-20"
+              width={727}
+              height={697}
+              className="border border-white/10 aspect-[727/697] p-1 rounded-xl bg-black/20  relative z-20"
             />
-            <div className="absolute -inset-1 rounded-md blur-md bg-gradient-to-br from-purple-500 via-yellow-500 to-pink-500 z-10"></div>
+
+            <div className="absolute -inset-0 rounded-md aspect-[727/697] z-10 overflow-hidden">
+              <div className="absolute inset-0 rounded-md bg-gradient-to-br from-purple-500 via-pink-500 to-yellow-500 animate-[spin_10s_linear_infinite] blur-[100px]" />
+            </div>
           </div>
         </div>
       </div>

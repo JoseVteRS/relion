@@ -10,9 +10,9 @@ export const Footer = () => {
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="text-center md:text-left">
-            <h3 className="font-bold text-foreground">
+            <h3 className="font-bold text-foreground items-center flex justify-center md:justify-start">
               <Link href="/es">
-                <LogoLight />
+                <LogoLight  />
               </Link>
               <span className="sr-only">Relion</span>
             </h3>

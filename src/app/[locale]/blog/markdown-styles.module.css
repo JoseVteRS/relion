@@ -8,6 +8,10 @@
   .markdown blockquote {
     @apply my-6;
   }
+
+  .markdown h1 {
+    @apply text-6xl mt-12 mb-4 text-balance text-primary leading-snug;
+  }
   
   .markdown h2 {
     @apply text-3xl mt-12 mb-4 leading-snug;
