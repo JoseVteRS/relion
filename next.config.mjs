@@ -3,6 +3,10 @@ import createNextIntlPlugin from "next-intl/plugin";
 
 const withNextIntl = createNextIntlPlugin();
 
+const withMDXPlugin = withMDX({
+  extension: /\.mdx?$/,
+});
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // Configure `pageExtensions` to include markdown and MDX files
@@ -27,4 +31,4 @@ const nextConfig = {
   skipTrailingSlashRedirect: true,
 };
 
-export default withNextIntl(withMDX(nextConfig));
+export default withMDXPlugin(withNextIntl(nextConfig));

@@ -28,7 +28,7 @@ const inter = Manrope({
 
 export const metadata: Metadata = {
   metadataBase: new URL(
-    process.env.NEXT_PUBLIC_APP_URL || "https://relion.app"
+    process.env.NEXT_PUBLIC_APP_URL || "https://relion.app/es/"
   ),
   title: {
     default: config.appTitle,
@@ -48,12 +48,12 @@ export const metadata: Metadata = {
     "eventos",
     "deseos",
   ],
-  authors: [{ name: "Jose Vicente" }],
-  creator: "Jose Vicente",
+  authors: [{ name: "Relion" }],
+  creator: "Relion",
   openGraph: {
     type: "website",
     locale: "es_ES",
-    url: "/",
+    url: "/es/",
     siteName: config.appName,
     title: config.appTitle,
     description: config.appDescription,
@@ -84,7 +84,7 @@ export const metadata: Metadata = {
       "max-image-preview": "large",
       "max-snippet": -1,
     },
-  },
+  }
 };
 
 export default async function RootLayout({
@@ -104,6 +104,9 @@ export default async function RootLayout({
   return (
     <SessionProvider session={session}>
       <html lang={locale} suppressHydrationWarning>
+        {process.env.NODE_ENV === "development" && (
+          <script src="https://unpkg.com/react-scan/dist/auto.global.js" async />
+        )}
         <PHProvider>
           <body className={cn(inter.className, "antialiased min-h-screen")}>
             <ThemeProvider

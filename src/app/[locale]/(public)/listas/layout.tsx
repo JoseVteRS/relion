@@ -1,15 +1,31 @@
 import { Navbar } from "@/components/common/navbar";
 import { Footer } from "@/components/common/sections/footer";
+import { Button } from "@/components/ui/button";
+import { ArrowLeftIcon } from "lucide-react";
+import { getLocale } from "next-intl/server";
+import Link from "next/link";
 
-export default function ListasLayout({
+export default async function ListasLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const locale = await getLocale();
   return (
     <section>
       <Navbar />
-      <div className="max-w-screen-lg mx-auto">{children}</div>
+      <article className="max-w-screen-lg mx-auto my-20 lg:my-32 border bg-zinc-950 p-8 rounded-lg">
+        <Button variant="outline" size="sm" asChild>
+          <Link href={`/${locale}/`}>
+            <ArrowLeftIcon />
+            Volver
+          </Link>
+        </Button>
+
+        {children}
+
+        <footer></footer>
+      </article>
       <Footer />
     </section>
   );
