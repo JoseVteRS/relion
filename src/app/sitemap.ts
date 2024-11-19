@@ -1,54 +1,66 @@
-import { MetadataRoute } from 'next';
- 
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+import { MetadataRoute } from "next";
+
+export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
-      url: 'https://relion.app/es/',
+      url: "https://relion.app",
       lastModified: new Date(),
-      changeFrequency: 'daily',
-      priority: 1.0,
-    },
-    {
-      url: 'https://relion.app/en/',
-      lastModified: new Date(), 
-      changeFrequency: 'daily',
-      priority: 1.0,
-    },
-    {
-      url: "https://relion.app/es/sign-up",
-      lastModified: new Date(),
+      alternates: {
+        languages: {
+          es: "https://relion.app/es",
+          en: "https://relion.app/en",
+        },
+      },
       changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: "https://relion.app/en/sign-up",
-      lastModified: new Date(),
-      changeFrequency: "monthly", 
-      priority: 0.8,
+      priority: 1.0, // Página principal debería tener prioridad máxima
     },
     {
       url: "https://relion.app/es/sign-in",
       lastModified: new Date(),
+      alternates: {
+        languages: {
+          es: "https://relion.app/es/sign-in", 
+          en: "https://relion.app/en/sign-in",
+        },
+      },
       changeFrequency: "monthly",
-      priority: 0.7,
+      priority: 0.9, // Páginas de autenticación son importantes
     },
     {
-      url: "https://relion.app/en/sign-in",
-      lastModified: new Date(),
+      url: "https://relion.app/es/sign-up",
+      lastModified: new Date(), 
+      alternates: {
+        languages: {
+          es: "https://relion.app/es/sign-up",
+          en: "https://relion.app/en/sign-up",
+        },
+      },
       changeFrequency: "monthly",
-      priority: 0.7,
+      priority: 0.9,
     },
     {
       url: "https://relion.app/es/listas/boda",
       lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 0.9,
+      alternates: {
+        languages: {
+          es: "https://relion.app/es/listas/boda",
+          en: "https://relion.app/en/listas/boda", 
+        },
+      },
+      changeFrequency: "weekly", // Contenido más dinámico
+      priority: 0.8,
     },
     {
-      url: "https://relion.app/es/listas/navidad",
+      url: "https://relion.app/es/listas/navidad", 
       lastModified: new Date(),
+      alternates: {
+        languages: {
+          es: "https://relion.app/es/listas/navidad",
+          en: "https://relion.app/en/listas/navidad",
+        },
+      },
       changeFrequency: "weekly",
-      priority: 0.9,
+      priority: 0.8,
     },
   ];
 }

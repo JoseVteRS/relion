@@ -8,11 +8,13 @@ export function Testimonials() {
   return (
     <section className="py-16 bg-neutral-950 relative overflow-hidden">
       <div className="relative z-10">
-        {/* Decorative elements */}
-        <div className="absolute -left-10 top-20 w-72 h-72 bg-green-500/20 rounded-full blur-3xl" />
-        <div className="absolute -right-20 bottom-10 w-72 h-72 bg-red-500/20 rounded-full blur-3xl" />
-
         <div className="container mx-auto px-4">
+          
+          {/* Decorative elements */}
+          <div className="absolute -left-10 top-20 size-72 bg-yellow-500/20 rounded-full blur-3xl" />
+          <div className="absolute -right-20 bottom-10 size-72 bg-red-500/20 rounded-full blur-3xl" />
+
+
           <h2 className="text-6xl mb-5 font-bold text-center text-white">
             Opiniones de nuestros usuarios
           </h2>

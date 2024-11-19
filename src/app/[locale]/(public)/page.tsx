@@ -1,4 +1,5 @@
 import { Navbar } from "@/components/common/navbar";
+import { BannerCTAHome } from "@/components/common/sections/banner-cta-home";
 import { Features } from "@/components/common/sections/features";
 import { Footer } from "@/components/common/sections/footer";
 import { Header } from "@/components/common/sections/header";
@@ -23,6 +24,7 @@ export default async function Home() {
       <Features />
       <LinkToBlog />
       <Testimonials />
+      <BannerCTAHome />
       <Footer />
     </div>
   );
