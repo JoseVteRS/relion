@@ -45,6 +45,28 @@ export const Footer = () => {
           </div>
           <div className="text-center md:text-left">
             <h4 className="text-lg font-semibold text-white mb-4">
+              Listas según la ocación
+            </h4>
+            <ul className="space-y-1">
+              <li>
+                <Button variant="link" size="sm" asChild>
+                  <Link href="/es/listas/navidad">Navidad</Link>
+                </Button>
+              </li>
+              <li>
+                <Button variant="link" size="sm" asChild>
+                  <Link href="/es/listas/boda">Boda</Link>
+                </Button>
+              </li>
+              <li>
+                <Button variant="link" size="sm" asChild>
+                  <Link href="/es/listas/cumpleanos">Cumpleaños</Link>
+                </Button>
+              </li>
+            </ul>
+          </div>
+          <div className="text-center md:text-left">
+            <h4 className="text-lg font-semibold text-white mb-4">
               Legal
             </h4>
             <ul className="space-y-1">

@@ -78,7 +78,7 @@ export function LinkToBlog() {
                 </CardContent>
               </Card>
             </Link>
-            <Link href="/es/listas/boda" className="group">
+            <Link href="/es/listas/cumpleanos" className="group">
               <Card className="relative h-full overflow-hidden border-white/10 bg-black/20">
                 <img
                   src="/images/listas/birthday-001.webp"

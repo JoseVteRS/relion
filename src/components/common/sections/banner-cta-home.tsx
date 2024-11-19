@@ -13,18 +13,21 @@ export function BannerCTAHome() {
             Crea tu lista de regalos hoy mismo
           </h2>
           <p className="mb-8 text-lg text-neutral-300">
-            Organiza tus regalos de manera sencilla y práctica. Comparte tu lista con familia y amigos, 
-            evita duplicados y asegúrate de recibir los regalos que realmente deseas.
+            Organiza tus regalos de manera sencilla y práctica. Comparte tu
+            lista con familia y amigos, evita duplicados y asegúrate de recibir
+            los regalos que realmente deseas.
           </p>
           <div className="flex items-center justify-center gap-4">
-            <Link href="/es/sign-up">
-              <Button 
-                size="lg"
-              >
+            <Button 
+              asChild 
+              size="lg" 
+              className="group relative bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 hover:from-pink-600 hover:via-purple-600 hover:to-indigo-600 animate-shimmer border border-white/20 shadow-lg shadow-purple-500/20 hover:shadow-purple-500/40 transition-all duration-300"
+            >
+              <Link href="/es/sign-up" rel="index follow">
                 Crear mi lista gratis
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-            </Link>
+                <ArrowRight className="absolute right-2 group-hover:right-1 size-4 transition-all duration-200" />
+              </Link>
+            </Button>
           </div>
         </div>
       </div>

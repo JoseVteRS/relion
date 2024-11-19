@@ -14,9 +14,9 @@ export default async function ListasLayout({
   return (
     <section>
       <Navbar />
-      <article className="max-w-screen-lg mx-auto my-20 lg:my-32 border bg-zinc-950 p-8 rounded-lg">
+      <article className="max-w-screen-2xl mx-auto my-20 lg:my-32 border bg-zinc-950 p-8 rounded-lg">
         <Button variant="outline" size="sm" asChild>
-          <Link href={`/${locale}/`}>
+          <Link href={`/${locale}/listas`} rel="index follow">
             <ArrowLeftIcon />
             Volver
           </Link>

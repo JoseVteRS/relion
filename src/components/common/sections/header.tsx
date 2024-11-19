@@ -26,9 +26,12 @@ export const Header = () => {
           <Badge variant="outline" className="text-white">
             beta
           </Badge>
-          <h1 className="text-6xl text-center md:text-left tracking-tight md:text-8xl text-balance font-black  text-white">
-            {t("titleStart")}
+          <h1 className="sr-only">
+            Crea listas de regalos para Navidad o cualquier ocasión
           </h1>
+          <div className="text-6xl text-center md:text-left tracking-tight md:text-8xl text-balance font-black  text-white">
+            {t("titleStart")}
+          </div>
           <div className="font-extralight text-base text-pretty text-center md:text-left md:text-4xl text-neutral-400 py-4">
             {t("subtitle")}
           </div>

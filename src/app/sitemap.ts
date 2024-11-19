@@ -19,7 +19,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date(),
       alternates: {
         languages: {
-          es: "https://relion.app/es/sign-in", 
+          es: "https://relion.app/es/sign-in",
           en: "https://relion.app/en/sign-in",
         },
       },
@@ -28,7 +28,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: "https://relion.app/es/sign-up",
-      lastModified: new Date(), 
+      lastModified: new Date(),
       alternates: {
         languages: {
           es: "https://relion.app/es/sign-up",
@@ -39,19 +39,31 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     },
     {
-      url: "https://relion.app/es/listas/boda",
+      url: "https://relion.app/es/listas/",
       lastModified: new Date(),
       alternates: {
         languages: {
-          es: "https://relion.app/es/listas/boda",
-          en: "https://relion.app/en/listas/boda", 
+          es: "https://relion.app/es/listas/",
+          en: "https://relion.app/en/listas/",
         },
       },
       changeFrequency: "weekly", // Contenido más dinámico
       priority: 0.8,
     },
     {
-      url: "https://relion.app/es/listas/navidad", 
+      url: "https://relion.app/es/listas/boda",
+      lastModified: new Date(),
+      alternates: {
+        languages: {
+          es: "https://relion.app/es/listas/boda",
+          en: "https://relion.app/en/listas/boda",
+        },
+      },
+      changeFrequency: "weekly", // Contenido más dinámico
+      priority: 0.8,
+    },
+    {
+      url: "https://relion.app/es/listas/navidad",
       lastModified: new Date(),
       alternates: {
         languages: {
