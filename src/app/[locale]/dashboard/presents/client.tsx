@@ -16,7 +16,7 @@ export function PresentsPageClient() {
   const commonPresents = useTranslations("Common.presents");
   const dashboardPresents = useTranslations("Dashboard.Presents");
   return (
-    <div>
+    <div className="PresentsPageClient h-full">
       <header className="flex items-center justify-between mb-10">
         <TitlePage>{dashboardPresents("titleSection")}</TitlePage>
         <Button variant="default" size="sm" onClick={openCreatePresentModal}>

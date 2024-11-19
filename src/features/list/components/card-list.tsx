@@ -32,7 +32,6 @@ interface CardListProps {
 }
 
 export const CardList = ({ list }: CardListProps) => {
-  const router = useRouter();
   const locale = useLocale();
   const t = useTranslations("Dashboard.Lists");
   const shareLink = useMemo(
@@ -57,8 +56,9 @@ export const CardList = ({ list }: CardListProps) => {
   return (
     <>
       <DialogConfirm />
-      <Card className="bg-neutral-100 shadow-none border-neutral-300 dark:border-neutral-700 dark:bg-background">
-        <CardContent className="p-4">
+      <Card className="bg-neutral-100 shadow-none border-neutral-300 dark:border-neutral-800 dark:bg-background relative overflow-hidden">
+
+        <CardContent className="p-4 relative">
           <div className="flex items-start justify-between mb-3">
             <div className="flex items-center space-x-2">
               <h3 className="text-lg font-semibold">{list.name}</h3>
@@ -110,7 +110,7 @@ export const CardList = ({ list }: CardListProps) => {
 
           <div className="text-sm text-muted-foreground mb-3 flex items-center gap-2">
             <GiftIcon className="w-4 h-4" />
-            <span>{t("presentsCount", { count: list?.presents?.length  })}</span>
+            <span>{t("presentsCount", { count: list?.presents?.length })}</span>
           </div>
 
           <div className="flex items-center justify-between mt-4">

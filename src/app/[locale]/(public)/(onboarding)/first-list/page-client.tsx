@@ -79,14 +79,6 @@ export default function OnboardingFirstListPageClient() {
             </div>
           </div>
         </div>
-        <div className="hidden md:block md:flex-1 h-screen bg-yellow-700 relative">
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-90"></div>
-          <img
-            src="/images/first-list.webp"
-            alt=""
-            className="object-cover w-full h-full"
-          />
-        </div>
       </div>
     </section>
   );
