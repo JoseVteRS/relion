@@ -1,5 +1,5 @@
 import { db } from "@/db/drizzle";
-import { lists, pickedPresents, presents } from "@/db/schema";
+import { lists, pickedPresents, presents, users } from "@/db/schema";
 import { getAuthUser, verifyAuth } from "@hono/auth-js";
 import { zValidator } from "@hono/zod-validator";
 import { and, asc, desc, eq, isNull, not } from "drizzle-orm";
@@ -13,6 +13,40 @@ import {
 import { ErrorMessage } from "@/lib/error-messages";
 
 const app = new Hono()
+  .get("/reserved", verifyAuth(), async (c) => {
+    const auth = c.get("authUser");
+    const authUserId = auth?.session?.user?.id;
+    if (!authUserId) {
+      return c.json({ error: "Not found" }, 404);
+    }
+
+    const data = await db
+      .select({
+        id: presents.id,
+        name: presents.name,
+        link: presents.link,
+        description: presents.description,
+        status: presents.status,
+        isPicked: presents.isPicked,
+        eventDate: lists.eventDate,
+        listId: presents.listId,
+        listName: lists.name,
+        listOwner: users.name,
+      })
+      .from(presents)
+      .innerJoin(lists, eq(presents.listId, lists.id))
+      .leftJoin(users, eq(lists.userId, users.id))
+      .where(
+        and(
+          eq(presents.pickedBy, authUserId),
+          eq(presents.isPicked, true),
+          not(isNull(presents.listId))
+        )
+      )
+      .orderBy(asc(lists.eventDate));
+
+    return c.json({ data });
+  })
   .get("/for-options", verifyAuth(), async (c) => {
     const auth = c.get("authUser");
     const authUserId = auth?.session?.user?.id;

@@ -1,5 +1,5 @@
 import { db } from "@/db/drizzle";
-import { favoriteLists, lists, pickedPresents, presents } from "@/db/schema";
+import { favoriteLists, lists, pickedPresents, presents, users } from "@/db/schema";
 import { ErrorList } from "@/features/list/errors-enum";
 import { verifyAuth } from "@hono/auth-js";
 import { and, asc, desc, eq, gte, isNull, lte, not, sql } from "drizzle-orm";
@@ -36,7 +36,11 @@ const app = new Hono().get("/", verifyAuth(), async (c) => {
 
       // Regalos reservados por mi
       db.query.presents.findMany({
-        where: eq(presents.pickedBy, authUserId),
+        where: and(
+          eq(presents.pickedBy, authUserId),
+          eq(presents.isPicked, true),
+          not(isNull(presents.listId))
+        ),
         columns: {
           id: true,
         },
@@ -48,18 +52,21 @@ const app = new Hono().get("/", verifyAuth(), async (c) => {
           id: lists.id,
           name: lists.name,
           eventDate: lists.eventDate,
+          listOwner: users.name,
         })
         .from(favoriteLists)
         .innerJoin(lists, eq(favoriteLists.listId, lists.id))
+        .leftJoin(users, eq(lists.userId, users.id))
         .where(
           and(
             eq(favoriteLists.userId, authUserId),
-            not(isNull(lists.eventDate)),
+            not(isNull(lists.eventDate)),      
             gte(lists.eventDate, new Date()),
             lte(lists.eventDate, new Date(Date.now() + SIXTY_DAYS_IN_MS))
           )
         )
-        .limit(5),
+        .limit(5)
+        .orderBy(asc(lists.eventDate)),
     ]);
 
   const stats = {
