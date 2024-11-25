@@ -12,7 +12,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         },
       },
       changeFrequency: "monthly",
-      priority: 1.0, // Página principal debería tener prioridad máxima
+      priority: 1.0,
     },
     {
       url: "https://relion.app/es/sign-in",
@@ -24,7 +24,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         },
       },
       changeFrequency: "monthly",
-      priority: 0.9, // Páginas de autenticación son importantes
+      priority: 0.9,
     },
     {
       url: "https://relion.app/es/sign-up",
@@ -47,7 +47,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
           en: "https://relion.app/en/listas/",
         },
       },
-      changeFrequency: "weekly", // Contenido más dinámico
+      changeFrequency: "weekly",
       priority: 0.8,
     },
     {
@@ -59,7 +59,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
           en: "https://relion.app/en/listas/boda",
         },
       },
-      changeFrequency: "weekly", // Contenido más dinámico
+      changeFrequency: "weekly",
       priority: 0.8,
     },
     {
