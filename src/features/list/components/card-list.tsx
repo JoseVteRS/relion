@@ -36,7 +36,7 @@ export const CardList = ({ list }: CardListProps) => {
   const t = useTranslations("Dashboard.Lists");
   const shareLink = useMemo(
     () => `${process.env.NEXT_PUBLIC_APP_URL}/${locale}/list/${list.id}`,
-    [list.id]
+    [list.id, locale]
   );
 
   const [DialogConfirm, confirm] = useConfirm(

@@ -1,16 +1,24 @@
 import { db } from "@/db/drizzle";
-import { lists, pickedPresents, presents, users } from "@/db/schema";
+import {
+  favoriteLists,
+  lists,
+  pickedPresents,
+  presents,
+  users,
+} from "@/db/schema";
 import { getAuthUser, verifyAuth } from "@hono/auth-js";
 import { zValidator } from "@hono/zod-validator";
 import { and, asc, desc, eq, isNull, not } from "drizzle-orm";
 import { Hono } from "hono";
 import { z } from "zod";
 
+import { NewPresentAdded } from "@/components/emails/new-present-added";
 import {
   createPresentSchema,
   updatePresentSchema,
 } from "@/features/present/schemas";
 import { ErrorMessage } from "@/lib/error-messages";
+import { resend } from "@/lib/resend";
 
 const app = new Hono()
   .get("/reserved", verifyAuth(), async (c) => {
@@ -180,13 +188,14 @@ const app = new Hono()
       }
 
       const userId = auth?.session?.user?.id;
+      const userAuthName = auth?.session?.user?.name;
 
       if (!userId) {
         return c.json({ error: "Not found" }, 404);
       }
       const { name, link, description, status, listId } = c.req.valid("json");
 
-      const data = await db
+      const newPresent = await db
         .insert(presents)
         .values({
           userId,
@@ -199,7 +208,41 @@ const app = new Hono()
         })
         .returning();
 
-      return c.json({ data: data[0] }, 200);
+      //TODO: Send email to the users that have this list in their favorites
+      if (listId && status) {
+        const favoriteUsers = await db
+          .select({
+            listName: lists.name,
+            userName: users.name,
+            userEmail: users.email,
+          })
+          .from(favoriteLists)
+          .leftJoin(users, eq(favoriteLists.userId, users.id))
+          .leftJoin(lists, eq(favoriteLists.listId, lists.id))
+          .where(eq(favoriteLists.listId, listId));
+
+
+        if (favoriteUsers) {
+          const emailPromises = favoriteUsers.map((user) => {
+            return resend.emails.send({
+              from: "Relion<onboarding@josevte.com>",
+              to: user.userEmail ?? "",
+              subject: `${userAuthName} ha añadido un regalo a la lista ${user.listName}`,
+              react: NewPresentAdded({
+                userName: userAuthName ?? "",
+                listName: user.listName ?? "",
+                linkList: `${process.env.NEXT_PUBLIC_APP_URL}/es/list/${listId}`,
+              }),
+            });
+
+            console.log({ favoriteUsers, presentName: name });
+          });
+
+          await Promise.all(emailPromises);
+        }
+      }
+
+      return c.json({ data: newPresent[0] }, 200);
     }
   )
   .patch(

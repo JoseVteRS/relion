@@ -120,7 +120,7 @@
                 "descriptionPlaceholder": "Descripción del regalo",
                 "list": "Lista",
                 "listPlaceholder": "Selecciona una lista",
-                "status": "Marcar como regalo privado",
+                "status": "Marcar como regalo público",
                 "submit": "Añadir regalo",
                 "cancel": "Cancelar",
                 "loading": "Añadiendo regalo"
@@ -135,7 +135,7 @@
                 "descriptionPlaceholder": "Descripción del regalo",
                 "list": "Lista",
                 "listPlaceholder": "Selecciona una lista",
-                "status": "Marcar como regalo privado",
+                "status": "Marcar como regalo público",
                 "submit": "Guardar",
                 "cancel": "Cancelar",
                 "loading": "Guardando regalo"
@@ -151,7 +151,7 @@
                     "unPick": "Dejar libre",
                     "pickedForOther": "Pillado"
                 },
-                "noPresents": "{userName}, no tiene regalos en esta lista"
+                "noPresents": "{userName} no tiene regalos en esta lista aún."
             }
         },
         "Lists": {

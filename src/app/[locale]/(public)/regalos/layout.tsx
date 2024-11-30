@@ -5,9 +5,6 @@ import { ArrowLeftIcon } from "lucide-react";
 import { getLocale } from "next-intl/server";
 import Link from "next/link";
 
-export const dynamic = 'force-static';
-
-
 export default async function ListasLayout({
   children,
 }: {

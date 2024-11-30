@@ -28,11 +28,16 @@ export const users = pgTable("user", {
 });
 
 export const usersRelations = relations(users, ({ many, one }) => ({
-  presents: many(presents),
-  lists: many(lists),
+  presents: many(presents, {
+    relationName: "user_presents"
+  }),
+  lists: many(lists, {
+    relationName: "user_lists"
+  }),
   tier: one(tiers, {
     fields: [users.tierId],
     references: [tiers.id],
+    relationName: "user_tier"
   }),
 }));
 
@@ -103,7 +108,6 @@ export const authenticators = pgTable(
   })
 );
 
-//TIERS
 export const tiers = pgTable("tier", {
   id: text("id")
     .primaryKey()
@@ -112,12 +116,15 @@ export const tiers = pgTable("tier", {
   maxLists: integer("maxLists").default(3).notNull(),
   maxPresentsPerList: integer("maxPresentsPerList").default(6).notNull(),
 });
+
 export const tiersRelations = relations(tiers, ({ many }) => ({
-  users: many(users),
+  users: many(users, {
+    relationName: "user_tier"
+  }),
 }));
+
 export const insertTierSchema = createInsertSchema(tiers);
 
-// SUBSCRIPTIONS
 export const subscriptions = pgTable("subscription", {
   id: text("id").primaryKey(),
   userId: text("user_id").notNull().unique(),
@@ -125,14 +132,15 @@ export const subscriptions = pgTable("subscription", {
   status: text("status").notNull(),
 });
 
-// PRESENTS
 export const presents = pgTable("present", {
   id: text("id")
     .primaryKey()
     .$defaultFn(() => crypto.randomUUID()),
   userId: text("userId")
     .notNull()
-    .references(() => users.id, { onDelete: "cascade" }),
+    .references(() => users.id, {
+      onDelete: "cascade",
+    }),
   listId: text("listId").references(() => lists.id, { onDelete: "set null" }),
   name: text("name"),
   description: text("description"),
@@ -145,23 +153,27 @@ export const presents = pgTable("present", {
   createdAt: timestamp("createdAt", { mode: "date" }),
   updatedAt: timestamp("updatedAt", { mode: "date" }),
 });
+
 export const presentsRelations = relations(presents, ({ one }) => ({
   user: one(users, {
     fields: [presents.userId],
     references: [users.id],
+    relationName: "user_presents"
   }),
   list: one(lists, {
     fields: [presents.listId],
     references: [lists.id],
+    relationName: "list_presents"
   }),
   pickedBy: one(users, {
     fields: [presents.pickedBy],
     references: [users.id],
+    relationName: "present_picker"
   }),
 }));
+
 export const insertPresentSchema = createInsertSchema(presents);
 
-// LISTS
 export const lists = pgTable("list", {
   id: text("id")
     .primaryKey()
@@ -176,18 +188,22 @@ export const lists = pgTable("list", {
   updatedAt: timestamp("updatedAt", { mode: "date" }),
   eventDate: timestamp("eventDate", { mode: "date" }).notNull(),
 });
+
 export const listsRelations = relations(lists, ({ one, many }) => ({
   user: one(users, {
     fields: [lists.userId],
     references: [users.id],
+    relationName: "user_lists"
   }),
-  presents: many(presents),
+  presents: many(presents, {
+    relationName: "list_presents"
+  }),
 }));
+
 export const insertListsSchema = createInsertSchema(lists, {
   eventDate: z.coerce.date(),
 });
 
-// PICKED PRESENTS
 export const pickedPresents = pgTable("pickedPresent", {
   id: text("id")
     .primaryKey()
@@ -199,18 +215,20 @@ export const pickedPresents = pgTable("pickedPresent", {
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
 });
+
 export const pickedPresentsRelations = relations(pickedPresents, ({ one }) => ({
   present: one(presents, {
     fields: [pickedPresents.presentId],
     references: [presents.id],
+    relationName: "picked_present_ref"
   }),
   user: one(users, {
     fields: [pickedPresents.userId],
     references: [users.id],
+    relationName: "picked_present_user"
   }),
 }));
 
-// FAVORITE LISTS
 export const favoriteLists = pgTable("favoriteList", {
   id: text("id")
     .primaryKey()
@@ -222,18 +240,16 @@ export const favoriteLists = pgTable("favoriteList", {
     .notNull()
     .references(() => lists.id, { onDelete: "cascade" }),
 });
+
 export const favoriteListsRelations = relations(favoriteLists, ({ one }) => ({
   user: one(users, {
     fields: [favoriteLists.userId],
     references: [users.id],
+    relationName: "favorite_list_user"
   }),
   list: one(lists, {
     fields: [favoriteLists.listId],
     references: [lists.id],
+    relationName: "favorite_list_ref"
   }),
 }));
-
-
-
-
-

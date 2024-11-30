@@ -119,7 +119,7 @@
                 "descriptionPlaceholder": "Gift description",
                 "list": "List",
                 "listPlaceholder": "Select a list",
-                "status": "Status",
+                "status": "Make this present public",
                 "submit": "Add gift",
                 "cancel": "Cancel",
                 "loading": "Adding gift"
@@ -134,7 +134,7 @@
                 "descriptionPlaceholder": "Gift description",
                 "list": "List",
                 "listPlaceholder": "Select a list",
-                "status": "Status",
+                "status": "Make this present public",
                 "submit": "Save",
                 "cancel": "Cancel",
                 "loading": "Saving present"
@@ -150,7 +150,7 @@
                     "unPick": "Leave free",
                     "pickedForOther": "Picked"
                 },
-                "noPresents": "{userName}, you have not added presents to this list"
+                "noPresents": "{userName} has not added presents to this list yet."
             }
         },
         "Lists": {
@@ -169,7 +169,7 @@
                 "eventDateTitle": "Select event date",
                 "eventDatePlaceholder": "Select a date",
                 "submit": "Add list",
-                "estatusTitle": "Status (Public or Private)",
+                "estatusTitle": "Make this list public",
                 "cancel": "Cancel",
                 "loading": "Adding list"
             }
