@@ -1,13 +1,12 @@
 "use client";
 
-import { CardPublicPresent } from "@/app/[locale]/(public)/list/[listId]/_components/card-public-present";
-import { HeaderListPublic } from "@/app/[locale]/(public)/list/[listId]/_components/header-list-public";
-import { ErrorMessageComponent } from "@/components/common/error-message";
+import { CardPublicPresent } from "@/components/card-public-present";
+import { HeaderListPublic } from "@/components/header-list-public";
 import { usePublicList } from "@/features/list/api/use-get-list-public";
 import { CardPresentsSkeleton } from "@/features/present/components/card-presents-skeleton";
 import { ListWithUserWithPresents } from "@/types/types";
 import { parseISO } from "date-fns";
-import { GiftIcon, Loader2 } from "lucide-react";
+import { GiftIcon, Loader, Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { useMemo } from "react";
@@ -42,21 +41,24 @@ export default function PublicListPageClient({
   );
 
   if (!authUserId) {
-    return <div className="flex justify-center items-center h-screen">No autorizado</div>;
+    return <div>No autorizado</div>;
   }
 
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-screen">
-        <Loader2 className="size-10 animate-spin" />
+        <Loader className="size-6 animate-spin" />
       </div>
     );
   }
 
-  if (isError) {
+  if (isError && error?.message) {
     return (
       <div className="flex justify-center items-center bg-red-800/30 p-5 rounded">
-        <ErrorMessageComponent message={error.message} />
+        <div className="flex flex-col items-center gap-2">
+          <div className="text-5xl">🙈</div>
+          <p className="text-xl">No puedes ver tu propia lista</p>
+        </div>
       </div>
     );
   }

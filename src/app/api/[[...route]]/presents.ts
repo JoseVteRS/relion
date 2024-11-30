@@ -224,18 +224,20 @@ const app = new Hono()
 
         if (favoriteUsers) {
           const emailPromises = favoriteUsers.map((user) => {
-            return resend.emails.send({
-              from: "Relion<onboarding@josevte.com>",
-              to: user.userEmail ?? "",
-              subject: `${userAuthName} ha añadido un regalo a la lista ${user.listName}`,
-              react: NewPresentAdded({
-                userName: userAuthName ?? "",
-                listName: user.listName ?? "",
-                linkList: `${process.env.NEXT_PUBLIC_APP_URL}/es/list/${listId}`,
-              }),
-            });
 
-            console.log({ favoriteUsers, presentName: name });
+            //TODO: Show a notification to the user
+
+            // return resend.emails.send({
+            //   from: "Relion<onboarding@josevte.com>",
+            //   to: user.userEmail ?? "",
+            //   subject: `${userAuthName} ha añadido un regalo a la lista ${user.listName}`,
+            //   react: NewPresentAdded({
+            //     userName: userAuthName ?? "",
+            //     listName: user.listName ?? "",
+            //     linkList: `${process.env.NEXT_PUBLIC_APP_URL}/es/list/${listId}`,
+            //   }),
+            // });
+
           });
 
           await Promise.all(emailPromises);
