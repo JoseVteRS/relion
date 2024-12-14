@@ -1,13 +1,14 @@
-import { z } from "zod";
+import { db as dbPrisma } from "@/db/prisma";
 import bcrypt from "bcryptjs";
 import type { NextAuthConfig } from "next-auth";
-import { eq } from "drizzle-orm";
-import { db } from "@/db/drizzle";
-import { DrizzleAdapter } from "@auth/drizzle-adapter";
+import { z } from "zod";
+
+import { PrismaAdapter } from "@auth/prisma-adapter";
+
+import JWT from "next-auth/jwt";
 import Credentials from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
-import { tiers, users } from "@/db/schema";
-import JWT from "next-auth/jwt";
+
 const credentialsSchema = z.object({
   email: z.string().email(),
   password: z.string(),
@@ -16,25 +17,21 @@ const credentialsSchema = z.object({
 declare module "next-auth/jwt" {
   interface JWT {
     id: string | undefined;
-    tierId: string | undefined;
   }
 }
 
 declare module "@auth/core/jwt" {
   interface JWT {
     id: string | undefined;
-    tierId: string | undefined;
   }
 }
 
 declare module "next-auth" {
-  interface User {
-    tierId: string | undefined;
-  }
+  interface User {}
 }
 
 export default {
-  adapter: DrizzleAdapter(db),
+  adapter: PrismaAdapter(dbPrisma),
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
@@ -53,24 +50,18 @@ export default {
         }
 
         const { email, password } = validatedFields.data;
-        const query = await db
-          .select()
-          .from(users)
-          .where(eq(users.email, email));
+        const user = await dbPrisma.user.findUnique({
+          where: {
+            email,
+          },
+        });
 
-        const user = query[0];
-
-        if (!user || !user.password) {
-          return null;
-        }
+        if (!user || !user.password) return null;
 
         const passwordMatch = await bcrypt.compare(password, user.password);
+        if (!passwordMatch) return null;
 
-        if (!passwordMatch) {
-          return null;
-        }
-
-        return { ...user, tierId: user.tierId || "" };
+        return user;
       },
     }),
   ],
@@ -86,37 +77,14 @@ export default {
       if (user && user?.id) {
         // User is available during sign-in
         token.id = user.id;
-        const [userTier] = await db
-          .select()
-          .from(users)
-          .where(eq(users.id, user.id));
-        token.tierId = userTier.tierId || "";
       }
       return token;
     },
     session({ session, token }) {
       if (token.id) {
         session.user.id = token.id;
-        session.user.tierId = token.tierId || "";
       }
       return session;
-    },
-  },
-  events: {
-    async createUser({ user }) {
-      if (user.id) {
-        const freeTier = await db
-          .select()
-          .from(tiers)
-          .where(eq(tiers.name, "FREE"))
-          .limit(1);
-        if (freeTier.length > 0) {
-          await db
-            .update(users)
-            .set({ tierId: freeTier[0].id })
-            .where(eq(users.id, user.id));
-        }
-      }
     },
   },
 } satisfies NextAuthConfig;

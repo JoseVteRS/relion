@@ -5,14 +5,14 @@ import { } from "react-icons";
 import { MdOutlineLock } from "react-icons/md";
 
 interface StatusBadgeProps {
-  status: boolean;
+  status: "PRIVATE" | "PUBLIC";
   className?: string;
 }
 
 export const StatusBadge = ({ status, className }: StatusBadgeProps) => {
   const baseClasses = "text-xl flex items-center gap-1";
 
-  const isPublic = status;
+  const isPublic = status === "PUBLIC";
 
   return isPublic ? null : (
     <div className={cn(baseClasses, className)}>

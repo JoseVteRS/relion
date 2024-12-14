@@ -3,8 +3,10 @@
 import { TitlePage } from "@/components/common/page-title";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { useGetPicks } from "@/features/pick/api/use-get-picks";
 import { usePickedPresents } from "@/features/present/api/use-get-picked-presents";
 import { useGetStats } from "@/features/stats/api/use-get-stats";
+import { Present } from "@prisma/client";
 import { differenceInDays, format } from "date-fns";
 import { enUS, es } from "date-fns/locale";
 import {
@@ -17,10 +19,12 @@ import {
 } from "lucide-react";
 import { useLocale } from "next-intl";
 import Link from "next/link";
-import { list } from "postcss";
+
 
 export default function DashboardPageClient() {
   const { data } = useGetStats();
+
+  const { data: picks, isLoading: isLoadingPicks } = useGetPicks();
   const { data: pickedPresents, isLoading } = usePickedPresents();
 
   const locale = useLocale();
@@ -45,12 +49,6 @@ export default function DashboardPageClient() {
               </div>
 
               <ListTodoIcon className="w-5 h-5 text-primary" />
-            </div>
-            <div className="absolute bottom-0 left-0 right-0 h-1 bg-primary/10">
-              <Link
-                href="/lists"
-                className="w-full h-full block hover:bg-primary/20 transition-colors"
-              />
             </div>
           </div>
         </Card>
@@ -108,23 +106,26 @@ export default function DashboardPageClient() {
             Mis Regalos Reservados
           </h3>
           <div className="space-y-4">
-            {isLoading && <p>Cargando...</p>}
-            {pickedPresents?.data.map((present) => (
+            {isLoadingPicks && <p>Cargando...</p>}
+            {picks?.map((pick) => (
               <div
-                key={present.id}
+                key={pick.id}
                 className="p-4 rounded-lg bg-accent/20 hover:bg-accent/30 transition-colors"
               >
                 <div className="flex items-center justify-between">
                   <div className="space-y-1">
-                    <p className="font-medium text-md md:text-lg">{present.name}</p>
+                    <p className="font-medium text-md md:text-lg">
+                      {pick.present.name}
+                    </p>
                     <p className="text-sm text-muted-foreground">
-                      {present.listName} • Para: {present.listOwner}
+                      Lista {pick.present.list?.name} de{" "}
+                      {pick.present.list?.owner.name}
                     </p>
                   </div>
-                  {present.link && (
+                  {pick.present.link && (
                     <Button variant="ghost" size="sm" asChild className="ml-4">
                       <Link
-                        href={present.link}
+                        href={pick.present.link}
                         target="_blank"
                         rel="noopener noreferrer"
                       >
@@ -147,7 +148,7 @@ export default function DashboardPageClient() {
           <div className="space-y-4">
             {nearEvents?.map((event) => {
               const daysUntilEvent = differenceInDays(
-                event.eventDate,
+                event.list.eventDate,
                 new Date()
               );
               const getBadgeColor = () => {
@@ -162,25 +163,26 @@ export default function DashboardPageClient() {
 
               return (
                 <div
-                  key={event.id}
+                  key={event.list.id}
                   className="flex items-center justify-between p-4 rounded-lg bg-accent/20 hover:bg-accent/30 transition-colors"
                 >
                   <div>
                     <div className="flex items-center justify-between w-full gap-2">
                       <Link
-                        href={`/${locale}/dashboard/lists/${event.id}/public`}
+                        href={`/${locale}/dashboard/lists/${event.list.id}/public`}
                         className="text-md md:text-lg font-medium hover:text-primary transition-colors"
                       >
-                        {event.name}
+                        {event.list.name}
                       </Link>
                     </div>
                     <p className="text-sm text-muted-foreground">
-                      {format(event.eventDate, "PPP", {
+                      {format(event.list.eventDate, "PPP", {
                         locale: locale === "es" ? es : enUS,
                       })}
                     </p>
                     <p className="text-sm text-muted-foreground">
-                      Lista de <span className=" text-white">{event.listOwner}</span>
+                      Lista de{" "}
+                      <span className=" text-white">{event.list.owner.name}</span>
                     </p>
                   </div>
                   <div className="flex items-center gap-2">
@@ -191,7 +193,7 @@ export default function DashboardPageClient() {
                     </div>
                     <Button variant="ghost" size="sm" asChild>
                       <Link
-                        href={`/${locale}/dashboard/lists/${event.id}/public`}
+                        href={`/${locale}/dashboard/lists/${event.list.id}/public`}
                       >
                         <EyeIcon className="w-4 h-4" />
                       </Link>

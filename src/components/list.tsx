@@ -1,7 +1,7 @@
 "use client";
 
 import { ErrorMessageComponent } from "@/components/common/error-message";
-import { usePublicList } from "@/features/list/api/use-get-list-public";
+import { useGetListPublic } from "@/features/list/api/use-get-list-public";
 import { CardPresentsSkeleton } from "@/features/present/components/card-presents-skeleton";
 import { ErrorMessage } from "@/lib/error-messages";
 import { ListWithUserWithPresents } from "@/types/types";
@@ -31,7 +31,7 @@ export const List = ({ listId }: ListProps) => {
 
   const locale = useLocale();
 
-  const { data, isLoading, isError, error } = usePublicList(listId);
+  const { data, isLoading, isError, error } = useGetListPublic(listId);
   const list = data?.listData;
 
   const isExpired = useMemo(

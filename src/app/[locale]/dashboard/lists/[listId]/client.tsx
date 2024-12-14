@@ -2,7 +2,8 @@
 import { StatusBadge } from "@/components/common/status-badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useGetPrivateList } from "@/features/list/api/use-get-private.list";
+import { useGetListPrivate } from "@/features/list/api/use-get-list-private";
+import { useUpdateListStatus } from "@/features/list/api/use-update-list-status";
 import { ListsNotFound } from "@/features/list/components/lists-not-found";
 import {
   CardPresent,
@@ -10,6 +11,7 @@ import {
 } from "@/features/present/components/card-present";
 import { PresentNotFount } from "@/features/present/components/presents-no-found";
 import { useCreatePresentModal } from "@/features/present/hooks/use-create-present-modal";
+import { ListStatus } from "@prisma/client";
 import { Loader2Icon, PlusCircle } from "lucide-react";
 
 const convertDatesToDate = (present: any): PresentWithList => ({
@@ -19,7 +21,8 @@ const convertDatesToDate = (present: any): PresentWithList => ({
 });
 
 export const DashboardListDetailsPageClient = ({ id }: { id: string }) => {
-  const { data: list, isLoading, isError, error } = useGetPrivateList(id);
+  const { data: list, isLoading, isError, error } = useGetListPrivate(id);
+  const updateListStatus = useUpdateListStatus(id);
   const { open } = useCreatePresentModal();
 
   if (isLoading) {
@@ -42,12 +45,28 @@ export const DashboardListDetailsPageClient = ({ id }: { id: string }) => {
     return <ListsNotFound />;
   }
 
+  const handleUpdateListStatus = (status: ListStatus) => {
+    const newStatus =
+      list.status === ListStatus.PUBLIC
+        ? ListStatus.PRIVATE
+        : ListStatus.PUBLIC;
+    updateListStatus.mutate({ status: newStatus });
+  };
+
   return (
     <Card className="bg-white dark:bg-background">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           {list?.name}
-          <StatusBadge status={list.status || false} />
+          <StatusBadge status={list.status} />
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => handleUpdateListStatus(list.status)}
+            className="ml-2"
+          >
+            {list.status === ListStatus.PUBLIC ? "Hacer privada" : "Hacer pública"}
+          </Button>
         </CardTitle>
         <div className="flex flex-col md:flex-row items-start gap-1 pt-5">
           <span className="text-sm text-muted-foreground">Fecha evento: </span>

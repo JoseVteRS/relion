@@ -5,23 +5,23 @@ import { InferRequestType, InferResponseType } from "hono";
 import { toast } from "sonner";
 
 type ResponseType = InferResponseType<
-  (typeof client.api.favorites.unfollow)[":listId"]["$delete"],
+  (typeof client.api.favorites)[":listId"]["unfollow"]["$delete"],
   200
 >;
 type RequestType = InferRequestType<
-  (typeof client.api.favorites.unfollow)[":listId"]["$delete"]
+  (typeof client.api.favorites)[":listId"]["unfollow"]["$delete"]
 >["param"];
 
-interface UseUnfollowParams {
+interface UseDeleteFavoriteParams {
   listId: string;
   userId: string;
 }
 
-export const useUnfollow = ({ listId, userId }: UseUnfollowParams) => {
+export const useDeleteFavorite = ({ listId, userId }: UseDeleteFavoriteParams) => {
   const queryClient = useQueryClient();
   const mutation = useMutation<ResponseType, Error, RequestType>({
     mutationFn: async () => {
-      const response = await client.api.favorites.unfollow[":listId"].$delete({
+      const response = await client.api.favorites[":listId"]["unfollow"]["$delete"]({
         param: {
           listId,
         },

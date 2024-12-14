@@ -3,12 +3,13 @@ import { AuthConfig, initAuthConfig } from "@hono/auth-js";
 import { Context, Hono } from "hono";
 import { handle } from "hono/vercel";
 
+import favorites from "@/features/favorites/favorite-route";
+import list from "@/features/list/list-route";
+import picks from "@/features/pick/pick-route";
+import presents from "@/features/present/present-route";
+import stats from "@/features/stats/stats-route";
+
 import firstList from "./first-list";
-import favorites from "./follow-list";
-import list from "./lists";
-import picks from "./picks";
-import presents from "./presents";
-import stats from "./stats";
 import subscriptions from "./subscriptions";
 import users from "./users";
 

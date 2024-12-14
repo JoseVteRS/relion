@@ -1,13 +1,14 @@
-import Link from "next/link";
-import { Calendar, GiftIcon } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
 import { StatusBadge } from "@/components/common/status-badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { ListStatus } from "@prisma/client";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
-import { Button } from "@/components/ui/button";
+import { Calendar, GiftIcon } from "lucide-react";
+import Link from "next/link";
 
 interface CardListProps {
-  list: { name: string; eventDate: string; id: string };
+  list: { name: string; eventDate: string; id: string; status: ListStatus };
 }
 
 export const CardFirstList = ({ list }: CardListProps) => {
@@ -18,7 +19,7 @@ export const CardFirstList = ({ list }: CardListProps) => {
           <div className="flex items-start justify-between mb-3">
             <div className="flex items-center space-x-2">
               <h3 className="text-lg font-semibold">{list.name}</h3>
-              <StatusBadge status={true} />
+              <StatusBadge status={list.status} />
             </div>
             <div className="flex items-center space-x-2"></div>
           </div>

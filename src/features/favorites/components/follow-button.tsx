@@ -1,9 +1,9 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import { HeartIcon } from "lucide-react";
 import { useGetFavorite } from "../api/use-get-favorite";
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
 
 interface FollowButtonProps {
   onFollow: (listId: string) => void;
@@ -19,7 +19,9 @@ export const FollowButton = ({
   const { data, isLoading, isError } = useGetFavorite({ listId });
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <HeartIcon className="animate-pulse size-6 fill-white/30 stroke-none  rounded" />
+    );
   }
 
   if (isError) {
@@ -27,26 +29,24 @@ export const FollowButton = ({
   }
 
   return (
-    <div>
+    <>
       {data ? (
-        <Button
+        <button
           onClick={() => onUnfollow(listId)}
-          variant="ghost"
-          size="icon"
+          aria-label="Unfollow list"
           className="hover:bg-transparent"
         >
           <HeartIcon className="size-6 fill-red-500 stroke-red-500" />
-        </Button>
+        </button>
       ) : (
-        <Button
+        <button
           onClick={() => onFollow(listId)}
-          variant="ghost"
-          size="icon"
+          aria-label="Follow list"
           className="hover:bg-transparent"
         >
           <HeartIcon className="size-6" />
-        </Button>
+        </button>
       )}
-    </div>
+    </>
   );
 };

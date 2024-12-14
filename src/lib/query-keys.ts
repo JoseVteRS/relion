@@ -14,6 +14,9 @@ export const qk = {
     publicPresentDetails: (id: string) => ["public-present-details", id],
     publicPresentsInList: (id: string) => ["presents-in-list", id],
   },
+  picks: {
+    pick: (presentId: string, listId: string) => ["pick", presentId, listId],
+  },
   subscription: {
     get: ["subscription"],
   },

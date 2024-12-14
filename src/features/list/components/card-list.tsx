@@ -10,6 +10,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ListWithUserWithPresents } from "@/types/types";
+import { List, ListStatus, Present } from "@prisma/client";
 import { format } from "date-fns";
 import { enGB, es } from "date-fns/locale";
 import {
@@ -22,20 +23,20 @@ import {
 } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useMemo } from "react";
 import { useConfirm } from "../../../../hooks/use-confirm";
 import { useDeleteList } from "../api/use-delete-list";
 
 interface CardListProps {
-  list: ListWithUserWithPresents;
+  list: List & { owner: { name: string }; presents: Present[] };
 }
 
 export const CardList = ({ list }: CardListProps) => {
   const locale = useLocale();
   const t = useTranslations("Dashboard.Lists");
   const shareLink = useMemo(
-    () => `${process.env.NEXT_PUBLIC_APP_URL}/${locale}/dashboard/lists/${list.id}/public`,
+    () =>
+      `${process.env.NEXT_PUBLIC_APP_URL}/${locale}/dashboard/lists/${list.id}/public`,
     [list.id, locale]
   );
 
@@ -57,12 +58,11 @@ export const CardList = ({ list }: CardListProps) => {
     <>
       <DialogConfirm />
       <Card className="bg-neutral-100 shadow-none border-neutral-300 dark:border-neutral-800 dark:bg-background relative overflow-hidden">
-
         <CardContent className="p-4 relative">
           <div className="flex items-start justify-between mb-3">
             <div className="flex items-center space-x-2">
               <h3 className="text-lg font-semibold">{list.name}</h3>
-              <StatusBadge status={list.status || false} />
+              <StatusBadge status={list.status} />
             </div>
             <div className="flex items-center space-x-2">
               <DropdownMenu>
@@ -131,7 +131,7 @@ export const CardList = ({ list }: CardListProps) => {
                 url={shareLink}
                 message={t("whatsappLinkShare", {
                   listName: list.name,
-                  userName: list.user.name,
+                  userName: list.owner.name,
                 })}
               />
             </div>

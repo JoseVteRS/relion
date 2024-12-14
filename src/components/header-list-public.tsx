@@ -1,13 +1,21 @@
 import { Separator } from "@/components/ui/separator";
-import { useCreateFollow } from "@/features/favorites/api/use-create-follow";
-import { useUnfollow } from "@/features/favorites/api/use-unfollow";
+import { useCreateFavorite } from "@/features/favorites/api/use-create-favorite";
+import { useDeleteFavorite } from "@/features/favorites/api/use-delete-favorite";
 import { FollowButton } from "@/features/favorites/components/follow-button";
-import { ListWithUserWithPresents } from "@/types/types";
-import { CalendarIcon, InfoIcon, UserIcon } from "lucide-react";
+import {
+  CalendarIcon,
+  HelpCircleIcon,
+  InfoIcon,
+  ShareIcon,
+  UserIcon,
+} from "lucide-react";
 import { useMemo } from "react";
+import { MdQuestionMark } from "react-icons/md";
+import { Button } from "./ui/button";
+import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 
 interface HeaderListPublicProps {
-  list: ListWithUserWithPresents;
+  list: any;
   userId: string;
 }
 
@@ -17,18 +25,41 @@ export const HeaderListPublic = ({ list, userId }: HeaderListPublicProps) => {
     [list.eventDate]
   );
 
-  const follow = useCreateFollow({ listId: list.id, userId });
-  const unFollow = useUnfollow({ listId: list.id, userId });
+  const follow = useCreateFavorite({ listId: list.id, userId });
+  const unFollow = useDeleteFavorite({ listId: list.id, userId });
 
   return (
     <header className="bg-card/50 p-4 sm:p-6 rounded-lg shadow-sm mb-6">
-      <div className="flex justify-end">
+      <div className="flex justify-between items-center gap-2">
+        <Popover>
+          <PopoverTrigger asChild>
+            <button>
+              <HelpCircleIcon className="size-4" />
+            </button>
+          </PopoverTrigger>
+          <PopoverContent className="space-y-2">
+            <div className="flex flex-row items-center gap-2">
+              <div className="size-6 border-2 flex items-center justify-center" />
+              <p className="text-xs">Regalo libre</p>
+            </div>
+            <div className="flex flex-row items-center gap-2">
+              <div className="size-6 border-2 border-dashed border-yellow-600  flex items-center justify-center" />
+              <p className="text-xs">Regalo reservado por ti</p>
+            </div>
+            <div className="flex flex-row items-center gap-2">
+              <div className="size-6 border-2 border-green-600  flex items-center justify-center" />
+              <p className="text-xs">Regalo comprado por ti</p>
+            </div>
+          </PopoverContent>
+        </Popover>
+
         <FollowButton
           listId={list.id}
           onFollow={() => follow.mutate({ listId: list.id })}
           onUnfollow={() => unFollow.mutate({ listId: list.id })}
         />
       </div>
+
       <div className="flex flex-col gap-4 max-w-2xl mx-auto">
         <h1 className="text-2xl sm:text-3xl font-bold text-foreground text-center">
           {list?.name}
@@ -37,7 +68,7 @@ export const HeaderListPublic = ({ list, userId }: HeaderListPublicProps) => {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 text-muted-foreground text-sm sm:text-base">
           <div className="flex items-center gap-2">
             <UserIcon className="size-4 sm:size-5" />
-            <span>{list?.user.name}</span>
+            <span>{list?.owner.name}</span>
           </div>
 
           {list?.eventDate && (

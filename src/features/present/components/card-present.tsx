@@ -13,7 +13,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { List, Present } from "@/types/types";
+
+import { List, Present } from "@prisma/client";
 import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
 import { useConfirm } from "../../../../hooks/use-confirm";
@@ -43,7 +44,6 @@ interface CardPresentProps {
 }
 
 export const CardPresent = ({ present }: CardPresentProps) => {
-
   const t = useTranslations("Dashboard.Presents");
   const locale = useLocale();
 
@@ -72,7 +72,7 @@ export const CardPresent = ({ present }: CardPresentProps) => {
             <div>
               <div className="flex items-center space-x-2">
                 <h3 className="text-lg font-semibold">{present.name}</h3>
-                <StatusBadge status={present.status || false} />
+                <StatusBadge status={present.status} />
               </div>
 
               {present.list && (

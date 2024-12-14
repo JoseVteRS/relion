@@ -2,19 +2,48 @@ import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
+  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { db } from "@/db/prisma";
 import { useCreatePick } from "@/features/pick/api/use-create-pick";
 import { useDeletePick } from "@/features/pick/api/use-delete-pick";
+import { useGetPick } from "@/features/pick/api/use-get-pick";
+import { useUpdatePick } from "@/features/pick/api/use-update-pick";
+import { client } from "@/lib/hono";
 import { cn } from "@/lib/utils";
-import { LinkIcon, PackageCheck, PackageOpen } from "lucide-react";
+import { PickStatus, Present } from "@prisma/client";
+import {
+  BoxIcon,
+  Currency,
+  EuroIcon,
+  LinkIcon,
+  PackageCheck,
+  PackageOpen,
+  ShoppingBagIcon,
+  ShoppingCartIcon,
+  UserIcon,
+} from "lucide-react";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { FcMoneyTransfer } from "react-icons/fc";
+import { Badge } from "./ui/badge";
+import { Input } from "./ui/input";
+import { Label } from "./ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
+import { Skeleton } from "./ui/skeleton";
 
 interface CardPublicPresentProps {
-  present: any;
+  present: Present;
   listId?: string;
   authUserId?: string;
 }
@@ -24,12 +53,23 @@ export const CardPublicPresent = ({
   listId,
   authUserId,
 }: CardPublicPresentProps) => {
-
   const t = useTranslations("Dashboard.Presents.presentShared");
 
   const pick = useCreatePick(present.id, listId);
   const unpick = useDeletePick(present.id, listId);
-  const isPickedOwner = present.pickedBy === authUserId;
+  const updatePick = useUpdatePick();
+
+  const isPickedOwner = present.pickedById === authUserId;
+
+  const { data: pickData, isLoading } = useGetPick(present.id, listId!);
+
+  useEffect(() => {
+    if (pickData?.status) {
+      setStatus(pickData.status);
+    }
+  }, [pickData?.status]);
+
+  const [status, setStatus] = useState<PickStatus | undefined>(undefined);
 
   const onPick = () => {
     pick.mutate(undefined);
@@ -39,74 +79,86 @@ export const CardPublicPresent = ({
     unpick.mutate(undefined);
   };
 
+  const onStatusChange = async () => {
+    const newStatus =
+      status === PickStatus.PURCHASED
+        ? PickStatus.RESERVED
+        : PickStatus.PURCHASED;
+
+    setStatus(newStatus);
+    updatePick.mutate({
+      param: { presentId: present.id },
+      json: { status: newStatus },
+    });
+  };
+
+  const currentStatus = status ?? pickData?.status ?? PickStatus.RESERVED;
+  const isPurchased = currentStatus === PickStatus.PURCHASED;
+  const isReserved = currentStatus === PickStatus.RESERVED;
+
+  if (isLoading) {
+    return <Skeleton className="w-full h-[200px]" />;
+  }
+
   return (
     <Card
       className={cn(
-        "w-full",
-        present.isPicked && "opacity-60",
-        present.pickedBy === authUserId && "border-dashed border-green-500/50"
+        "border-2",
+        isPickedOwner
+          ? isPurchased
+            ? "border-green-500/60"
+            : "border-yellow-500/60 border-dashed"
+          : "border-muted"
       )}
     >
-      <CardHeader className="px-6 py-6 pb-2 sm:px-6 sm:py-6">
-        <div className="flex items-start">
-          <div>
-            <CardTitle className="text-xl font-bold">{present.name}</CardTitle>
+      <CardHeader>
+        <div className="flex items-center gap-2 justify-between">
+          <div className="flex items-center gap-2">
+            <CardTitle>{present.name}</CardTitle>
+            {isPurchased && <Badge variant="outline">Comprado</Badge>}
           </div>
         </div>
+
+        <CardDescription>{present.description}</CardDescription>
+
+        <Link
+          href={present.link || "#"}
+          target="_blank"
+          className="w-fit text-primary"
+        >
+          {present.link}
+        </Link>
       </CardHeader>
       <CardContent>
-        <div>
-          <div className=" text-neutral-300 ">
-            <p className="text-sm leading-7">{present.description}</p>
-          </div>
+        <div className="flex items-center gap-2">
+          {pickData?.pickedBy?.name && (
+            <Badge variant="outline">
+              <UserIcon className="size-4 mr-1" />
+              Pillado por {pickData.pickedById === authUserId && "ti"}
+              {pickData.pickedById !== authUserId &&
+                pickData?.pickedBy?.name.split(" ").slice(0, 2).join(" ")}
+            </Badge>
+          )}
         </div>
       </CardContent>
-
-      <CardFooter
-        className={cn(
-          "flex items-center",
-          !present.link ? "justify-end" : "justify-between"
-        )}
-      >
-        {present.link && (
-          <Button
-            className="text-xs underline md:no-underline m-0 p-0"
-            size="sm"
-            variant="link"
-            asChild
-          >
-            <Link
-              href={present.link}
-              target="_blank"
-              rel="noreferrer noopener"
-              className="flex items-center text-xs text-muted-foreground hover:text-primary transition-colors"
-            >
-              <LinkIcon className="w-3 h-3 mr-1" />
-              {new URL(present.link).hostname}
-            </Link>
-          </Button>
-        )}
-        <div className="">
-          {present.isPicked ? (
+      <CardFooter className="w-full">
+        <div className="flex flex-col items-start gap-2 w-full">
+          <ButtonsPick
+            listId={listId || ""}
+            ownerListId={present.ownerId || ""}
+            onPick={onPick}
+            onUnPick={onUnPick}
+            isPickedByMe={isPickedOwner}
+            isPickedByOther={!!present.pickedById && !isPickedOwner}
+          />
+          {isPickedOwner && (
             <Button
-              variant="secondary"
-              className="flex items-center gap-2 w-full bg-destructive"
-              onClick={onUnPick}
-              disabled={!isPickedOwner}
+              variant="outline"
+              className="w-full"
+              onClick={() => onStatusChange()}
             >
-              <PackageCheck className="text-red-500" />
-              <span className="text-xs">
-                {isPickedOwner ? t("buttons.unPick") : t("buttons.pickedForOther")}
-              </span>
-            </Button>
-          ) : (
-            <Button
-              variant="secondary"
-              className="flex items-center gap-2 w-fit"
-              onClick={onPick}
-            >
-              <PackageOpen className="text-green-500" />
-              <span className="text-xs">{t("buttons.pick")}</span>
+              <ShoppingCartIcon className=" size-5 mr-1" />
+              {isPurchased ? "Marcar como reservado" : "Marcar como comprado"}
             </Button>
           )}
         </div>
@@ -114,3 +166,54 @@ export const CardPublicPresent = ({
     </Card>
   );
 };
+
+interface ButtonsPickProps {
+  onPick: () => void;
+  onUnPick: () => void;
+  onPickForOther?: () => void;
+  listId: string;
+  ownerListId: string;
+  isPickedByMe: boolean;
+  isPickedByOther: boolean;
+}
+
+export function ButtonsPick({
+  onPick,
+  onUnPick,
+  onPickForOther,
+  listId,
+  ownerListId,
+  isPickedByMe,
+  isPickedByOther,
+}: ButtonsPickProps) {
+  const t = useTranslations("Dashboard.Presents.presentShared");
+
+  return (
+    <>
+      {!isPickedByMe && !isPickedByOther && (
+        <Button onClick={onPick} variant="secondary" className="w-full">
+          <PackageOpen className=" size-5 mr-1 stroke-primary" />
+          {t("buttons.pick")}
+        </Button>
+      )}
+
+      {isPickedByMe && (
+        <Button
+          onClick={onUnPick}
+          variant="secondary"
+          className="bg-destructive/30 w-full"
+        >
+          <PackageCheck className=" size-5 mr-1 stroke-destructive" />
+          {t("buttons.unPick")}
+        </Button>
+      )}
+
+      {isPickedByOther && (
+        <Button variant="secondary" className="bg-gray-200 w-full" disabled>
+          <PackageCheck className=" size-5 mr-1 stroke-muted" />
+          {t("buttons.pickedForOther")}
+        </Button>
+      )}
+    </>
+  );
+}

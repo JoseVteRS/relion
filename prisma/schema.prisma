@@ -1,0 +1,210 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Plan {
+  FREE
+  PRO
+}
+
+model User {
+  id            String    @id @default(uuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  password      String?
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+
+  plan Plan @default(FREE)
+
+  // Optional for WebAuthn support
+  Authenticator Authenticator[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  presents      Present[]      @relation("PresentOwner")
+  lists         List[]
+  quota         Quota?
+  favorites     Favorite[]
+  notifications Notification[]
+  picks         Pick[]
+}
+
+model Account {
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([provider, providerAccountId])
+}
+
+model Session {
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@id([identifier, token])
+}
+
+// Optional for WebAuthn support
+model Authenticator {
+  credentialID         String  @unique
+  userId               String
+  providerAccountId    String
+  credentialPublicKey  String
+  counter              Int
+  credentialDeviceType String
+  credentialBackedUp   Boolean
+  transports           String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([userId, credentialID])
+}
+
+enum PresentStatus {
+  PRIVATE
+  PUBLIC
+}
+
+model Present {
+  id        String   @id @default(uuid())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  status      PresentStatus @default(PUBLIC)
+  link        String?
+  description String?
+  isPicked    Boolean       @default(false)
+
+  ownerId String
+  owner   User   @relation("PresentOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+
+  listId String?
+  list   List?   @relation(fields: [listId], references: [id], onDelete: Cascade)
+  pick   Pick?
+}
+
+enum PickStatus {
+  RESERVED
+  PURCHASED
+}
+
+model Pick {
+  id       String     @id @default(uuid())
+  status   PickStatus @default(RESERVED)
+  pickedAt DateTime?  @default(now())
+
+  presentId String  @unique
+  present   Present @relation(fields: [presentId], references: [id], onDelete: Cascade)
+
+  pickedById String
+  pickedBy   User   @relation(fields: [pickedById], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum ListStatus {
+  PRIVATE
+  PUBLIC
+}
+
+model List {
+  id        String   @id @default(uuid())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  eventDate DateTime
+
+  status ListStatus @default(PRIVATE)
+
+  // Relations
+  presents  Present[]
+  ownerId   String
+  owner     User       @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  favorites Favorite[]
+}
+
+model Favorite {
+  id String @id @default(uuid())
+
+  // Relations
+  listId String
+  list   List   @relation(fields: [listId], references: [id], onDelete: Cascade)
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum NotificationType {
+  PRESENT_ADDED
+}
+
+model Notification {
+  id     String           @id @default(uuid())
+  type   NotificationType
+  isRead Boolean          @default(false)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  message String
+}
+
+model Quota {
+  id     String @id @default(uuid())
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @unique
+
+  year  Int
+  month Int
+  count Int @default(0)
+
+  updatedAt DateTime @updatedAt
+}

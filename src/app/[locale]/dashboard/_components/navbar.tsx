@@ -21,10 +21,10 @@ export const Navbar = () => {
         <Badge variant="outline">beta</Badge>
       </div>
       <div className="ml-auto flex items-center gap-2">
-        <div className="hidden lg:flex space-x-2">
+        {/* <div className="hidden lg:flex space-x-2">
           <LocaleSwitcher />
           <ModeToggle />
-        </div>
+        </div> */}
         <UserButton />
       </div>
     </nav>

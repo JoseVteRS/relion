@@ -1,9 +1,9 @@
 import { client } from "@/lib/hono";
-import { useQuery } from "@tanstack/react-query";
 import { qk } from "@/lib/query-keys";
+import { useQuery } from "@tanstack/react-query";
 
 
-export const useGetUserPresents = () => {
+export const useGetPresentsPrivate = () => {
   const query = useQuery({
     queryKey: qk.presents.userPresents,
     queryFn: async () => {

@@ -8,7 +8,6 @@ import { UpdatePresentForm } from "@/features/present/forms/edit-form-present";
 import { Present } from "@/features/present/types";
 import { ArrowLeftIcon, Loader2 } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
-import { getLocale, getTranslations } from "next-intl/server";
 import { useRouter } from "next/navigation";
 
 interface DashboardPresentPageClientProps {
@@ -61,37 +60,51 @@ export default function DashboardPresentPageClient({
 
   return (
     <Card className="bg-white dark:bg-background">
-      <Button
-        className="w-fit"
-        size="sm"
-        variant="secondary"
-        onClick={() => router.back()}
-      >
-        <ArrowLeftIcon className="w-5 h-5" />
-        Volver
-      </Button>
       <CardHeader>
+        <Button
+          className="w-fit"
+          size="sm"
+          variant="secondary"
+          onClick={() => router.back()}
+        >
+          <ArrowLeftIcon className="w-5 h-5" />
+          Volver
+        </Button>
+
         <CardTitle className="flex items-center gap-2">
-          {t("title", { presentName: present?.present.name })}
-          <StatusBadge status={present?.present.status || false} />
+          {t("title", { presentName: present?.name })}
+          {present?.status && <StatusBadge status={present.status} />}
         </CardTitle>
         <div className="flex flex-row items-start gap-1 pt-5">
           <span className="text-sm text-muted-foreground">Creado el:</span>
           <div className="text-sm font-medium">
-            {new Date(present?.present?.createdAt || "").toLocaleDateString(
-              "es-ES",
-              {
-                day: "numeric",
-                month: "long",
-                year: "numeric",
-              }
-            )}
+            {new Date(present?.createdAt || "").toLocaleDateString("es-ES", {
+              day: "numeric",
+              month: "long",
+              year: "numeric",
+            })}
+          </div>
+        </div>
+        <div className="flex flex-row items-start gap-1">
+          <span className="text-sm text-muted-foreground">Actualizado el:</span>
+          <div className="text-sm font-medium">
+            {new Date(present?.updatedAt || "").toLocaleDateString("es-ES", {
+              day: "numeric",
+              month: "long",
+              year: "numeric",
+            })}
           </div>
         </div>
       </CardHeader>
       <CardContent>
         {present && (
-          <UpdatePresentForm initialValues={present.present as Present} />
+          <UpdatePresentForm
+            initialValues={{
+              ...present,
+              createdAt: new Date(present.createdAt),
+              updatedAt: new Date(present.updatedAt),
+            }}
+          />
         )}
       </CardContent>
     </Card>

@@ -3,18 +3,18 @@ import { client } from "@/lib/hono";
 import { qk } from "@/lib/query-keys";
 import { useQuery } from "@tanstack/react-query";
 
-export const usePublicList = (listId?: string) => {
+export const useGetListPublic = (listId?: string) => {
   const query = useQuery({
     queryKey: qk.lists.publicListDetails(listId!),
     retry: false,
     queryFn: async () => {
       try {
-        const response = await client.api.lists.list[":id"].$get({
-          param: { id: listId },
+        const response = await client.api.lists[":listId"]["shared"].$get({
+          param: { listId },
         });
 
         if (!response.ok) {
-          if (response.status === 401) {
+          if (response.status === 403) {
             throw new Error(ErrorMessage.user.Unauthorized);
           }
           if (response.status === 404) {
@@ -23,8 +23,8 @@ export const usePublicList = (listId?: string) => {
           throw new Error(`Error al obtener la lista: aasdf`);
         }
 
-        const { data: listData } = await response.json();
-        return { listData };
+        const { data } = await response.json();
+        return data;
       } catch (error) {
         if (error instanceof Error) {
           throw new Error(`${error.message}`);

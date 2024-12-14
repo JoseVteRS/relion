@@ -18,13 +18,21 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { ListStatus } from "@prisma/client";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
 import { CalendarIcon, Loader2 } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { Resend } from "resend";
@@ -42,24 +50,26 @@ export const CreateListForm = ({ onCancel }: CreateListFormProps) => {
   const { close } = useCreateListModal();
 
   const t = useTranslations("Dashboard.Lists.form");
+  const locale = useLocale();
 
   const form = useForm<z.infer<typeof createListSchema>>({
     resolver: zodResolver(createListSchema),
     defaultValues: {
       name: "",
       eventDate: new Date(),
-      status: true,
+      status: ListStatus.PUBLIC,
     },
   });
 
   const handleSubmit = (values: z.infer<typeof createListSchema>) => {
-    createList(values, {
-      onSuccess: async () => {
-        form.reset();
-        // router.push("/dashboard/lists");
-        close();
-      },
-    });
+    createList(
+      values,
+      {
+        onSuccess: () => {
+          router.push(`/${locale}/dashboard/lists`);
+        },
+      }
+    );
   };
 
   return (
@@ -115,18 +125,28 @@ export const CreateListForm = ({ onCancel }: CreateListFormProps) => {
                   ></PopoverContent>
                 </Popover> */}
 
-                <Calendar
-                  className="w-full"
-                  mode="single"
-                  selected={field.value}
-                  onSelect={field.onChange}
-                  disabled={(date: Date) =>
-                    date < new Date(new Date().setHours(0, 0, 0, 0))
-                  }
-                  // initialFocus={false}
-                  locale={es}
-                />
-
+                <div className="border rounded-lg">
+                  <Calendar
+                    className="w-full"
+                    mode="single"
+                    selected={field.value ? new Date(field.value) : undefined}
+                    onSelect={field.onChange}
+                    disabled={(date: Date) =>
+                      date < new Date(new Date().setHours(0, 0, 0, 0))
+                    }
+                    locale={es}
+                    style={{ width: "100%" }}
+                    styles={{
+                      table: {
+                        width: "100%",
+                      },
+                      cell: {
+                        width: "100%",
+                        backgroundColor: "transparent",
+                      },
+                    }}
+                  />
+                </div>
                 <FormMessage />
               </FormItem>
             )}
@@ -142,11 +162,25 @@ export const CreateListForm = ({ onCancel }: CreateListFormProps) => {
                     {t("estatusTitle")}
                   </FormLabel>
                   <FormControl>
-                    <Switch
+                    {/* <Switch
                       checked={Boolean(field.value)}
                       onCheckedChange={field.onChange}
                       aria-readonly
-                    />
+                    /> */}
+
+                    <Select value={field.value} onValueChange={field.onChange}>
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value={ListStatus.PUBLIC}>
+                          Público
+                        </SelectItem>
+                        <SelectItem value={ListStatus.PRIVATE}>
+                          Privado
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
                   </FormControl>
                 </div>
                 <FormMessage />

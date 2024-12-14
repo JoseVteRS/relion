@@ -39,7 +39,7 @@ export const SignUpCard = () => {
     signIn(provider, {
       callbackUrl: callbackUrl
         ? callbackUrl
-        : `${process.env.NEXT_PUBLIC_APP_URL}/${locale}/dashboard`,
+        : `${process.env.NEXT_PUBLIC_APP_URL}/${locale}/dashboard/onboarding`,
       redirect: true,
     });
   };

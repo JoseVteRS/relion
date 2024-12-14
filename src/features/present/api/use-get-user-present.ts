@@ -12,7 +12,7 @@ export const useGetUserPresent = ({ presentId }: UseGetUserPresentProps) => {
     retry: false,
     queryKey: qk.presents.userPresentDetails(presentId!),
     queryFn: async () => {
-      const response = await client.api.presents[":presentId"].$get({
+      const response = await client.api.presents[":presentId"].private.$get({
         param: { presentId },
       });
 

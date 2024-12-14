@@ -5,17 +5,17 @@ import { InferResponseType } from "hono";
 import { toast } from "sonner";
 
 type ResponseType = InferResponseType<
-  (typeof client.api.presents)[":id"]["$delete"],
+  (typeof client.api.presents)[":presentId"]["$delete"],
   200
 >;
 
-export const useDeletePresent = (id?: string) => {
+export const useDeletePresent = (presentId?: string) => {
   const queryClient = useQueryClient();
 
   const mutation = useMutation<ResponseType, Error>({
     mutationFn: async () => {
-      const response = await client.api.presents[":id"]["$delete"]({
-        param: { id },
+      const response = await client.api.presents[":presentId"]["$delete"]({
+        param: { presentId },
       });
 
       if (!response.ok) {

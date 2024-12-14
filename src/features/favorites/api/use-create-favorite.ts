@@ -8,25 +8,30 @@ import {
 import { InferRequestType, InferResponseType } from "hono";
 
 type ResponseType = InferResponseType<
-  (typeof client.api.favorites.follow)[":listId"]["$post"],
+  (typeof client.api.favorites)[":listId"]["follow"]["$post"],
   200
 >;
 type RequestType = InferRequestType<
-  (typeof client.api.favorites.follow)[":listId"]["$post"]
+  (typeof client.api.favorites)[":listId"]["follow"]["$post"]
 >["param"];
 
-type UseCreateFollowParams = {
+type UseCreateFavoriteParams = {
   userId: string;
   listId: string;
 };
 
-export const useCreateFollow = ({ userId, listId }: UseCreateFollowParams) => {
+export const useCreateFavorite = ({
+  userId,
+  listId,
+}: UseCreateFavoriteParams) => {
   const queryClient = useQueryClient();
   const mutation = useMutation<ResponseType, Error, RequestType>({
-    mutationFn: async (json) => {
-      const response = await client.api.favorites.follow[":listId"]["$post"]({
-        param: { listId },
-      });
+    mutationFn: async () => {
+      const response = await client.api.favorites[":listId"]["follow"]["$post"](
+        {
+          param: { listId },
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Something went wrong");

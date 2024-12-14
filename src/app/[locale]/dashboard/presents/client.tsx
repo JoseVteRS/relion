@@ -2,7 +2,7 @@
 
 import { TitlePage } from "@/components/common/page-title";
 import { Button } from "@/components/ui/button";
-import { useGetUserPresents } from "@/features/present/api/use-get-user-presents";
+import { useGetPresentsPrivate } from "@/features/present/api/use-get-presents-private";
 import { CardPresent } from "@/features/present/components/card-present";
 import { PresentIsLoadingSkeleton } from "@/features/present/components/present-loading-skeleton";
 import { PresentNotFount } from "@/features/present/components/presents-no-found";
@@ -11,7 +11,7 @@ import { Plus } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 export function PresentsPageClient() {
-  const { data: presents, isLoading, isError } = useGetUserPresents();
+  const { data: presents, isLoading, isError } = useGetPresentsPrivate();
   const { open: openCreatePresentModal } = useCreatePresentModal();
   const commonPresents = useTranslations("Common.presents");
   const dashboardPresents = useTranslations("Dashboard.Presents");

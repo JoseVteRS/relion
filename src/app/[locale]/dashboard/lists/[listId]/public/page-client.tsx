@@ -2,9 +2,10 @@
 
 import { CardPublicPresent } from "@/components/card-public-present";
 import { HeaderListPublic } from "@/components/header-list-public";
-import { usePublicList } from "@/features/list/api/use-get-list-public";
+import { useGetListPublic } from "@/features/list/api/use-get-list-public";
 import { CardPresentsSkeleton } from "@/features/present/components/card-presents-skeleton";
 import { ListWithUserWithPresents } from "@/types/types";
+import { Present } from "@prisma/client";
 import { parseISO } from "date-fns";
 import { GiftIcon, Loader, Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
@@ -32,8 +33,7 @@ export default function PublicListPageClient({
 
   const t = useTranslations("Dashboard.Presents.presentShared");
 
-  const { data, isLoading, isError, error } = usePublicList(listId);
-  const list = data?.listData;
+  const { data: list, isLoading, isError, error } = useGetListPublic(listId);
 
   const isExpired = useMemo(
     () => list?.eventDate && new Date(list.eventDate) < new Date(),
@@ -94,9 +94,9 @@ export default function PublicListPageClient({
           {list?.presents?.length === 0 && (
             <div className="flex justify-center items-center h-full">
               <div className="flex flex-col items-center gap-2">
-                <GiftIcon className="size-10 text-secondary-foreground" />
-                <p className="text-3xl/7 text-secondary-foreground">
-                  {t("noPresents", { userName: list.user.name })}
+                <GiftIcon className="size-6 text-muted-foreground" />
+                <p className="text-lg text-secondary-foreground">
+                  {t("noPresents", { userName: list.owner.name })}
                 </p>
               </div>
             </div>
@@ -106,7 +106,11 @@ export default function PublicListPageClient({
             {list?.presents?.map((present) => (
               <CardPublicPresent
                 key={present.id}
-                present={present}
+                present={{
+                  ...present,
+                  createdAt: new Date(present.createdAt),
+                  updatedAt: new Date(present.updatedAt),
+                }}
                 listId={listId}
                 authUserId={authUserId}
               />

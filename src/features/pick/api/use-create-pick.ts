@@ -1,11 +1,12 @@
 import { client } from "@/lib/hono";
 import { qk } from "@/lib/query-keys";
+import { Present } from "@prisma/client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { InferResponseType } from "hono";
 import { toast } from "sonner";
 
 type ResponseType = InferResponseType<
-  (typeof client.api.picks)[":presentId"]["$post"]
+  (typeof client.api.picks)[":presentId"]["pick"]["$post"]
 >;
 
 // TODO: Invalidar el query del regalo y no de toda la lista
@@ -14,7 +15,7 @@ export const useCreatePick = (presentId?: string, listId?: string) => {
 
   const mutation = useMutation<ResponseType, Error>({
     mutationFn: async () => {
-      const response = await client.api.picks[":presentId"].$post({
+      const response = await client.api.picks[":presentId"]["pick"].$post({
         param: { presentId },
       });
 
@@ -43,17 +44,15 @@ export const useCreatePick = (presentId?: string, listId?: string) => {
       // Actualización optimista de la UI
       queryClient.setQueryData(
         qk.lists.publicListDetails(listId!),
-        (oldData: any) => {
+        (previousData: any) => {
+          console.log(previousData)
           return {
-            ...oldData,
-            listData: {
-              ...oldData.listData,
-              presents: oldData.listData.presents.map((present: any) =>
-                present.id === presentId
-                  ? { ...present, isPicked: true }
-                  : present
-              ),
-            },
+            ...previousData,
+            presents: previousData.presents.map((present: Present) =>
+              present.id === presentId
+                ? { ...present, isPicked: true }
+                : present
+            ),
           };
         }
       );

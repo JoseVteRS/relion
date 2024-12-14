@@ -104,9 +104,9 @@ export default async function RootLayout({
   return (
     <SessionProvider session={session}>
       <html lang={locale} suppressHydrationWarning>
-        {process.env.NODE_ENV === "development" && (
+        {/* {process.env.NODE_ENV === "development" && (
           <script src="https://unpkg.com/react-scan/dist/auto.global.js" async />
-        )}
+        )} */}
         <PHProvider>
           <body className={cn(inter.className, "antialiased min-h-screen")}>
             <ThemeProvider

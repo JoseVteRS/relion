@@ -1,9 +1,9 @@
+import { StatusBadge } from "@/components/common/status-badge";
+import { Card, CardContent } from "@/components/ui/card";
+import { List, Present } from "@prisma/client";
 import {
   LinkIcon,
 } from "lucide-react";
-import { Card, CardContent} from "@/components/ui/card";
-import { StatusBadge } from "@/components/common/status-badge";
-import { List, Present } from "@/types/types";
 import Link from "next/link";
 
 export type PresentWithList = Present & {
@@ -22,7 +22,7 @@ export const CardFirstPresent = ({ present }: CardPresentProps) => {
           <div className="flex items-start justify-between">
             <div className="flex items-center space-x-2">
               <h3 className="text-lg font-semibold">{present.name}</h3>
-              <StatusBadge status={true} />
+              <StatusBadge status={present.status} />
             </div>
           </div>
 

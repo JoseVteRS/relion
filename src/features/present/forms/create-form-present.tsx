@@ -22,8 +22,9 @@ import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { useGetUserLists } from "@/features/list/api/use-get-user-lists";
 import { cn } from "@/lib/utils";
+import { PresentStatus } from "@prisma/client";
 import { Loader, Loader2 } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useParams, useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -37,8 +38,12 @@ interface CreatePresentFormProps {
 
 export const CreatePresentForm = ({ onCancel }: CreatePresentFormProps) => {
   const router = useRouter();
+
   const t = useTranslations("Dashboard.Presents.form");
+  const locale = useLocale();
+
   const { data: lists, isLoading } = useGetUserLists();
+
   const { mutate: createPresent, isPending: creatingPresent } =
     useCreatePresent();
   const { close } = useCreatePresentModal();
@@ -51,7 +56,7 @@ export const CreatePresentForm = ({ onCancel }: CreatePresentFormProps) => {
       name: "",
       link: "",
       description: "",
-      status: true,
+      status: PresentStatus.PUBLIC,
       listId: typeof listId === "string" ? listId : "",
     },
   });
@@ -59,9 +64,8 @@ export const CreatePresentForm = ({ onCancel }: CreatePresentFormProps) => {
   const onSubmit = (values: z.infer<typeof createPresentSchema>) => {
     createPresent(values, {
       onSuccess: () => {
-        form.reset();
-        // router.push("/dashboard/presents");
         close();
+        router.push(`/${locale}/dashboard/presents`);
       },
     });
   };
@@ -162,11 +166,25 @@ export const CreatePresentForm = ({ onCancel }: CreatePresentFormProps) => {
                   <FormLabel className="text-base">{t("status")}</FormLabel>
                 </div>
                 <FormControl>
-                  <Switch
+                  {/* <Switch
                     checked={Boolean(field.value)}
                     onCheckedChange={field.onChange}
                     aria-readonly
-                  />
+                  /> */}
+
+                  <Select value={field.value} onValueChange={field.onChange}>
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value={PresentStatus.PUBLIC}>
+                        Público
+                      </SelectItem>
+                      <SelectItem value={PresentStatus.PRIVATE}>
+                        Privado
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
                 </FormControl>
                 <FormMessage />
               </FormItem>

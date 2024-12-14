@@ -36,7 +36,7 @@ export default function FollowedListsClientPage() {
           <Card key={list.id} className="w-full bg-card text-card-foreground">
             <CardContent className="p-4">
               <p className="text-sm text-muted-foreground mb-2">
-                {list.list.user.name}
+                {list.list.owner.name}
               </p>
               <div className="flex items-start justify-between mb-3">
                 <h3 className="text-lg font-semibold">{list.list.name}</h3>
@@ -60,7 +60,7 @@ export default function FollowedListsClientPage() {
               <div className="text-sm text-muted-foreground mb-3 flex items-center gap-2">
                 <GiftIcon className="w-4 h-4" />
                 <span>
-                  {list.list.presents.length} regalos,{" "}
+                  {list.list._count.presents} regalos,{" "}
                   {
                     list.list.presents.filter(
                       (present) => present.isPicked === false
@@ -74,11 +74,7 @@ export default function FollowedListsClientPage() {
                 <Button variant="ghost" size="sm">
                   {t("buttons.unfollow")}
                 </Button>
-                <Button
-                  variant="default"
-                  size="sm"
-                  asChild
-                >
+                <Button variant="default" size="sm" asChild>
                   <Link
                     href={`/${locale}/dashboard/lists/${list.list.id}/public`}
                     prefetch

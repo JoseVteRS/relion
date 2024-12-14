@@ -54,7 +54,7 @@ export const SidebarLists = () => {
                   <span className="text-sm font-medium">{list.name}</span>
                 </div>
                 <div>
-                  <StatusBadge status={list.status as boolean} />
+                  <StatusBadge status={list.status} />
                 </div>
               </div>
             </div>
