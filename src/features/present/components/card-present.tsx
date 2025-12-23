@@ -77,7 +77,7 @@ export const CardPresent = ({ present }: CardPresentProps) => {
 
               {present.list && (
                 <Link
-                  href={`/dashboard/lists/${present.list.id}`}
+                  href={`/${locale}/dashboard/lists/${present.list.id}`}
                   className="text-sm text-primary hover:underline mb-2 inline-block"
                 >
                   {present.list.name}

@@ -12,19 +12,14 @@ type RequestType = InferRequestType<
   (typeof client.api.favorites)[":listId"]["unfollow"]["$delete"]
 >["param"];
 
-interface UseDeleteFavoriteParams {
-  listId: string;
-  userId: string;
-}
-
-export const useDeleteFavorite = ({ listId, userId }: UseDeleteFavoriteParams) => {
+export const useDeleteFavorite = () => {
   const queryClient = useQueryClient();
   const mutation = useMutation<ResponseType, Error, RequestType>({
-    mutationFn: async () => {
-      const response = await client.api.favorites[":listId"]["unfollow"]["$delete"]({
-        param: {
-          listId,
-        },
+    mutationFn: async ({ listId }) => {
+      const response = await client.api.favorites[":listId"]["unfollow"][
+        "$delete"
+      ]({
+        param: { listId },
       });
 
       if (!response.ok) {
@@ -33,13 +28,13 @@ export const useDeleteFavorite = ({ listId, userId }: UseDeleteFavoriteParams) =
 
       return response.json();
     },
-    onSuccess: () => {
+    onSuccess: ({ data }) => {
       queryClient.invalidateQueries({
-        queryKey: qk.favorite.getFavorite(listId),
+        queryKey: qk.favorite.getFavorite(data.id),
       });
       queryClient.invalidateQueries({
-        queryKey: qk.favorite.getFavoritesByUserId(userId),
-      })
+        queryKey: qk.favorite.getFavoritesByUserId(data.userId),
+      });
     },
     onError: (error, variables, context) => {
       toast.error("Error al dejar de seguir una lista");

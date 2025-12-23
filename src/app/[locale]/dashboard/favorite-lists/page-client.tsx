@@ -3,13 +3,15 @@
 import { TitlePage } from "@/components/common/page-title";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { useDeleteFavorite } from "@/features/favorites/api/use-delete-favorite";
 import { useGetFavorites } from "@/features/favorites/api/use-get-favorites";
 import { format, isPast } from "date-fns";
 import { enUS, es } from "date-fns/locale";
-import { AlertCircle, Calendar, EyeIcon, GiftIcon } from "lucide-react";
+import { AlertCircle, Calendar, EyeIcon, GiftIcon, HeartIcon, ListIcon } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
+import { toast } from "sonner";
 import LoadingPage from "../loading";
 
 export default function FollowedListsClientPage() {
@@ -20,16 +22,38 @@ export default function FollowedListsClientPage() {
   const { data: favoriteLists, isLoading } = useGetFavorites(
     session.data?.user?.id
   );
+  const { mutate, isPending } = useDeleteFavorite();
 
   if (isLoading) {
     return <LoadingPage />;
   }
+
+  const handleDeleteFavorite = (listId: string) => {
+    mutate(
+      { listId },
+      {
+        onSuccess: () => {
+          toast.success("Lista eliminada de favoritos");
+        },
+        onError: () => {
+          toast.error("Error al eliminar la lista de favoritos");
+        },
+      }
+    );
+  };
 
   return (
     <div className="">
       <header className="flex items-center justify-between mb-10">
         <TitlePage>{t("title")}</TitlePage>
       </header>
+
+      {favoriteLists?.length === 0 && (
+        <div className="flex flex-col items-center justify-center h-screen">
+          <HeartIcon className="size-5 text-muted-foreground" />
+          <p className="text-muted-foreground">No tienes listas favoritas</p>
+        </div>
+      )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {favoriteLists?.map((list) => (
@@ -71,7 +95,11 @@ export default function FollowedListsClientPage() {
               </div>
 
               <div className="flex items-center justify-between mt-4">
-                <Button variant="ghost" size="sm">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => handleDeleteFavorite(list.list.id)}
+                >
                   {t("buttons.unfollow")}
                 </Button>
                 <Button variant="default" size="sm" asChild>

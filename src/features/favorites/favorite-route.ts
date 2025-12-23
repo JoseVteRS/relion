@@ -165,13 +165,13 @@ const app = new Hono()
         return c.json({ error: "No estás siguiendo esta lista" }, 400);
       }
 
-      await dbPrisma.favorite.delete({
+      const favorite = await dbPrisma.favorite.delete({
         where: {
           id: existsFollow.id,
         },
       });
 
-      return c.json({ message: "Lista eliminada de favoritos" }, 200);
+      return c.json({ message: "Lista eliminada de favoritos", data: favorite }, 200);
     }
   );
 
